@@ -1,3 +1,3 @@
 <?php 
-    $connection = mysqli_connect("localhost","root","","repuestos");
+    $connection = mysqli_connect("localhost","root","","proy-tis1");
 ?>
