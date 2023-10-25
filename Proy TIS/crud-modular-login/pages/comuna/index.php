@@ -3,7 +3,7 @@
     include("database/auth.php");  // Comprueba si el usuario está logueado, sino lo redirige al login
 
     $query = "SELECT comuna.*, region.nombre_region AS nombre_region FROM comuna JOIN region ON comuna.cod_region = region.cod_region";
-    $result = mysqli_query($connection2, $query);
+    $result = mysqli_query($connection, $query);
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">

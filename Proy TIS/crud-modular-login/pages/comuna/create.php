@@ -3,7 +3,7 @@
     include("database/connection.php");  // Incluye la conexión
 
     $query = "SELECT * FROM region";
-    $result = mysqli_query($connection2, $query);
+    $result = mysqli_query($connection, $query);
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">

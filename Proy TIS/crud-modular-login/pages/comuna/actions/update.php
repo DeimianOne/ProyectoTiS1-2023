@@ -6,7 +6,7 @@
     
     $query = "UPDATE region SET nombre_region = '$nombre' WHERE cod_region = ".$id.";";
 
-    $result =  mysqli_query($connection2, $query);
+    $result =  mysqli_query($connection, $query);
 
     header("Location: ../../../index.php?p=region/index");
 ?>

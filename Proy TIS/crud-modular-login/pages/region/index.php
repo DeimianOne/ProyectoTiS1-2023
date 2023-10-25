@@ -3,7 +3,7 @@
     include("database/auth.php");  // Comprueba si el usuario está logueado, sino lo redirige al login
 
     $query = "SELECT * FROM region";
-    $result = mysqli_query($connection2, $query);
+    $result = mysqli_query($connection, $query);
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">

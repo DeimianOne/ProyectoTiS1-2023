@@ -6,7 +6,7 @@
 
     $query = "INSERT INTO comuna (nombre_comuna, cod_region) VALUES ('$nombre', '$region');";
 
-    $result =  mysqli_query($connection2, $query);
+    $result =  mysqli_query($connection, $query);
 
     header("Location: ../../../index.php?p=comuna/index");
 ?>

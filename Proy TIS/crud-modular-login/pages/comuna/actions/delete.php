@@ -5,7 +5,7 @@
 
     $query = "DELETE FROM comuna WHERE cod_comuna=".$id.";";
 
-    $result =  mysqli_query($connection2, $query);
+    $result =  mysqli_query($connection, $query);
 
     header("Location: ../../../index.php?p=comuna/index");
 ?>

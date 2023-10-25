@@ -5,7 +5,7 @@
 
     $query = "INSERT INTO region (nombre_region) VALUES ('$nombre');";
 
-    $result =  mysqli_query($connection2, $query);
+    $result =  mysqli_query($connection, $query);
 
     header("Location: ../../../index.php?p=region/index");
 ?>

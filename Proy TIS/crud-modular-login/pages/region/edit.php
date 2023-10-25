@@ -5,7 +5,7 @@
     $id = $_GET["cod_region"];
 
     $query = "SELECT * FROM region WHERE cod_region=" . $id . ";";
-    $result =  mysqli_query($connection2, $query);
+    $result =  mysqli_query($connection, $query);
 
     if ($row = mysqli_fetch_assoc($result)) {
         $nombre = $row["nombre_region"];
