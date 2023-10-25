@@ -8,8 +8,8 @@ if (isset($_REQUEST['rut_usuario']) && isset($_REQUEST['nombre_usuario'])) {
     $nombre_usuario = stripslashes($_REQUEST['nombre_usuario']);
     $nombre_usuario = mysqli_real_escape_string($connection, $nombre_usuario);
 
-    $query = "SELECT * FROM `usuario` WHERE rut_usuario='$rut_usuario' AND nombre_usuario='$nombre_usuario' AND rol_usuario=2";
-    $query_rol_usuario = "SELECT rol_usuario FROM `usuario` WHERE rut_usuario='$rut_usuario' AND nombre_usuario='$nombre_usuario'";
+    $query = "SELECT usuario.*, usuario_rol.cod_rol FROM usuario JOIN usuario_rol ON usuario.rut_usuario = usuario_rol.rut_usuario WHERE usuario.rut_usuario = '$rut_usuario' AND usuario.nombre_usuario = '$nombre_usuario'";
+    //$query_rol_usuario = "SELECT cod_rol FROM usuario_rol WHERE rut_usuario='$rut_usuario'";
 
     $rol_usuario = mysqli_query($connection, $query) or die(mysqli_error($connection));
     $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
@@ -19,7 +19,7 @@ if (isset($_REQUEST['rut_usuario']) && isset($_REQUEST['nombre_usuario'])) {
     if ($rows == 1) {
         // 
         $_SESSION['rut_usuario'] = $rut_usuario;  // 
-        $_SESSION['rol_usuario'] = $row['rol_usuario'];
+        $_SESSION['rol_usuario'] = $row['cod_rol'];
         header("Location: index.php");   // Redirect to user dashboard or any desired page
         exit();
     } else {
