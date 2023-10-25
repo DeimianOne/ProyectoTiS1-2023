@@ -61,7 +61,13 @@
                         <a class="nav-link <?php echo (strpos($pagina, 'direccion') !== false) ? 'active' : null ?>" href="index.php?p=direccion/index">Dirección</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (strpos($pagina, 'Proyectos') !== false) ? 'active' : null ?>" href="index.php?p=Proyectos/index">Proyectos</a>
+                        <a class="nav-link <?php echo (strpos($pagina, 'proyectos') !== false) ? 'active' : null ?>" href="index.php?p=proyectos/index">Proyectos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'permiso') !== false) ? 'active' : null ?>" href="index.php?p=permiso/index">Permisos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'estado') !== false) ? 'active' : null ?>" href="index.php?p=estado/index">Estados Ticket</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Mapa de estadísticas</a>
