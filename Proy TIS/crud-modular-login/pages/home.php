@@ -5,8 +5,8 @@
 
 <div class="container-fluid my-3">
         <div class="row justify-content-end">
-            <div class="col-auto align-items-center">
-                <span class="text-body-secondary" class="text-center">Seguimiento por código de ticket</span>
+            <div class="col-auto d-flex justify-content-center align-items-center">
+                <span class="text-body-secondary">Seguimiento por código de ticket</span>
             </div>
             <div class="col-auto">
                 <input type="text" class="form-control" placeholder="Número de ingreso">
@@ -22,7 +22,7 @@
     <div class="col-md-6">
         <div class="px-2 py-2 my-2 text-center">
             <img class="d-block mx-auto mb-4" src='./media/logoGov.png' height="100px" width="100px">
-            <h1 class="display-5 fw-bold">¡Bienvenido, <?php echo $_SESSION['username'] ?? null ?>!</h1>
+            <h1 class="display-5 fw-bold">¡Bienvenido, <?php echo $_SESSION['rut_usuario'] ?? null ?>!</h1>
             <div class="col-lg-12 mx-auto">
                 <p class="my-3">"¡Tu opinión cuenta! Ahorra tiempo y esfuerzo visitando nuestra página de retroalimentación municipal en línea. Comparte tus ideas y preocupaciones desde la comodidad de tu hogar, ayudándonos a mejorar nuestra ciudad de manera eficiente. Tu participación es clave para construir un futuro mejor sin la necesidad de desplazamientos presenciales."</p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
