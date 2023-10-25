@@ -1,32 +1,34 @@
 <?php
-    require('database/connection.php');
+require('database/connection.php');
 
-    if (isset($_POST['username'])) {
+if (isset($_REQUEST['rut_usuario']) && isset($_REQUEST['nombre_usuario'])) {
+    $rut_usuario = stripslashes($_REQUEST['rut_usuario']);
+    $rut_usuario = mysqli_real_escape_string($connection, $rut_usuario);
 
-        $username = stripslashes($_REQUEST['username']); // removes backslashes
-        $username = mysqli_real_escape_string($connection, $username); //escapes special characters in a string
-        $password = stripslashes($_REQUEST['password']);
-        $password = mysqli_real_escape_string($connection, $password);
+    $nombre_usuario = stripslashes($_REQUEST['nombre_usuario']);
+    $nombre_usuario = mysqli_real_escape_string($connection, $nombre_usuario);
 
-        //Checking is user existing in the database or not
-        $query = "SELECT * FROM `users` WHERE username='$username' and password='" . md5($password) . "'";
+    $query = "SELECT * FROM `usuario` WHERE rut_usuario='$rut_usuario' AND nombre_usuario='$nombre_usuario' AND rol_usuario=2";
+    $query_rol_usuario = "SELECT rol_usuario FROM `usuario` WHERE rut_usuario='$rut_usuario' AND nombre_usuario='$nombre_usuario'";
 
-        $result = mysqli_query($connection, $query);
+    $rol_usuario = mysqli_query($connection, $query) or die(mysqli_error($connection));
+    $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
+    $row = mysqli_fetch_assoc($rol_usuario);
 
-        if (!$result) {
-            die("Query failed: " . mysqli_error($connection));
-        }
-
-        $user = mysqli_num_rows($result);
-        
-        if ($user == 1) {
-            $_SESSION['username'] = $username;
-            header("Location: index.php?p=home"); // Redirect user to index.php
-        } else {
-            echo "<div class='form'><h3>Usuario/Contraseña Incorrecto</h3><br/>Haz click aquí para <a href='index.php?p=auth/login'>Logearte</a></div>";
-        }
+    $rows = mysqli_num_rows($result);
+    if ($rows == 1) {
+        // 
+        $_SESSION['rut_usuario'] = $rut_usuario;  // 
+        $_SESSION['rol_usuario'] = $row['rol_usuario'];
+        header("Location: index.php");   // Redirect to user dashboard or any desired page
+        exit();
     } else {
-        ?>
+        echo '<script type="text/javascript">alert("Your alert message here.");</script>';
+        header("Location: auth/login.php");
+        //echo "<div class='form'><h3>Combinación de RUT y nombre incorrectos.</h3><br/>Haz click aquí para <a href='login.php'>intentar de nuevo</a></div>";
+    }
+} else {
+?>
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-6">
@@ -37,12 +39,12 @@
                         <div class="card-body">
                             <form action="" method="post" name="login">
                                 <div class="form-group mb-3">
-                                    <label for="username">Usuario</label>
-                                    <input type="text" name="username" class="form-control" placeholder="Ingresa tu usuario" required />
+                                    <label for="rut_usuario">RUT</label>
+                                    <input type="text" name="rut_usuario" class="form-control" placeholder="Ingresa tu RUT" required />
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="password">Contraseña</label>
-                                    <input type="password" name="password" class="form-control" placeholder="Ingresa tu contraseña" required />
+                                    <label for="nombre_usuario">Nombre</label>
+                                    <input type="text" name="nombre_usuario" class="form-control" placeholder="Ingresa tu nombre" required />
                                 </div>
                                 <div class="form-group d-flex justify-content-center my-2">
                                     <button name="submit" type="submit" class="btn btn-dark btn-block">Entrar</button>

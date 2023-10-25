@@ -2,51 +2,46 @@
     include("database/connection.php");
     include("database/auth.php");
 
-    $id = $_GET["id"];
+    $cod_departamento = $_GET["id"];
 
-    $query = "SELECT * FROM marcas WHERE id=" . $id . ";";
-    $result =  mysqli_query($connection, $query);
+    $query = "SELECT * FROM Departamento WHERE cod_departamento=" . $cod_departamento . ";";
+    $result = mysqli_query($connection, $query);
 
     if ($row = mysqli_fetch_assoc($result)) {
-        $nombre = $row["nombre"];
-        $origen = $row["origen"];
-        $logo = $row["logo"];
-        $id = $row["id"];
+        $cod_municipalidad = $row["cod_municipalidad"];
+        $nombre_departamento = $row["nombre_departamento"];
+        $telefono_departamento = $row["telefono_departamento"];
     } else {
-        header("Location: index.php?p=brands/index");
+        header("Location: index.php?p=departamentos/index");
     }
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
     <div class="p-5 rounded text-center">
-        <h2 class="fw-normal">Formulario de edición</h1>
+        <h2 class="fw-normal">Formulario de edición de Departamento</h2>
     </div>
 </div>
 
 <main class="container mt-5">
     <div class="card">
-        <form action="pages/brands/actions/update.php" method="POST">
+        <form action="pages/departamentos/actions/update.php" method="POST">
             <div class="card-body">
                 <div class="row">
-                    <input type="text" class="d-none" name="id" value="<?php echo $id ?>">
+                    <input type="text" class="d-none" name="cod_departamento" value="<?php echo $cod_departamento ?>">
 
                     <div class="col-md-12 mb-3">
-                        <label for="name" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="name" name="nombre" placeholder="Japón" value="<?php echo $nombre ?>" required>
+                        <label for="cod_municipalidad" class="form-label">Código de la Municipalidad</label>
+                        <input type="text" class="form-control" id="cod_municipalidad" name="cod_municipalidad" value="<?php echo $cod_municipalidad ?>">
                     </div>
 
                     <div class="col-md-12 mb-3">
-                        <label for="origin" class="form-label">Origen</label>
-                        <select class="form-control" id="origin" name="origen">
-                            <option value="Japón" <?php echo $origen == "Japón" ? "selected" : null ?>>Japón</option>
-                            <option value="China" <?php echo $origen == "China" ? "selected" : null ?>>China</option>
-                            <option value="Francia" <?php echo $origen == "Francia" ? "selected" : null ?>>Francia</option>
-                        </select>
+                        <label for="nombre_departamento" class="form-label">Nombre del Departamento</label>
+                        <input type="text" class="form-control" id="nombre_departamento" name="nombre_departamento" value="<?php echo $nombre_departamento ?>" required>
                     </div>
 
                     <div class="col-md-12 mb-3">
-                        <label for="logo" class="form-label">Logo</label>
-                        <input type="text" class="form-control" id="logo" name="logo" value="<?php echo $logo ?>">
+                        <label for="telefono_departamento" class="form-label">Teléfono del Departamento</label>
+                        <input type="tel" class="form-control" id="telefono_departamento" name="telefono_departamento" value="<?php echo $telefono_departamento ?>">
                     </div>
                 </div>
             </div>
@@ -56,5 +51,4 @@
             </div>
         </form>
     </div>
-
 </main>
