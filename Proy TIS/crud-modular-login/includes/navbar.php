@@ -46,10 +46,16 @@
                         <a class="nav-link <?php echo (strpos($pagina, 'users') !== false) ? 'active' : null ?>" href="index.php?p=users/index">Calendario de Proyectos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (strpos($pagina, 'municipalidad') !== false) ? 'active' : null ?>" href="index.php?p=municipalidades/index">Insertar Municipalidad</a>
+                        <a class="nav-link <?php echo (strpos($pagina, 'municipalidad') !== false) ? 'active' : null ?>" href="index.php?p=municipalidades/index">Municipalidad</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (strpos($pagina, 'departamento') !== false) ? 'active' : null ?>" href="index.php?p=departamentos/index">Insertar Depa</a>
+                        <a class="nav-link <?php echo (strpos($pagina, 'departamento') !== false) ? 'active' : null ?>" href="index.php?p=departamentos/index">Departamentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'region') !== false) ? 'active' : null ?>" href="index.php?p=region/index">Región</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'comuna') !== false) ? 'active' : null ?>" href="index.php?p=comuna/index">Comuna</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Mapa de estadísticas</a>
