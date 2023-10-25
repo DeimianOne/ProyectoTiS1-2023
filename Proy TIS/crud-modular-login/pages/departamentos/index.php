@@ -36,11 +36,13 @@
             <table class="table table-hover">
                 <thead class="">
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Código Departamento</th>
                         <th scope="col">Código Municipalidad</th>
                         <th scope="col">Nombre Departamento</th>
                         <th scope="col">Telefono Departamento</th>
+                        <th scope="col">Atención Presencial</th>
+                        <th scope="col">Horario de Atención (Inicio)</th>
+                        <th scope="col">Horario de Atención (Término)</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -51,12 +53,14 @@
                             <td><?= $fila['cod_municipalidad'] ?></td>
                             <td><?= $fila['nombre_departamento'] ?></td>
                             <td><?= $fila['telefono_departamento'] ?></td>
+                            <td><?= $fila['atencion_presencial'] == 1 ? 'Sí' : 'No' ?></td>
+                            <td><?= $fila['horario_atencion_inicio'] ?></td>
+                            <td><?= $fila['horario_atencion_termino'] ?></td>
                             <td>
                                 <a href="index.php?p=departamentos/edit&id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-warning">Editar Datos Departamento</a>
                                 <a href="pages/departamentos/actions/delete.php?id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-danger">Eliminar Departamento</a>
                             </td>
                         </tr>
-
                     <?php endwhile; ?>
                 </tbody>
             </table>
