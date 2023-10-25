@@ -15,7 +15,7 @@
                         <a class="nav-link <?php echo ($pagina == 'home') ? 'active' : null ?>" aria-current="page" href="index.php?p=home">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (strpos($pagina, 'brands') !== false) ? 'active' : null ?>" href="index.php?p=brands/index">Mis tickets</a>
+                        <a class="nav-link <?php echo (strpos($pagina, 'tickets') !== false) ? 'active' : null ?>" href="index.php?p=tickets/index">Mis tickets</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?php echo (strpos($pagina, 'users') !== false) ? 'active' : null ?>" href="index.php?p=users/index">Calendario de Proyectos</a>
@@ -40,7 +40,7 @@
                         <a class="nav-link <?php echo ($pagina == 'home') ? 'active' : null ?>" aria-current="page" href="index.php?p=home">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (strpos($pagina, 'brands') !== false) ? 'active' : null ?>" href="index.php?p=brands/index">Mis tickets</a>
+                        <a class="nav-link <?php echo (strpos($pagina, 'tickets') !== false) ? 'active' : null ?>" href="index.php?p=tickets/index">Tickets Asignados a mí</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?php echo (strpos($pagina, 'users') !== false) ? 'active' : null ?>" href="index.php?p=users/index">Calendario de Proyectos</a>
@@ -59,6 +59,17 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?php echo (strpos($pagina, 'roles') !== false) ? 'active' : null ?>" href="index.php?p=roles/index">Roles</a>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'direccion') !== false) ? 'active' : null ?>" href="index.php?p=direccion/index">Dirección</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'proyectos') !== false) ? 'active' : null ?>" href="index.php?p=proyectos/index">Proyectos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'permiso') !== false) ? 'active' : null ?>" href="index.php?p=permiso/index">Permisos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'estado') !== false) ? 'active' : null ?>" href="index.php?p=estado/index">Estados Ticket</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Mapa de estadísticas</a>

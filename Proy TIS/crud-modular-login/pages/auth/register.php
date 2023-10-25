@@ -6,8 +6,6 @@ if (isset($_REQUEST['rut_usuario'])) {
     $rut_usuario = stripslashes($_REQUEST['rut_usuario']);
     $rut_usuario = mysqli_real_escape_string($connection, $rut_usuario);
 
-    $rol_usuario = 2; //Por defecto, los usuarios comunes tienen el rol 2 = "usuario"
-
     $nombre_usuario = stripslashes($_REQUEST['nombre_usuario']);
     $nombre_usuario = mysqli_real_escape_string($connection, $nombre_usuario);
 
@@ -23,11 +21,8 @@ if (isset($_REQUEST['rut_usuario'])) {
     $telefono_tercero = isset($_REQUEST['telefono_tercero']) ? stripslashes($_REQUEST['telefono_tercero']) : "";
     $telefono_tercero = mysqli_real_escape_string($connection, $telefono_tercero);
 
-    $cod_direccion = isset($_REQUEST['cod_direccion']) ? stripslashes($_REQUEST['cod_direccion']) : "";
-    $cod_direccion = mysqli_real_escape_string($connection, $cod_direccion);
-
     $trn_date = date("Y-m-d H:i:s");
-    $query = "INSERT into `usuario` (rut_usuario, rol_usuario, nombre_usuario, correo_electronico_usuario, correo_electronico_tercero, telefono_usuario, telefono_tercero, cod_direccion) VALUES ('$rut_usuario', '$rol_usuario', '$nombre_usuario', '$correo_electronico_usuario', '$correo_electronico_tercero', '$telefono_usuario', '$telefono_tercero', '$cod_direccion')";
+    $query = "INSERT into `usuario` (rut_usuario, nombre_usuario, correo_electronico_usuario, correo_electronico_tercero, telefono_usuario, telefono_tercero) VALUES ('$rut_usuario', '$nombre_usuario', '$correo_electronico_usuario', '$correo_electronico_tercero', '$telefono_usuario', '$telefono_tercero')";
     $result = mysqli_query($connection, $query);
 
     if ($result) {
@@ -67,10 +62,6 @@ if (isset($_REQUEST['rut_usuario'])) {
                             <div class="form-group mb-3">
                                 <label for="telefono_tercero" class="form-label">Teléfono Tercero</label>
                                 <input type="text" name="telefono_tercero" class="form-control" id="telefono_tercero">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="cod_direccion" class="form-label">Código de Dirección</label>
-                                <input type="text" name="cod_direccion" class="form-control" id="cod_direccion">
                             </div>
                             <div class="d-grid gap-2">
                                 <button type="submit" name="submit" class="btn btn-primary">Registrarse</button>
