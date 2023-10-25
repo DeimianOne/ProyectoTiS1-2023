@@ -58,6 +58,9 @@
                         <a class="nav-link <?php echo (strpos($pagina, 'comuna') !== false) ? 'active' : null ?>" href="index.php?p=comuna/index">Comuna</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'roles') !== false) ? 'active' : null ?>" href="index.php?p=roles/index">Roles</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="">Mapa de estadísticas</a>
                     </li>
                     <li class="nav-item">
