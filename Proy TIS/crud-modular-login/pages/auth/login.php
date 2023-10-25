@@ -51,8 +51,7 @@ if (isset($_REQUEST['rut_usuario']) && isset($_REQUEST['nombre_usuario'])) {
                                 </div>
                             </form>
                             <p class="text-center">¿No estás registrado aún? <a href='index.php?p=auth/register'>Regístrate aquí</a></p>
-                            <a class="text-center nav-link" href='index.php?p=auth/loginAdmin'>Acceso Administrador</a>
-                            
+                            <!-- <a class="text-center nav-link" href='index.php?p=auth/loginAdmin'>Acceso Administrador</a> -->
                             
                         </div>
                     </div>

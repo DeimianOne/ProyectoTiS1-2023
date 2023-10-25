@@ -34,9 +34,13 @@
                 <div class="text-center">
                         <span>Hola, aquí puedes ver los tickets</span>
                 </div>
-                <div>
-                    <a class="btn btn-sm btn-primary" href="index.php?p=tickets/create" role="button">Crear nuevo Ticket</a>
-                </div>
+
+                <?php if($_SESSION['rol_usuario'] == '2'): ?> <!-- Si es usuario, puede meter tickets -->
+                    <div>
+                        <a class="btn btn-sm btn-primary" href="index.php?p=tickets/create" role="button">Crear nuevo Ticket</a>
+                    </div>
+                <?php endif; ?>
+                
             </div>
         </div>
 
@@ -46,7 +50,7 @@
                     <tr>
                         <th scope="col">Código Ticket</th>
                         <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra la columna -->
-                        <th scope="col">RUT del Usuario</th>
+                            <th scope="col">RUT del Usuario</th>
                         <?php endif; ?>
                         <th scope="col">Código Departamento</th>
                         <th scope="col">Tipo de Solicitud</th>
@@ -54,23 +58,27 @@
                         <th scope="col">Detalles de Solicitud</th>
                         <th scope="col">Fecha y Hora de Envío</th>
                         <th scope="col">Calificación</th>
-                        <th scope="col">Visibilidad de Solicitud</th>
+                        <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra la columna -->
+                            <th scope="col">Visibilidad de Solicitud</th>
+                        <?php endif; ?>
+                        
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($fila = mysqli_fetch_array($result)) : ?>
-                            <tr>
+                        <tr>
                             <th scope="row"><?= $fila['cod_ticket'] ?></th>
                             <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra el RUT del usuario -->
                             <td><?= $fila['rut_usuario'] ?></td>
+                            <?php endif; ?>
                             <td><?= $fila['cod_departamento'] ?></td>
                             <td><?= $fila['tipo_solicitud'] ?></td>
                             <td><?= $fila['asunto_ticket'] ?></td>
                             <td><?= $fila['detalles_solicitud'] ?></td>
                             <td><?= $fila['fecha_hora_envio'] ?></td>
                             <td><?= $fila['calificacion'] ?></td>
+                            <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra el RUT del usuario -->
                             <td><?= $fila['visibilidad_solicitud'] == 1 ? 'Visible' : 'No Visible' ?></td>
-                            
                             <?php endif; ?>
                         </tr>
                     <?php endwhile; ?>
