@@ -20,10 +20,11 @@ if (isset($_REQUEST['rut_usuario']) && isset($_REQUEST['nombre_usuario'])) {
         // 
         $_SESSION['rut_usuario'] = $rut_usuario;  // 
         $_SESSION['rol_usuario'] = $row['rol_usuario'];
-        header("Location: user_dashboard.php");   // Redirect to user dashboard or any desired page
+        header("Location: index.php");   // Redirect to user dashboard or any desired page
         exit();
     } else {
         echo '<script type="text/javascript">alert("Your alert message here.");</script>';
+        header("Location: auth/login.php");
         //echo "<div class='form'><h3>Combinación de RUT y nombre incorrectos.</h3><br/>Haz click aquí para <a href='login.php'>intentar de nuevo</a></div>";
     }
 } else {
