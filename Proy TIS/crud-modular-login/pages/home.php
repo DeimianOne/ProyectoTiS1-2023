@@ -5,8 +5,8 @@
 
 <div class="container-fluid my-3">
         <div class="row justify-content-end">
-            <div class="col-auto align-items-center">
-                <span class="text-body-secondary" class="text-center">Seguimiento por código de ticket</span>
+            <div class="col-auto d-flex justify-content-center align-items-center">
+                <span class="text-body-secondary">Seguimiento por código de ticket</span>
             </div>
             <div class="col-auto">
                 <input type="text" class="form-control" placeholder="Número de ingreso">
