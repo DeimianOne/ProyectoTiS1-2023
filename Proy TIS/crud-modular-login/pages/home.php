@@ -4,18 +4,19 @@
 ?>
 
 <div class="container-fluid my-3">
-        <div class="row justify-content-end">
-            <div class="col-auto align-items-center">
-                <span class="text-body-secondary" class="text-center">Seguimiento por código de ticket</span>
-            </div>
-            <div class="col-auto">
-                <input type="text" class="form-control" placeholder="Número de ingreso">
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-dark">Buscar</button>
-            </div>
+    <div class="row d-flex justify-content-end align-items-center">
+        <div class="col-auto">
+            <span class="text-body-secondary">Seguimiento por código de ticket</span>
+        </div>
+        <div class="col-auto">
+            <input type="text" class="form-control" placeholder="Número de ingreso">
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-dark">Buscar</button>
         </div>
     </div>
+</div>
+
 
 <div class="container">
   <div class="row">

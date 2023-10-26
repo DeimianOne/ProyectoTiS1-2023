@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-	<title>Ejemplo de navegación</title>
+	<title>Retroalimentación Ciudadana</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
@@ -17,5 +17,5 @@
 </head>
 
 <body>
-	<div class="min-vh-100">
+	<div class="d-flex flex-column min-vh-100">
 		<?php require_once 'includes/navbar.php'; ?>
