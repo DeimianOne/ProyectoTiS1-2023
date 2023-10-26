@@ -24,7 +24,7 @@
             exit();
         } else {
             echo '<script type="text/javascript">alert("Your alert message here.");</script>';
-            header("Refresh:0");
+            header("Location: pages/auth/loginAdmin.php");
             //echo "<div class='form'><h3>Combinación de RUT y nombre incorrectos.</h3><br/>Haz click aquí para <a href='login.php'>intentar de nuevo</a></div>";
         }
     } else {

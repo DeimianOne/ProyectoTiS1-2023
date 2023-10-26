@@ -23,8 +23,8 @@ if (isset($_REQUEST['rut_usuario']) && isset($_REQUEST['nombre_usuario'])) {
         header("Location: index.php");   // Redirect to user dashboard or any desired page
         exit();
     } else {
-        //echo '<script type="text/javascript">alert("Your alert message here.");</script>';
-        header("Refresh:0");
+        echo '<script type="text/javascript">alert("Your alert message here.");</script>';
+        header("Location: auth/login.php");
         //echo "<div class='form'><h3>Combinación de RUT y nombre incorrectos.</h3><br/>Haz click aquí para <a href='login.php'>intentar de nuevo</a></div>";
     }
 } else {
