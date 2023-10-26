@@ -48,7 +48,7 @@
                         <select class="form-control" id="tipo_solicitud" name="tipo_solicitud">
                         <?php
                         foreach ($enum_values as $value) {
-                            echo "<option value=\"$value\">$value</option>";
+                            echo "<option value=\"" . ucfirst($value) . "\">" . ucfirst($value) . "</option>";
                         }
                         ?>
                         </select>

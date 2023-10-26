@@ -4,7 +4,7 @@
 
     if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
         
-        $query = "SELECT * FROM municipalidad";
+        $query = "SELECT municipalidad.*, comuna.nombre_comuna AS nombre_comuna FROM municipalidad JOIN comuna ON municipalidad.cod_comuna = comuna.cod_comuna";
         $result = mysqli_query($connection, $query);
 
     } else {
@@ -44,7 +44,6 @@
                         <th scope="col">Dirección</th>
                         <th scope="col">Correo</th>
                         <th scope="col">Región</th>
-                        
                         <th scope="col">Telefono</th>
                         <th scope="col">Sitio Web</th>
                         <th scope="col">Escudo</th> 
@@ -55,12 +54,12 @@
                         <tr>
                             <th scope="row"><?= $fila['cod_municipalidad'] ?></th>
                             <td><?= $fila['nombre_municipalidad'] ?></td>
-                            <td><?= $fila['cod_comuna'] ?></td>
+                            <td><?= $fila['nombre_comuna'] ?></td>
                             <td><?= $fila['direccion_municipalidad'] ?></td>
                             <td><?= $fila['correo_municipalidad'] ?></td>
                             <td>
-                                <a href="index.php?p=municipalidades/edit&id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm btn-outline-warning">Editar Datos Municipalidad</a>
-                                <a href="pages/municipalidades/actions/delete.php?id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm btn-outline-danger">Eliminar Municipalidad</a>
+                                <a href="index.php?p=municipalidades/edit&cod_municipalidad=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm btn-outline-warning">Revisar</a>
+                                <a href="pages/municipalidades/actions/delete.php?id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
                             </td>
                         </tr>
 
