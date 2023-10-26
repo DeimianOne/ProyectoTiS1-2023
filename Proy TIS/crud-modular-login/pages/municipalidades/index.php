@@ -4,7 +4,7 @@
 
     if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
         
-        $query = "SELECT municipalidad.*, comuna.nombre_comuna AS nombre_comuna FROM municipalidad JOIN comuna ON municipalidad.cod_comuna = comuna.cod_comuna";
+        $query = "SELECT municipalidad.*, comuna.nombre_comuna AS nombre_comuna, region.nombre_region AS nombre_region FROM municipalidad JOIN comuna ON municipalidad.cod_comuna = comuna.cod_comuna JOIN region ON comuna.cod_region = region.cod_region";
         $result = mysqli_query($connection, $query);
 
     } else {
@@ -57,6 +57,7 @@
                             <td><?= $fila['nombre_comuna'] ?></td>
                             <td><?= $fila['direccion_municipalidad'] ?></td>
                             <td><?= $fila['correo_municipalidad'] ?></td>
+                            <td><?= $fila['nombre_region'] ?></td>
                             <td>
                                 <a href="index.php?p=municipalidades/edit&cod_municipalidad=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm btn-outline-warning">Revisar</a>
                                 <a href="pages/municipalidades/actions/delete.php?id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
