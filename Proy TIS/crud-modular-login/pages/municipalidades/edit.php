@@ -2,14 +2,16 @@
     include("database/connection.php");
     include("database/auth.php");
 
-    $cod_municipalidad = $_GET["id"];
+    $id = $_GET["cod_municipalidad"];
 
-    $query = "SELECT * FROM municipalidad WHERE cod_municipalidad=" . $cod_municipalidad . ";";
-    $result = mysqli_query($connection, $query);
+    $query = "SELECT * FROM municipalidad WHERE cod_municipalidad=" . $id . ";";
+    $query_comuna = "SELECT * FROM comuna";
+    $result =  mysqli_query($connection, $query);
+    $result_comuna =  mysqli_query($connection, $query_comuna);
 
     if ($row = mysqli_fetch_assoc($result)) {
         $nombre_municipalidad = $row["nombre_municipalidad"];
-        $cod_comuna = $row["cod_comuna"];
+        $municipalidad_comuna = $row["cod_comuna"];
         $direccion_municipalidad = $row["direccion_municipalidad"];
         $correo_municipalidad = $row["correo_municipalidad"];
     } else {
@@ -28,17 +30,26 @@
         <form action="pages/municipalidades/actions/update.php" method="POST">
             <div class="card-body">
                 <div class="row">
-                    <input type="text" class="d-none" name="cod_municipalidad" value="<?php echo $cod_municipalidad ?>">
+                    <input type="text" class="d-none" name="cod_municipalidad" value="<?php echo $id ?>">
 
                     <div class="col-md-12 mb-3">
                         <label for="nombre_municipalidad" class="form-label">Nombre de la Municipalidad</label>
                         <input type="text" class="form-control" id="nombre_municipalidad" name="nombre_municipalidad" value="<?php echo $nombre_municipalidad ?>" required>
                     </div>
 
-                    <!-- Supongo que el código de comuna es un número, de lo contrario, ajusta el input correspondiente -->
                     <div class="col-md-12 mb-3">
-                        <label for="cod_comuna" class="form-label">Código de Comuna</label>
-                        <input type="number" class="form-control" id="cod_comuna" name="cod_comuna" value="<?php echo $cod_comuna ?>">
+                        <label for="origin" class="form-label">Comuna</label>
+                        <select class="form-control" id="origin" name="cod_comuna">
+                        <?php
+                        // Iterar a través de los resultados y crear opciones para el select
+                        while ($fila = $result_comuna->fetch_assoc()) {
+                            $cod_comuna = $fila["cod_comuna"];
+                            $nombre_comuna = $fila["nombre_comuna"];
+                            $selected = ($cod_comuna == $municipalidad_comuna) ? 'selected' : '';
+                            echo "<option value=\"$cod_comuna\" $selected>$nombre_comuna</option>";
+                        }
+                        ?>
+                        </select>
                     </div>
 
                     <div class="col-md-12 mb-3">

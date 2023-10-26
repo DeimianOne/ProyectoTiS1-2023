@@ -49,9 +49,6 @@
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mantenedores</a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item <?php echo (strpos($pagina, 'estado') !== false) ? 'active' : null ?>" href="index.php?p=estado/index">Estados Ticket</a>
-                            </li>
-                            <li>
                                 <a class="dropdown-item <?php echo (strpos($pagina, 'departamento') !== false) ? 'active' : null ?>" href="index.php?p=departamentos/index">Departamentos</a>
                             </li>
                             <li>
@@ -77,6 +74,9 @@
                             <div class="dropdown-divider"></div>
                             <li>
                                 <a class="dropdown-item <?php echo (strpos($pagina, 'proyectos') !== false) ? 'active' : null ?>" href="index.php?p=proyectos/index">Proyectos</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <?php echo (strpos($pagina, 'estado') !== false) ? 'active' : null ?>" href="index.php?p=estado/index">Estados Ticket</a>
                             </li>
                         </ul>
                     </li>
