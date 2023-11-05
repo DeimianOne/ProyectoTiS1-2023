@@ -3,11 +3,20 @@
     include("database/connection.php");  // Incluye la conexión
 
     $query_departamento = "SELECT * FROM departamento";
-    $result_departamento = mysqli_query($connection, $query);
+    $result_departamento = mysqli_query($connection, $query_departamento);
     $query_usuario = "SELECT * FROM usuario";
-    $result_usuario = mysqli_query($connection, $query);
+    $result_usuario = mysqli_query($connection, $query_usuario);
 ?>
+<div class="container">
+    <div class="col-md-8 offset-md-2">
+        <div id='calendar'></div>
+    </div>
+</div>
 
+
+
+
+<!--
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
     <div class="p-5 rounded text-center">
         <h2 class="fw-normal">Formulario de registro</h1>
@@ -24,12 +33,12 @@
                         <label for="origin" class="form-label">Departamento</label>
                         <select class="form-control" id="origin" name="cod_departamento">
                         <?php
-                        // Iterar a través de los resultados y crear opciones para el select
+                        /* Iterar a través de los resultados y crear opciones para el select
                         while ($fila = $result_departamento->fetch_assoc()) {
                             $cod_departamento = $fila["cod_departamento"];
                             $nombre_departamento = $fila["nombre_departamento"];
                             echo "<option value=\"$cod_departamento\">$nombre_departamento</option>";
-                        }
+                        }*/
                         ?>
                         </select>
                     </div>
@@ -49,5 +58,5 @@
             </div>
         </form>
     </div>
-
+-->
 </main>
