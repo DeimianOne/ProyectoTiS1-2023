@@ -21,7 +21,7 @@
                         <a class="nav-link <?php echo (strpos($pagina, 'users') !== false) ? 'active' : null ?>" href="index.php?p=users/index">Calendario de Proyectos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (strpos($pagina, 'calificacion') !== false) ? 'active' : null ?>" href="index.php?p=calificacion/calificacion_sistema/index">Calificacion Sistema</a>
+                        <a class="nav-link <?php echo (strpos($pagina, 'calificacion') !== false) ? 'active' : null ?>" href="index.php?p=calificacion/index">Calificacion Sistema</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Mapa de estadísticas</a>
