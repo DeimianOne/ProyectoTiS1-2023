@@ -23,17 +23,17 @@ $result_usuario = mysqli_query($connection, $query_usuario);
             <div class="modal-header bg-info">
                 <h5 class="modal-title" id="titulo">Registro de cita</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span hidden>&times;</span>
                 </button>
             </div>
             <form id="formulario">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="nombre">
+                        <input type="text" class="form-control" id="nombre" readonly>
                         <label for="nombre" class="form-label">Nombre</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="rut" >
+                        <input type="text" class="form-control" id="rut" readonly>
                         <label for="rut" class="form-label">RUT</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -53,3 +53,17 @@ $result_usuario = mysqli_query($connection, $query_usuario);
 
 
 </main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: "es",
+            dateClick: function(info) {
+                $("#myModal").modal("show");
+                document.getElementById('fecha').value = info.dateStr;
+            }
+        });
+        calendar.render();
+    });
+</script>
