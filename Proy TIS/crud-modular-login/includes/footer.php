@@ -37,7 +37,7 @@
 
             <!--Full Calendar -->
             <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
-            <script src="../assets/js/calendario.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             </body>
 
             </html>

@@ -43,7 +43,9 @@ $result_usuario = mysqli_query($connection, $query_usuario);
 
                 </div>
                 <div class="modal-footer">
-
+                    <button class="btn btn-warning">Cancelar</button>
+                    <button class="btn btn-danger">Eliminar</button>
+                    <button class="btn btn-info" id="btnAccion" type="submit">Guardar</button>
                 </div>
             </form>
 
@@ -54,6 +56,7 @@ $result_usuario = mysqli_query($connection, $query_usuario);
 
 </main>
 <script>
+    let frm = document.getElementById('formulario');
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -65,5 +68,20 @@ $result_usuario = mysqli_query($connection, $query_usuario);
             }
         });
         calendar.render();
+        frm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const rut = document.getElementById('rut').value;
+            const fecha = document.getElementById('fecha').value;
+            if (nombre == '' || rut == '' || fecha == '') {
+                Swal.fire({
+                    title: "Aviso",
+                    text: "Todo los campos son requeridos",
+                    icon: "warning"
+                });
+            } else {
+                
+            }
+        })
     });
 </script>

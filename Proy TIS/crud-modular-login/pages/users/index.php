@@ -22,16 +22,16 @@ include("database/connection.php");
             <form id="formulario">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="nombre" readonly>
-                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="evento">
+                        <label for="evento" class="form-label">Nombre del evento</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="rut" readonly>
-                        <label for="rut" class="form-label">RUT</label>
+                        <input type="text" class="form-control" id="descripcion">
+                        <label for="descripcion" class="form-label">descripcion</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" id="fecha" readonly>
-                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fecha_evento" readonly>
+                        <label for="fecha_evento" class="form-label">Fecha</label>
                     </div>
 
                 </div>
@@ -52,7 +52,7 @@ include("database/connection.php");
             locale: "es",
             dateClick: function(info) {
                 $("#myModal").modal("show");
-                document.getElementById('fecha').value = info.dateStr;
+                document.getElementById('fecha_evento').value = info.dateStr;
             }
         });
         calendar.render();
