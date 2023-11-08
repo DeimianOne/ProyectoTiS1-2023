@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-10-2023 a las 06:39:57
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 03-11-2023 a las 08:56:07
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,7 +33,7 @@ CREATE TABLE `agenda` (
   `rut_usuario` bigint(20) NOT NULL,
   `fecha` date NOT NULL,
   `hora` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -45,19 +45,14 @@ CREATE TABLE `comuna` (
   `cod_comuna` bigint(20) NOT NULL,
   `cod_region` bigint(20) NOT NULL,
   `nombre_comuna` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `comuna`
 --
 
 INSERT INTO `comuna` (`cod_comuna`, `cod_region`, `nombre_comuna`) VALUES
-(13, 11, 'Concepción'),
-(14, 11, 'Talcahuano'),
-(15, 12, 'Valdivia'),
-(16, 13, 'Puerto Montt'),
-(17, 13, 'Osorno'),
-(18, 14, 'Temuco');
+(7, 7, 'hola');
 
 -- --------------------------------------------------------
 
@@ -73,14 +68,16 @@ CREATE TABLE `departamento` (
   `atencion_presencial` tinyint(1) NOT NULL,
   `horario_atencion_inicio` time DEFAULT NULL,
   `horario_atencion_termino` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `departamento`
 --
 
 INSERT INTO `departamento` (`cod_departamento`, `cod_municipalidad`, `nombre_departamento`, `telefono_departamento`, `atencion_presencial`, `horario_atencion_inicio`, `horario_atencion_termino`) VALUES
-(9, 55, 'Departamento de Carreteras', 12345678, 1, '09:40:00', '18:40:00');
+(1, 1, 'qweq', 321423, 0, '20:20:00', '18:23:00'),
+(2, 1, 'rgfegserg', 43254, 0, '20:23:00', '18:26:00'),
+(3, 1, 'eqwrwer', 4315, 1, '19:26:00', '18:30:00');
 
 -- --------------------------------------------------------
 
@@ -94,14 +91,7 @@ CREATE TABLE `direccion` (
   `calle` varchar(255) NOT NULL,
   `numero` smallint(6) NOT NULL,
   `numero_departamento` smallint(6) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `direccion`
---
-
-INSERT INTO `direccion` (`cod_direccion`, `cod_comuna`, `calle`, `numero`, `numero_departamento`) VALUES
-(13, 13, 'Avenida Falsa', 123, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -112,7 +102,7 @@ INSERT INTO `direccion` (`cod_direccion`, `cod_comuna`, `calle`, `numero`, `nume
 CREATE TABLE `encargado_departamento` (
   `cod_departamento` bigint(20) NOT NULL,
   `rut_usuario` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -123,15 +113,7 @@ CREATE TABLE `encargado_departamento` (
 CREATE TABLE `estado` (
   `cod_estado` bigint(20) NOT NULL,
   `nombre_estado` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `estado`
---
-
-INSERT INTO `estado` (`cod_estado`, `nombre_estado`) VALUES
-(3, 'En Proceso'),
-(4, 'Cerrado');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -142,7 +124,7 @@ INSERT INTO `estado` (`cod_estado`, `nombre_estado`) VALUES
 CREATE TABLE `estado_ticket` (
   `cod_ticket` bigint(20) NOT NULL,
   `cod_estado` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -156,14 +138,35 @@ CREATE TABLE `municipalidad` (
   `cod_comuna` bigint(20) NOT NULL,
   `direccion_municipalidad` varchar(255) NOT NULL,
   `correo_municipalidad` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `municipalidad`
 --
 
 INSERT INTO `municipalidad` (`cod_municipalidad`, `nombre_municipalidad`, `cod_comuna`, `direccion_municipalidad`, `correo_municipalidad`) VALUES
-(55, 'Municipalidad de Concepción', 13, 'Avenida Falsa #123', 'correo@gmail.com');
+(1, 'qweqw', 7, 'adfahgar', 'qwe@aad');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `palabra_ofensiva`
+--
+
+CREATE TABLE `palabra_ofensiva` (
+  `cod_palabra` int(11) NOT NULL,
+  `palabra` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `palabra_ofensiva`
+--
+
+INSERT INTO `palabra_ofensiva` (`cod_palabra`, `palabra`) VALUES
+(1, 'mierda'),
+(2, 'conchetumadre'),
+(3, 'carajo'),
+(4, 'hijo de puta');
 
 -- --------------------------------------------------------
 
@@ -175,7 +178,7 @@ CREATE TABLE `permiso` (
   `cod_permiso` bigint(20) NOT NULL,
   `nombre_permiso` varchar(30) NOT NULL,
   `descripcion_permiso` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -190,7 +193,7 @@ CREATE TABLE `proyecto` (
   `descripcion_proyecto` varchar(500) NOT NULL,
   `fecha_inicio_proyecto` date DEFAULT NULL,
   `fecha_termino_estimada_proyecto` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -201,17 +204,14 @@ CREATE TABLE `proyecto` (
 CREATE TABLE `region` (
   `cod_region` bigint(20) NOT NULL,
   `nombre_region` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `region`
 --
 
 INSERT INTO `region` (`cod_region`, `nombre_region`) VALUES
-(11, 'Bío bío'),
-(12, 'Los Ríos'),
-(13, 'Los Lagos'),
-(14, 'La Araucanía');
+(7, 'hola');
 
 -- --------------------------------------------------------
 
@@ -225,7 +225,7 @@ CREATE TABLE `respuesta` (
   `rut_usuario` bigint(20) NOT NULL,
   `detalles_respuesta` text NOT NULL,
   `fecha_hora_envio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -236,7 +236,7 @@ CREATE TABLE `respuesta` (
 CREATE TABLE `rol` (
   `cod_rol` bigint(20) NOT NULL,
   `nombre_rol` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `rol`
@@ -255,7 +255,7 @@ INSERT INTO `rol` (`cod_rol`, `nombre_rol`) VALUES
 CREATE TABLE `rol_permiso` (
   `cod_permiso` bigint(20) NOT NULL,
   `cod_rol` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -266,7 +266,7 @@ CREATE TABLE `rol_permiso` (
 CREATE TABLE `suscripcion` (
   `cod_ticket` bigint(20) NOT NULL,
   `rut_usuario` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -283,8 +283,20 @@ CREATE TABLE `ticket` (
   `detalles_solicitud` text NOT NULL,
   `fecha_hora_envio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `calificacion` float DEFAULT NULL,
-  `visibilidad_solicitud` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `visibilidad_solicitud` tinyint(1) NOT NULL,
+  `con_palabras_ofensivas` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `ticket`
+--
+
+INSERT INTO `ticket` (`cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`, `con_palabras_ofensivas`) VALUES
+(1, 1, 1111, 'reclamo', 'calle', 'esta calle tiene tremendo hoyo', '2023-11-03 04:03:34', NULL, 0, 0),
+(2, 2, 1111, 'reclamo', 'poste luz', 'el poste esta quemao', '2023-11-03 04:08:55', NULL, 0, 0),
+(4, 1, 1111, 'reclamo', 'hola', 'hola', '2023-11-03 07:35:03', NULL, 0, 0),
+(5, 1, 1111, 'felicitacion', 'chao', 'chao', '2023-11-03 07:42:40', NULL, 0, 0),
+(6, 1, 1111, 'reclamo', 'gay', 'gay', '2023-11-03 07:52:54', NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -299,7 +311,7 @@ CREATE TABLE `usuario` (
   `correo_electronico_tercero` varchar(255) DEFAULT NULL,
   `telefono_usuario` bigint(20) DEFAULT NULL,
   `telefono_tercero` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `usuario`
@@ -318,7 +330,7 @@ INSERT INTO `usuario` (`rut_usuario`, `nombre_usuario`, `correo_electronico_usua
 CREATE TABLE `usuario_direccion` (
   `rut_usuario` bigint(20) NOT NULL,
   `cod_direccion` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -329,7 +341,7 @@ CREATE TABLE `usuario_direccion` (
 CREATE TABLE `usuario_rol` (
   `cod_rol` bigint(20) NOT NULL,
   `rut_usuario` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `usuario_rol`
@@ -398,6 +410,12 @@ ALTER TABLE `estado_ticket`
 ALTER TABLE `municipalidad`
   ADD PRIMARY KEY (`cod_municipalidad`),
   ADD KEY `cod_comuna` (`cod_comuna`);
+
+--
+-- Indices de la tabla `palabra_ofensiva`
+--
+ALTER TABLE `palabra_ofensiva`
+  ADD PRIMARY KEY (`cod_palabra`);
 
 --
 -- Indices de la tabla `permiso`
@@ -488,31 +506,37 @@ ALTER TABLE `agenda`
 -- AUTO_INCREMENT de la tabla `comuna`
 --
 ALTER TABLE `comuna`
-  MODIFY `cod_comuna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `cod_comuna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `cod_departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `cod_departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `direccion`
 --
 ALTER TABLE `direccion`
-  MODIFY `cod_direccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `cod_direccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `cod_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `cod_estado` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `municipalidad`
 --
 ALTER TABLE `municipalidad`
-  MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `palabra_ofensiva`
+--
+ALTER TABLE `palabra_ofensiva`
+  MODIFY `cod_palabra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `permiso`
@@ -530,7 +554,7 @@ ALTER TABLE `proyecto`
 -- AUTO_INCREMENT de la tabla `region`
 --
 ALTER TABLE `region`
-  MODIFY `cod_region` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `cod_region` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
@@ -548,7 +572,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas

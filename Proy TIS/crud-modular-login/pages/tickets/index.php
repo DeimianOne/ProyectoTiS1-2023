@@ -18,6 +18,16 @@
     }
 
     $result = mysqli_query($connection, $query);
+
+    if (isset($_SESSION['mensaje'])) {
+        ?>
+        <div class="alert alert-<?php echo ($_SESSION['mensaje'] == 'Ticket enviado correctamente.') ? 'success' : 'danger'; ?>" role="alert"> 
+            <?php echo $_SESSION['mensaje'];?>
+        </div>
+        <?php
+        unset($_SESSION['mensaje']); // Limpiar la variable de sesión después de mostrar el mensaje
+    }
+
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
