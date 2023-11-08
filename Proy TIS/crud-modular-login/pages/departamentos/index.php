@@ -25,10 +25,10 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Hola, aquí puedes agregar departamentos si eres admin</span>
+                        <span>Departamentos</span>
                 </div>
                 <div>
-                    <a class="btn btn-sm btn-primary" href="index.php?p=departamentos/create" role="button">Agregar nuevo Departamento</a>
+                    <a class="btn btn-sm btn-primary" href="index.php?p=departamentos/create" role="button">Agregar nuevo</a>
                 </div>
             </div>
         </div>
@@ -57,8 +57,8 @@
                             <td><?= $fila['horario_atencion_inicio'] ?></td>
                             <td><?= $fila['horario_atencion_termino'] ?></td>
                             <td>
-                                <a href="index.php?p=departamentos/edit&id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-warning">Editar Datos Departamento</a>
-                                <a href="pages/departamentos/actions/delete.php?id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-danger">Eliminar Departamento</a>
+                                <a href="index.php?p=departamentos/edit&id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
+                                <a href="pages/departamentos/actions/delete.php?id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>

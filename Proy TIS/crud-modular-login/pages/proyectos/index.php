@@ -25,10 +25,10 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Hola, aquí puedes agregar proyectos si eres admin</span>
+                        <span>Proyectos</span>
                 </div>
                 <div>
-                    <a class="btn btn-sm btn-primary" href="index.php?p=proyectos/create" role="button">Agregar nuevo Proyecto</a>
+                    <a class="btn btn-sm btn-primary" href="index.php?p=proyectos/create" role="button">Agregar nuevo</a>
                 </div>
             </div>
         </div>
@@ -55,8 +55,8 @@
                             <td><?= $fila['fecha_inicio_proyecto'] ?></td>
                             <td><?= $fila['fecha_termino_estimada_proyecto'] ?></td>
                             <td>
-                                <a href="index.php?p=proyectos/edit&id=<?= $fila['cod_proyecto'] ?>" class="btn btn-sm btn-outline-warning">Editar Datos Proyecto</a>
-                                <a href="pages/proyectos/actions/delete.php?id=<?= $fila['cod_proyecto'] ?>" class="btn btn-sm btn-outline-danger">Eliminar Proyecto</a>
+                                <a href="index.php?p=proyectos/edit&id=<?= $fila['cod_proyecto'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
+                                <a href="pages/proyectos/actions/delete.php?id=<?= $fila['cod_proyecto'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
