@@ -24,10 +24,10 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Agregar palabras ofensivas</span>
+                        <span>Aquí se pueden agregar palabras que se consideren prohibidas</span>
                 </div>
                 <div>
-                    <a class="btn btn-sm btn-primary" href="index.php?p=palabrasofensivas/create" role="button">Agregar nueva palabra ofensiva</a>
+                    <a class="btn btn-sm btn-primary" href="index.php?p=palabrasofensivas/create" role="button">Agregar</a>
                 </div>
             </div>
         </div>

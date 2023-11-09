@@ -40,7 +40,7 @@ if (isset($_REQUEST['rut_usuario']) && isset($_REQUEST['nombre_usuario'])) {
                             <form action="" method="post" name="login">
                                 <div class="form-group mb-3">
                                     <label for="rut_usuario">RUT</label>
-                                    <input type="text" name="rut_usuario" class="form-control" placeholder="Ingresa tu RUT" required />
+                                    <input type="text" name="rut_usuario" class="form-control"  placeholder="Ingresa tu RUT" required/>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="nombre_usuario">Nombre</label>

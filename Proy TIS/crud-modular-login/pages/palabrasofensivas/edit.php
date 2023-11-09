@@ -30,7 +30,7 @@
 
                     <div class="col-md-12 mb-3">
                         <label for="name" class="form-label">Palabra</label>
-                        <input type="text" class="form-control" id="name" name="palabra" placeholder="Palabra" value="<?php echo $palabra ?>" required>
+                        <input type="text" class="form-control" id="word" name="palabra" pattern="[A-Za-z ]+" title="Ocupa solo espacios y letras del abecedario" placeholder="Palabra" value="<?php echo $palabra ?>" required>
                     </div>
 
                 </div>
