@@ -31,7 +31,7 @@
         <form action="pages/municipalidades/actions/update.php" method="POST">
             <div class="card-body">
                 <div class="row">
-                    <input type="text" class="d-none" name="cod_municipalidad" value="<?php echo $id ?>">
+                    <input type="text" class="d-none" name="cod_municipalidad" value="<?php echo $cod_municipalidad ?>">
 
                     <div class="col-md-12 mb-3">
                         <label for="nombre_municipalidad" class="form-label">Nombre</label>

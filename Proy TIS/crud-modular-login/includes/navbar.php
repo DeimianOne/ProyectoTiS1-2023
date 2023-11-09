@@ -24,10 +24,10 @@
                         <a class="nav-link <?php echo (strpos($pagina, 'calificacion') !== false) ? 'active' : null ?>" href="index.php?p=calificacion/index">Calificacion Sistema</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Mapa de estadísticas</a>
+                        <a class="nav-link" hidden href="">Mapa de estadísticas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Archivo de Tickets</a>
+                        <a class="nav-link" hidden href="#">Archivo de Tickets</a>
                     </li>
                 </ul>
                 <div class="d-flex">

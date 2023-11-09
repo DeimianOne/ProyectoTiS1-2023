@@ -64,8 +64,8 @@
             <table id="example" class="display table-hover justify-content-center" style="width:100%">
                 <thead>
                     <tr>
-                        <th scope="col">Código Municipalidad</th>
-                        <th scope="col">Nombre Municipalidad</th>
+                        <th scope="col">Código</th>
+                        <th scope="col">Nombre</th>
                         <th scope="col">Comuna</th>
                         <th scope="col">Dirección</th>
                         <th scope="col">Correo</th>
@@ -85,7 +85,7 @@
                             <td><?= $fila['nombre_region'] ?></td>
                             
                             <td>
-                                <a href="index.php?p=municipalidades/edit&id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm my-3 btn-outline-warning">Editar Datos</a>
+                                <a href="index.php?p=municipalidades/edit&id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm my-3 btn-outline-warning">Editar</a>
                                 <a href="pages/municipalidades/actions/delete.php?id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm my-3 btn-outline-danger">Eliminar</a>
                             </td>
                         </tr>
