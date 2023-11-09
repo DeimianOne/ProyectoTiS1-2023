@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-11-2023 a las 05:47:35
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 09-11-2023 a las 07:28:12
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -80,7 +80,7 @@ CREATE TABLE `departamento` (
 --
 
 INSERT INTO `departamento` (`cod_departamento`, `cod_municipalidad`, `nombre_departamento`, `telefono_departamento`, `atencion_presencial`, `horario_atencion_inicio`, `horario_atencion_termino`) VALUES
-(10, 56, 'Departamento de obras', 4070128, 1, '09:30:00', '14:00:00');
+(10, 56, 'Departamento de obras', 407012, 1, '09:30:00', '14:00:00');
 
 -- --------------------------------------------------------
 
@@ -125,6 +125,15 @@ CREATE TABLE `estado` (
   `nombre_estado` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `estado`
+--
+
+INSERT INTO `estado` (`cod_estado`, `nombre_estado`) VALUES
+(5, 'Recibido'),
+(6, 'En proceso'),
+(7, 'Cerrado');
+
 -- --------------------------------------------------------
 
 --
@@ -156,6 +165,27 @@ CREATE TABLE `municipalidad` (
 
 INSERT INTO `municipalidad` (`cod_municipalidad`, `nombre_municipalidad`, `cod_comuna`, `direccion_municipalidad`, `correo_municipalidad`) VALUES
 (56, 'Municipalidad de Concepción', 13, 'Bernardo O`Higgins 525', 'asistenciasocialconcepcion@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `palabra_ofensiva`
+--
+
+CREATE TABLE `palabra_ofensiva` (
+  `cod_palabra` int(11) NOT NULL,
+  `palabra` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `palabra_ofensiva`
+--
+
+INSERT INTO `palabra_ofensiva` (`cod_palabra`, `palabra`) VALUES
+(1, 'mierdaa'),
+(2, 'conchetumadre'),
+(4, 'hijo de puta'),
+(5, 'carajo');
 
 -- --------------------------------------------------------
 
@@ -193,6 +223,13 @@ CREATE TABLE `proyecto` (
   `fecha_inicio_proyecto` date DEFAULT NULL,
   `fecha_termino_estimada_proyecto` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `proyecto`
+--
+
+INSERT INTO `proyecto` (`cod_proyecto`, `cod_departamento`, `nombre_proyecto`, `descripcion_proyecto`, `fecha_inicio_proyecto`, `fecha_termino_estimada_proyecto`) VALUES
+(7, 10, 'Construcción de Plaza', 'Plaza en San Pedro', '2023-11-16', '2023-11-28');
 
 -- --------------------------------------------------------
 
@@ -240,7 +277,7 @@ CREATE TABLE `registro_ticket` (
 --
 
 INSERT INTO `registro_ticket` (`cod_registro`, `fecha_hora_registro`, `cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
-(1, '2023-11-09 04:37:28', 5, 10, 1111, 'felicitacion', 'kgkgu', 'kukhukhu', '2023-11-09 04:37:28', NULL, 0);
+(2, '2023-11-09 06:24:34', 6, 10, 20267690, 'felicitacion', 'asdasda', 'qwe', '2023-11-09 06:24:34', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -293,14 +330,14 @@ CREATE TABLE `rol_permiso` (
 --
 
 INSERT INTO `rol_permiso` (`cod_permiso`, `cod_rol`) VALUES
-(1, 1),
-(2, 1),
-(3, 1),
-(4, 1),
 (1, 3),
 (2, 3),
 (3, 3),
-(1, 4);
+(1, 4),
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1);
 
 -- --------------------------------------------------------
 
@@ -336,9 +373,7 @@ CREATE TABLE `ticket` (
 --
 
 INSERT INTO `ticket` (`cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
-(3, 10, 1111, 'felicitacion', 'wena', 'ddd', '2023-11-09 04:35:10', NULL, 0),
-(4, 10, 1111, 'felicitacion', 'fsefse', 'fsefsef', '2023-11-09 04:36:42', NULL, 0),
-(5, 10, 1111, 'felicitacion', 'kgkgu', 'kukhukhu', '2023-11-09 04:37:28', NULL, 0);
+(6, 10, 20267690, 'felicitacion', 'asdasda', 'qwe', '2023-11-09 06:24:34', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -360,8 +395,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`rut_usuario`, `nombre_usuario`, `correo_electronico_usuario`, `correo_electronico_tercero`, `telefono_usuario`, `telefono_tercero`) VALUES
-(1111, 'perkin', 'wena@gmail.com', '', 0, 0),
-(1234, 'admin', 'correo@gmail.com', '', 0, 0);
+(1234, 'admin', 'correo@gmail.com', '', 0, 0),
+(20267690, 'juan baeza', 'juanBaeza@gmail.com', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -391,7 +426,7 @@ CREATE TABLE `usuario_rol` (
 
 INSERT INTO `usuario_rol` (`cod_rol`, `rut_usuario`) VALUES
 (1, 1234),
-(2, 1111);
+(2, 20267690);
 
 --
 -- Índices para tablas volcadas
@@ -452,6 +487,12 @@ ALTER TABLE `estado_ticket`
 ALTER TABLE `municipalidad`
   ADD PRIMARY KEY (`cod_municipalidad`),
   ADD KEY `cod_comuna` (`cod_comuna`);
+
+--
+-- Indices de la tabla `palabra_ofensiva`
+--
+ALTER TABLE `palabra_ofensiva`
+  ADD PRIMARY KEY (`cod_palabra`);
 
 --
 -- Indices de la tabla `permiso`
@@ -566,13 +607,19 @@ ALTER TABLE `direccion`
 -- AUTO_INCREMENT de la tabla `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `cod_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `cod_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `municipalidad`
 --
 ALTER TABLE `municipalidad`
   MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
+--
+-- AUTO_INCREMENT de la tabla `palabra_ofensiva`
+--
+ALTER TABLE `palabra_ofensiva`
+  MODIFY `cod_palabra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `permiso`
@@ -584,7 +631,7 @@ ALTER TABLE `permiso`
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `cod_proyecto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `cod_proyecto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `region`
@@ -596,7 +643,7 @@ ALTER TABLE `region`
 -- AUTO_INCREMENT de la tabla `registro_ticket`
 --
 ALTER TABLE `registro_ticket`
-  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
@@ -614,7 +661,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas

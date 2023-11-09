@@ -4,7 +4,7 @@
 
     if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
         
-        $query = "SELECT * FROM proyecto";
+        $query = "SELECT proyecto.*, departamento.nombre_departamento AS nombre_departamento FROM proyecto JOIN departamento ON proyecto.cod_departamento = departamento.cod_departamento";
         $result = mysqli_query($connection, $query);
 
     } else {
@@ -18,6 +18,30 @@
         <h2 class="fw-normal">Proyectos en el sistema</h2>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sSearch": "Buscar:",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "slast": "Ultimo",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior",
+                },
+                "sProcessing": "Procesando...",
+
+
+            }
+        });
+    });
+</script>
 
 <main class="container mt-5">
 
@@ -33,15 +57,15 @@
             </div>
         </div>
         <div class="card-body table-responsive">
-            <table class="table table-hover">
+            <table id="example" class="display table-hover justify-content-center" style="width:100%">
                 <thead class="">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Código Departamento</th>
-                        <th scope="col">Nombre Proyecto</th>
-                        <th scope="col">Descripción Proyecto</th>
-                        <th scope="col">Fecha Inicio Proyecto</th>
-                        <th scope="col">Fecha Término Estimado Proyecto</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Fecha Inicio</th>
+                        <th scope="col">Fecha Término Estimada</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -49,7 +73,7 @@
                     <?php while ($fila = mysqli_fetch_array($result)) : ?>
                         <tr>
                             <th scope="row"><?= $fila['cod_proyecto'] ?></th>
-                            <td><?= $fila['cod_departamento'] ?></td>
+                            <td><?= $fila['nombre_departamento'] ?></td>
                             <td><?= $fila['nombre_proyecto'] ?></td>
                             <td><?= $fila['descripcion_proyecto'] ?></td>
                             <td><?= $fila['fecha_inicio_proyecto'] ?></td>

@@ -24,7 +24,7 @@
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
     <div class="p-5 rounded text-center">
-        <h2 class="fw-normal">Formulario de edición de Departamento</h2>
+        <h2 class="fw-normal">Formulario de edición de departamento.</h2>
     </div>
 </div>
 
@@ -36,26 +36,12 @@
                     <input type="text" class="d-none" name="cod_departamento" value="<?php echo $cod_departamento ?>">
 
                     <div class="col-md-12 mb-3">
-                        <label for="origin" class="form-label">Municipalidad</label>
-                        <select class="form-control" id="origin" name="cod_municipalidad">
-                        <?php
-                        // Iterar a través de los resultados y crear opciones para el select
-                        while ($fila = $result_muni->fetch_assoc()) {
-                            $cod_municipalidad = $fila["cod_municipalidad"];
-                            $nombre_municipalidad = $fila["nombre_municipalidad"];
-                            echo "<option value=\"$cod_municipalidad\">$nombre_municipalidad</option>";
-                        }
-                        ?>
-                        </select>
-                    </div>
-
-                    <div class="col-md-12 mb-3">
-                        <label for="nombre_departamento" class="form-label">Nombre del Departamento</label>
+                        <label for="nombre_departamento" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="nombre_departamento" name="nombre_departamento" value="<?php echo $nombre_departamento ?>" required>
                     </div>
 
                     <div class="col-md-12 mb-3">
-                        <label for="telefono_departamento" class="form-label">Teléfono del Departamento</label>
+                        <label for="telefono_departamento" class="form-label">Teléfono (Opcional)</label>
                         <input type="tel" class="form-control" id="telefono_departamento" name="telefono_departamento" value="<?php echo $telefono_departamento ?>">
                     </div>
 

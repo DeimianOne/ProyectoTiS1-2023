@@ -29,30 +29,26 @@
         <form action="pages/proyectos/actions/update.php" method="POST">
             <div class="card-body">
                 <div class="row">
+
                     <input type="text" class="d-none" name="cod_proyecto" value="<?php echo $cod_proyecto ?>">
 
                     <div class="col-md-12 mb-3">
-                        <label for="cod_departamento" class="form-label">Código del Departamento</label>
-                        <input type="text" class="form-control" id="cod_departamento" name="cod_departamento" value="<?php echo $codigo_departamento ?>">
-                    </div>
-
-                    <div class="col-md-12 mb-3">
-                        <label for="nombre_proyecto" class="form-label">Nombre del Proyecto</label>
+                        <label for="nombre_proyecto" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" value="<?php echo $nombre_proyecto ?>" required>
                     </div>
 
                     <div class="col-md-12 mb-3">
-                        <label for="descripcion_proyecto" class="form-label">Descripción del Proyecto</label>
+                        <label for="descripcion_proyecto" class="form-label">Descripción</label>
                         <textarea class="form-control" id="descripcion_proyecto" name="descripcion_proyecto" required><?php echo $descripcion_proyecto ?></textarea>
                     </div>
 
                     <div class="col-md-12 mb-3">
-                        <label for="fecha_inicio_proyecto" class="form-label">Fecha de Inicio del Proyecto</label>
+                        <label for="fecha_inicio_proyecto" class="form-label">Fecha de Inicio</label>
                         <input type="date" class="form-control" id="fecha_inicio_proyecto" name="fecha_inicio_proyecto" value="<?php echo $fecha_inicio_proyecto ?>">
                     </div>
 
                     <div class="col-md-12 mb-3">
-                        <label for="fecha_termino_estimada_proyecto" class="form-label">Fecha de Término Estimado del Proyecto</label>
+                        <label for="fecha_termino_estimada_proyecto" class="form-label">Fecha de Término Estimada</label>
                         <input type="date" class="form-control" id="fecha_termino_estimada_proyecto" name="fecha_termino_estimada_proyecto" value="<?php echo $fecha_termino_estimada_proyecto ?>">
                     </div>
                 </div>
