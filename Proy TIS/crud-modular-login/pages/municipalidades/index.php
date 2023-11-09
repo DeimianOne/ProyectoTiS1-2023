@@ -27,7 +27,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Hola, aquí puedes agregar municipalidades si eres admin</span>
+                        <span>Aquí puedes agregar municipalidades.</span>
                 </div>
                 <div>
                     <a class="btn btn-sm btn-primary" href="index.php?p=municipalidades/create" role="button">Agregar nueva Municipalidad</a>
@@ -59,8 +59,8 @@
                             <td><?= $fila['direccion_municipalidad'] ?></td>
                             <td><?= $fila['correo_municipalidad'] ?></td>
                             <td>
-                                <a href="index.php?p=municipalidades/edit&id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm btn-outline-warning">Editar Datos Municipalidad</a>
-                                <a href="pages/municipalidades/actions/delete.php?id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm btn-outline-danger">Eliminar Municipalidad</a>
+                                <a href="index.php?p=municipalidades/edit&id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm btn-outline-warning">Editar Datos</a>
+                                <a href="pages/municipalidades/actions/delete.php?id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
                             </td>
                         </tr>
 

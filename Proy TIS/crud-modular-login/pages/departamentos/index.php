@@ -57,8 +57,8 @@
                             <td><?= $fila['horario_atencion_inicio'] ?></td>
                             <td><?= $fila['horario_atencion_termino'] ?></td>
                             <td>
-                                <a href="index.php?p=departamentos/edit&id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-warning">Editar Datos Departamento</a>
-                                <a href="pages/departamentos/actions/delete.php?id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-danger">Eliminar Departamento</a>
+                                <a href="index.php?p=departamentos/edit&id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-warning">Editar Datos</a>
+                                <a href="pages/departamentos/actions/delete.php?id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
