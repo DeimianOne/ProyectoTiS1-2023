@@ -16,7 +16,7 @@
                 
                     <div class="col-md-12 mb-3">
                         <label for="name" class="form-label">Palabra</label>
-                        <input type="text" class="form-control" id="word" name="palabra" placeholder="Palabra" required>
+                        <input type="text" class="form-control" id="word" name="palabra" pattern="[A-Za-z]+" title="Ingresa solo letras del abecedario" placeholder="Palabra" required>
                     </div>
 
                 </div>
