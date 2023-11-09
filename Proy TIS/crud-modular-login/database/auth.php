@@ -5,25 +5,25 @@
         session_start();
     }
 
-    // Comprueba si el usuario está logueado
-    if(!isset($_SESSION["rut_usuario"])){
-        header("Location: index.php?p=auth/login");
-    }else{
-        
-        // Obtener el nombre de usuario de la sesión
-        $rut = $_SESSION["rut_usuario"];
+    $paginas = array("home"); // Agrega "home" a la lista de páginas permitidas
 
-        $sql = "SELECT * FROM usuario WHERE rut_usuario = '$rut'";
+    // Comprueba si el usuario está logueado solo si no está en una página permitida
+    if(!isset($_SESSION["rut_usuario"]) && !in_array($_GET['p'], $paginas)){
+        header("Location: index.php?p=home"); // Cambia a la página a la que deseas redirigir cuando no hay sesión
+    } else {
+        // Obtener el nombre de usuario de la sesión si está disponible
+        $rut = isset($_SESSION["rut_usuario"]) ? $_SESSION["rut_usuario"] : null;
 
-        $result = mysqli_query($connection, $sql);
+        if ($rut) {
+            $sql = "SELECT * FROM usuario WHERE rut_usuario = '$rut'";
+            $result = mysqli_query($connection, $sql);
 
-        // Verifica si el usuario existe
-        if (mysqli_num_rows($result) == 0) {
-            session_destroy();
-            // User does not exist, redirect to login page
-            header("Location: index.php?p=auth/login");
+            // Verifica si el usuario existe
+            if (mysqli_num_rows($result) == 0) {
+                session_destroy();
+                // User does not exist, redirect to login page
+                header("Location: auth/login.php"); // Ajusta la redirección según sea necesario
+            }
         }
-
     }
-
 ?>
