@@ -2,12 +2,10 @@
     include("database/connection.php");
     include("database/auth.php");
 
-    $id = $_GET["cod_municipalidad"];
+    $cod_municipalidad = $_GET["id"];
 
-    $query = "SELECT * FROM municipalidad WHERE cod_municipalidad=" . $id . ";";
-    $query_comuna = "SELECT * FROM comuna";
+    $query = "SELECT * FROM municipalidad WHERE cod_municipalidad=" . $cod_municipalidad . ";";
     $result =  mysqli_query($connection, $query);
-    $result_comuna =  mysqli_query($connection, $query_comuna);
 
     $queryComuna = "SELECT * FROM comuna";
     $resultComuna = mysqli_query($connection, $queryComuna);
@@ -45,7 +43,7 @@
                         <select class="form-control" id="origin" name="cod_comuna">
                         <?php
                         // Iterar a través de los resultados y crear opciones para el select
-                        while ($fila = $result_comuna->fetch_assoc()) {
+                        while ($fila = $resultComuna->fetch_assoc()) {
                             $cod_comuna = $fila["cod_comuna"];
                             $nombre_comuna = $fila["nombre_comuna"];
                             $selected = ($cod_comuna == $municipalidad_comuna) ? 'selected' : '';
