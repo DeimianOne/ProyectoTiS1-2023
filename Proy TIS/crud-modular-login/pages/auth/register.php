@@ -22,10 +22,12 @@ if (isset($_REQUEST['rut_usuario'])) {
     $telefono_tercero = mysqli_real_escape_string($connection, $telefono_tercero);
 
     $trn_date = date("Y-m-d H:i:s");
-    $query = "INSERT into `usuario` (rut_usuario, nombre_usuario, correo_electronico_usuario, correo_electronico_tercero, telefono_usuario, telefono_tercero) VALUES ('$rut_usuario', '$nombre_usuario', '$correo_electronico_usuario', '$correo_electronico_tercero', '$telefono_usuario', '$telefono_tercero')";
+    $query = "INSERT into `usuario` (rut_usuario, nombre_usuario, correo_electronico_usuario, correo_electronico_tercero, telefono_usuario, telefono_tercero) VALUES ('$rut_usuario', '$nombre_usuario', '$correo_electronico_usuario', '$correo_electronico_tercero', '$telefono_usuario', '$telefono_tercero');";
     $result = mysqli_query($connection, $query);
+    $query2 = "INSERT into `usuario_rol` (cod_rol, rut_usuario) VALUES (2,'$rut_usuario')";
+    $result2 = mysqli_query($connection, $query2);
 
-    if ($result) {
+    if ($result && $result2) {
         echo "<div class='form'><h3>Te has registrado correctamente!</h3><br/>Haz click aquí para <a href='index.php'>Logearte</a></div>";
     }
 } else {
