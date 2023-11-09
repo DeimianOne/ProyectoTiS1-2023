@@ -4,7 +4,7 @@
 
     if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
         
-        $query = "SELECT * FROM municipalidad";
+        $query = "SELECT municipalidad.*, comuna.nombre_comuna AS nombre_comuna, region.nombre_region AS nombre_region FROM municipalidad JOIN comuna ON municipalidad.cod_comuna = comuna.cod_comuna JOIN region ON comuna.cod_region = region.cod_region";
         $result = mysqli_query($connection, $query);
 
     } else {
@@ -69,6 +69,7 @@
                         <th scope="col">Comuna</th>
                         <th scope="col">Dirección</th>
                         <th scope="col">Correo</th>
+                        <th scope="col">Región</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -81,6 +82,7 @@
                             <td><?= $fila['cod_comuna'] ?></td> <!-- Suponiendo que 'cod_comuna' es un código, podrías querer reemplazarlo por el nombre de la comuna -->
                             <td><?= $fila['direccion_municipalidad'] ?></td>
                             <td><?= $fila['correo_municipalidad'] ?></td>
+                            <td><?= $fila['nombre_region'] ?></td>
                             
                             <td>
                                 <a href="index.php?p=municipalidades/edit&id=<?= $fila['cod_municipalidad'] ?>" class="btn btn-sm my-3 btn-outline-warning">Editar Datos</a>
