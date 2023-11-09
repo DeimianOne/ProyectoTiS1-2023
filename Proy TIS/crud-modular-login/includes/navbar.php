@@ -89,6 +89,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="" hidden>Archivo de Tickets</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'registro_tickets') !== false) ? 'active' : null ?>" href="index.php?p=registro_tickets/index">Registro de Tickets</a>
+                    </li>
                 </ul>
                 <div class="d-flex">
                     <a href="index.php?p=auth/profile" class="btn btn-sm btn-outline-primary me-2">Perfil</a>
