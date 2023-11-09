@@ -29,11 +29,11 @@ $result_usuario = mysqli_query($connection, $query_usuario);
             <form id="formulario">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="nombre" readonly>
+                        <input type="text" class="form-control" id="nombre">
                         <label for="nombre" class="form-label">Nombre</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="rut" readonly>
+                        <input type="text" class="form-control" id="rut" >
                         <label for="rut" class="form-label">RUT</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -43,8 +43,7 @@ $result_usuario = mysqli_query($connection, $query_usuario);
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-warning">Cancelar</button>
-                    <button class="btn btn-danger">Eliminar</button>
+                    <button class="btn btn-warning" type="button" aria-label="Close" data-bs-dismiss="modal">Cancelar</button>
                     <button class="btn btn-info" id="btnAccion" type="submit">Guardar</button>
                 </div>
             </form>
@@ -79,9 +78,7 @@ $result_usuario = mysqli_query($connection, $query_usuario);
                     text: "Todo los campos son requeridos",
                     icon: "warning"
                 });
-            } else {
-                
-            }
+            } 
         })
     });
 </script>
