@@ -78,6 +78,9 @@
                             <li>
                                 <a class="dropdown-item <?php echo (strpos($pagina, 'estado') !== false) ? 'active' : null ?>" href="index.php?p=estado/index">Estados Ticket</a>
                             </li>
+                            <li>
+                                <a class="dropdown-item <?php echo (strpos($pagina, 'palabrasofensivas') !== false) ? 'active' : null ?>" href="index.php?p=palabrasofensivas/index">Palabras Ofensivas</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">
