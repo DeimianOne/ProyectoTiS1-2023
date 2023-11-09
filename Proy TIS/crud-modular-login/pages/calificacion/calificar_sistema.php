@@ -48,7 +48,7 @@
             </div>
 
             <div class="card-footer text-body-secondary text-end">
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-dark disabled">Guardar</button>
             </div>
         </form>
     </div>

@@ -49,7 +49,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Hola, aquí puedes agregar departamentos si eres admin</span>
+                        <span>Aquí puedes agregar departamentos.</span>
                 </div>
                 <div>
                     <a class="btn btn-sm btn-primary" href="index.php?p=departamentos/create" role="button">Agregar nuevo Departamento</a>
