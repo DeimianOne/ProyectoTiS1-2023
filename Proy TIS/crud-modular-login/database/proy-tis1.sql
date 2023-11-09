@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-11-2023 a las 05:47:35
+-- Tiempo de generación: 09-11-2023 a las 06:14:32
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -160,6 +160,27 @@ INSERT INTO `municipalidad` (`cod_municipalidad`, `nombre_municipalidad`, `cod_c
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `palabra_ofensiva`
+--
+
+CREATE TABLE `palabra_ofensiva` (
+  `cod_palabra` int(11) NOT NULL,
+  `palabra` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `palabra_ofensiva`
+--
+
+INSERT INTO `palabra_ofensiva` (`cod_palabra`, `palabra`) VALUES
+(1, 'mierdaa'),
+(2, 'conchetumadre'),
+(4, 'hijo de puta'),
+(5, 'carajo');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `permiso`
 --
 
@@ -234,13 +255,6 @@ CREATE TABLE `registro_ticket` (
   `calificacion` float DEFAULT NULL,
   `visibilidad_solicitud` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `registro_ticket`
---
-
-INSERT INTO `registro_ticket` (`cod_registro`, `fecha_hora_registro`, `cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
-(1, '2023-11-09 04:37:28', 5, 10, 1111, 'felicitacion', 'kgkgu', 'kukhukhu', '2023-11-09 04:37:28', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -331,15 +345,6 @@ CREATE TABLE `ticket` (
   `visibilidad_solicitud` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `ticket`
---
-
-INSERT INTO `ticket` (`cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
-(3, 10, 1111, 'felicitacion', 'wena', 'ddd', '2023-11-09 04:35:10', NULL, 0),
-(4, 10, 1111, 'felicitacion', 'fsefse', 'fsefsef', '2023-11-09 04:36:42', NULL, 0),
-(5, 10, 1111, 'felicitacion', 'kgkgu', 'kukhukhu', '2023-11-09 04:37:28', NULL, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -360,8 +365,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`rut_usuario`, `nombre_usuario`, `correo_electronico_usuario`, `correo_electronico_tercero`, `telefono_usuario`, `telefono_tercero`) VALUES
-(1111, 'perkin', 'wena@gmail.com', '', 0, 0),
-(1234, 'admin', 'correo@gmail.com', '', 0, 0);
+(1234, 'admin', 'correo@gmail.com', '', 0, 0),
+(20267690, 'juan baeza', 'juanBaeza@gmail.com', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -391,7 +396,7 @@ CREATE TABLE `usuario_rol` (
 
 INSERT INTO `usuario_rol` (`cod_rol`, `rut_usuario`) VALUES
 (1, 1234),
-(2, 1111);
+(2, 20267690);
 
 --
 -- Índices para tablas volcadas
@@ -452,6 +457,12 @@ ALTER TABLE `estado_ticket`
 ALTER TABLE `municipalidad`
   ADD PRIMARY KEY (`cod_municipalidad`),
   ADD KEY `cod_comuna` (`cod_comuna`);
+
+--
+-- Indices de la tabla `palabra_ofensiva`
+--
+ALTER TABLE `palabra_ofensiva`
+  ADD PRIMARY KEY (`cod_palabra`);
 
 --
 -- Indices de la tabla `permiso`
@@ -573,6 +584,12 @@ ALTER TABLE `estado`
 --
 ALTER TABLE `municipalidad`
   MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
+--
+-- AUTO_INCREMENT de la tabla `palabra_ofensiva`
+--
+ALTER TABLE `palabra_ofensiva`
+  MODIFY `cod_palabra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `permiso`

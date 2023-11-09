@@ -28,7 +28,7 @@
                 <p class="my-3">¡Tu opinión cuenta! Ahorra tiempo y esfuerzo visitando nuestra página de retroalimentación municipal en línea. Comparte tus ideas y preocupaciones desde la comodidad de tu hogar, ayudándonos a mejorar nuestra ciudad de manera eficiente. Tu participación es clave para construir un futuro mejor sin la necesidad de desplazamientos presenciales.</p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-evenly align-items-center">
                     <a class="btn-lg px-4 btn btn-primary" href="index.php?p=tickets/create" role="button">Crear Nuevo Ticket</a>
-                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Agendar Visita</button>
+                    <a href="index.php?p=agenda/create" role="button" class="btn btn-outline-secondary btn-lg px-4">Agendar Visita</a>
                 </div>
             </div>
         </div>
