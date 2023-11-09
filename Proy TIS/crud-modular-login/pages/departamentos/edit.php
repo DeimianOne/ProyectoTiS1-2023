@@ -7,6 +7,9 @@
     $query = "SELECT * FROM departamento WHERE cod_departamento=" . $cod_departamento . ";";
     $result = mysqli_query($connection, $query);
 
+    $query_muni = "SELECT * FROM municipalidad";
+    $result_muni = mysqli_query($connection, $query_muni);
+
     if ($row = mysqli_fetch_assoc($result)) {
         $cod_municipalidad = $row["cod_municipalidad"];
         $nombre_departamento = $row["nombre_departamento"];
@@ -33,6 +36,20 @@
                     <input type="text" class="d-none" name="cod_departamento" value="<?php echo $cod_departamento ?>">
 
                     <div class="col-md-12 mb-3">
+                        <label for="origin" class="form-label">Municipalidad</label>
+                        <select class="form-control" id="origin" name="cod_municipalidad">
+                        <?php
+                        // Iterar a través de los resultados y crear opciones para el select
+                        while ($fila = $result_muni->fetch_assoc()) {
+                            $cod_municipalidad = $fila["cod_municipalidad"];
+                            $nombre_municipalidad = $fila["nombre_municipalidad"];
+                            echo "<option value=\"$cod_municipalidad\">$nombre_municipalidad</option>";
+                        }
+                        ?>
+                        </select>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
                         <label for="nombre_departamento" class="form-label">Nombre del Departamento</label>
                         <input type="text" class="form-control" id="nombre_departamento" name="nombre_departamento" value="<?php echo $nombre_departamento ?>" required>
                     </div>
@@ -49,12 +66,12 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="horario_atencion_inicio" class="form-label">Horario de Atención (Inicio)</label>
-                        <input type="time" class="form-control" id="horario_atencion_inicio" name="horario_atencion_inicio" value="<?php echo $horario_atencion_inicio ?>" required>
+                        <input type="time" class="form-control" id="horario_atencion_inicio" name="horario_atencion_inicio" value="<?php echo $horario_atencion_inicio ?>">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="horario_atencion_termino" class="form-label">Horario de Atención (Término)</label>
-                        <input type="time" class="form-control" id="horario_atencion_termino" name="horario_atencion_termino" value="<?php echo $horario_atencion_termino ?>" required>
+                        <input type="time" class="form-control" id="horario_atencion_termino" name="horario_atencion_termino" value="<?php echo $horario_atencion_termino ?>">
                     </div>
 
                     

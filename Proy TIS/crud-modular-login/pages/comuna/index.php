@@ -43,7 +43,7 @@
                             <td><?= $fila['nombre_comuna'] ?></td>
                             <td><?= $fila['nombre_region'] ?></td>
                             <td>
-                                <a href="index.php?p=comuna/edit&cod_comuna=<?= $fila['cod_comuna'] ?>" class="btn btn-sm btn-outline-warning">Revisar</a>
+                                <a href="index.php?p=comuna/edit&cod_comuna=<?= $fila['cod_comuna'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
                                 <a href="pages/comuna/actions/delete.php?cod_comuna=<?= $fila['cod_comuna'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
                             </td>
                         </tr>
