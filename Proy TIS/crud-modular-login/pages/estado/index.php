@@ -41,7 +41,7 @@
                             <th scope="row"><?= $fila['cod_estado'] ?></th>
                             <td><?= $fila['nombre_estado'] ?></td>
                             <td>
-                                <a href="index.php?p=estado/edit&cod_estado=<?= $fila['cod_estado'] ?>" class="btn btn-sm btn-outline-warning">Revisar</a>
+                                <a href="index.php?p=estado/edit&cod_estado=<?= $fila['cod_estado'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
                                 <a href="pages/estado/actions/delete.php?cod_estado=<?= $fila['cod_estado'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
                             </td>
                         </tr>

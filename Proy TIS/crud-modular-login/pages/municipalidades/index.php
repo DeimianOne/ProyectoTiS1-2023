@@ -55,7 +55,7 @@
                     <span>Aquí puedes agregar municipalidades.</span>
                 </div>
                 <div>
-                    <a class="btn btn-sm btn-primary" href="index.php?p=municipalidades/create" role="button">Agregar nueva Municipalidad</a>
+                    <a class="btn btn-sm btn-primary" href="index.php?p=municipalidades/create" role="button">Agregar nuevo</a>
                 </div>
             </div>
         </div>

@@ -47,7 +47,7 @@
                             <td><?= $fila['numero_departamento'] ?></td>
                             <td><?= $fila['nombre_comuna'] ?></td>
                             <td>
-                                <a href="index.php?p=direccion/edit&cod_direccion=<?= $fila['cod_direccion'] ?>" class="btn btn-sm btn-outline-warning">Revisar</a>
+                                <a href="index.php?p=direccion/edit&cod_direccion=<?= $fila['cod_direccion'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
                                 <a href="pages/direccion/actions/delete.php?cod_direccion=<?= $fila['cod_direccion'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
                             </td>
                         </tr>

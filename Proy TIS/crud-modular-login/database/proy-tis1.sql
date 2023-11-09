@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-10-2023 a las 06:39:57
+-- Tiempo de generación: 09-11-2023 a las 05:47:35
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -80,7 +80,7 @@ CREATE TABLE `departamento` (
 --
 
 INSERT INTO `departamento` (`cod_departamento`, `cod_municipalidad`, `nombre_departamento`, `telefono_departamento`, `atencion_presencial`, `horario_atencion_inicio`, `horario_atencion_termino`) VALUES
-(9, 55, 'Departamento de Carreteras', 12345678, 1, '09:40:00', '18:40:00');
+(10, 56, 'Departamento de obras', 4070128, 1, '09:30:00', '14:00:00');
 
 -- --------------------------------------------------------
 
@@ -101,7 +101,7 @@ CREATE TABLE `direccion` (
 --
 
 INSERT INTO `direccion` (`cod_direccion`, `cod_comuna`, `calle`, `numero`, `numero_departamento`) VALUES
-(13, 13, 'Avenida Falsa', 123, NULL);
+(14, 13, 'Bernardo O`Higgins', 525, NULL);
 
 -- --------------------------------------------------------
 
@@ -124,14 +124,6 @@ CREATE TABLE `estado` (
   `cod_estado` bigint(20) NOT NULL,
   `nombre_estado` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `estado`
---
-
-INSERT INTO `estado` (`cod_estado`, `nombre_estado`) VALUES
-(3, 'En Proceso'),
-(4, 'Cerrado');
 
 -- --------------------------------------------------------
 
@@ -163,7 +155,7 @@ CREATE TABLE `municipalidad` (
 --
 
 INSERT INTO `municipalidad` (`cod_municipalidad`, `nombre_municipalidad`, `cod_comuna`, `direccion_municipalidad`, `correo_municipalidad`) VALUES
-(55, 'Municipalidad de Concepción', 13, 'Avenida Falsa #123', 'correo@gmail.com');
+(56, 'Municipalidad de Concepción', 13, 'Bernardo O`Higgins 525', 'asistenciasocialconcepcion@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -174,8 +166,18 @@ INSERT INTO `municipalidad` (`cod_municipalidad`, `nombre_municipalidad`, `cod_c
 CREATE TABLE `permiso` (
   `cod_permiso` bigint(20) NOT NULL,
   `nombre_permiso` varchar(30) NOT NULL,
-  `descripcion_permiso` varchar(50) DEFAULT NULL
+  `descripcion_permiso` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `permiso`
+--
+
+INSERT INTO `permiso` (`cod_permiso`, `nombre_permiso`, `descripcion_permiso`) VALUES
+(1, 'Ver tablas de datos', 'Permite al usuario poder visualizar en la pagina las tablas de la base de datos'),
+(2, 'Agregar entrada', 'Permite al usuario agregar entradas a las tablas de datos'),
+(3, 'Editar entrada', 'Permite al usuario editar una entrada de las tablas de datos'),
+(4, 'Borrar entrada', 'Permite al usuario borrar una entrada en una tabla de datos');
 
 -- --------------------------------------------------------
 
@@ -216,6 +218,33 @@ INSERT INTO `region` (`cod_region`, `nombre_region`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `registro_ticket`
+--
+
+CREATE TABLE `registro_ticket` (
+  `cod_registro` bigint(11) NOT NULL,
+  `fecha_hora_registro` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `cod_ticket` bigint(20) NOT NULL,
+  `cod_departamento` bigint(20) NOT NULL,
+  `rut_usuario` bigint(20) NOT NULL,
+  `tipo_solicitud` enum('felicitacion','sugerencia','reclamo') NOT NULL,
+  `asunto_ticket` varchar(50) NOT NULL,
+  `detalles_solicitud` text NOT NULL,
+  `fecha_hora_envio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `calificacion` float DEFAULT NULL,
+  `visibilidad_solicitud` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `registro_ticket`
+--
+
+INSERT INTO `registro_ticket` (`cod_registro`, `fecha_hora_registro`, `cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
+(1, '2023-11-09 04:37:28', 5, 10, 1111, 'felicitacion', 'kgkgu', 'kukhukhu', '2023-11-09 04:37:28', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `respuesta`
 --
 
@@ -244,7 +273,9 @@ CREATE TABLE `rol` (
 
 INSERT INTO `rol` (`cod_rol`, `nombre_rol`) VALUES
 (1, 'admin'),
-(2, 'usuario');
+(2, 'usuario'),
+(3, 'jefe de departamento'),
+(4, 'inspector municipal');
 
 -- --------------------------------------------------------
 
@@ -256,6 +287,20 @@ CREATE TABLE `rol_permiso` (
   `cod_permiso` bigint(20) NOT NULL,
   `cod_rol` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `rol_permiso`
+--
+
+INSERT INTO `rol_permiso` (`cod_permiso`, `cod_rol`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(1, 3),
+(2, 3),
+(3, 3),
+(1, 4);
 
 -- --------------------------------------------------------
 
@@ -285,6 +330,15 @@ CREATE TABLE `ticket` (
   `calificacion` float DEFAULT NULL,
   `visibilidad_solicitud` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `ticket`
+--
+
+INSERT INTO `ticket` (`cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
+(3, 10, 1111, 'felicitacion', 'wena', 'ddd', '2023-11-09 04:35:10', NULL, 0),
+(4, 10, 1111, 'felicitacion', 'fsefse', 'fsefsef', '2023-11-09 04:36:42', NULL, 0),
+(5, 10, 1111, 'felicitacion', 'kgkgu', 'kukhukhu', '2023-11-09 04:37:28', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -419,6 +473,12 @@ ALTER TABLE `region`
   ADD PRIMARY KEY (`cod_region`);
 
 --
+-- Indices de la tabla `registro_ticket`
+--
+ALTER TABLE `registro_ticket`
+  ADD PRIMARY KEY (`cod_registro`);
+
+--
 -- Indices de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
@@ -494,13 +554,13 @@ ALTER TABLE `comuna`
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `cod_departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `cod_departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `direccion`
 --
 ALTER TABLE `direccion`
-  MODIFY `cod_direccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `cod_direccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `estado`
@@ -512,25 +572,31 @@ ALTER TABLE `estado`
 -- AUTO_INCREMENT de la tabla `municipalidad`
 --
 ALTER TABLE `municipalidad`
-  MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
-  MODIFY `cod_permiso` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `cod_permiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `cod_proyecto` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `cod_proyecto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `region`
 --
 ALTER TABLE `region`
   MODIFY `cod_region` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT de la tabla `registro_ticket`
+--
+ALTER TABLE `registro_ticket`
+  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
@@ -542,13 +608,13 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `cod_rol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cod_rol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas

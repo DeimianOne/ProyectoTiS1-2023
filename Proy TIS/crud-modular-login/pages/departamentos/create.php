@@ -52,12 +52,12 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="horario_atencion_inicio" class="form-label">Horario de Atención (Inicio)</label>
-                        <input type="time" class="form-control" id="horario_atencion_inicio" name="horario_atencion_inicio" required>
+                        <input type="time" class="form-control" id="horario_atencion_inicio" name="horario_atencion_inicio">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="horario_atencion_termino" class="form-label">Horario de Atención (Término)</label>
-                        <input type="time" class="form-control" id="horario_atencion_termino" name="horario_atencion_termino" required>
+                        <input type="time" class="form-control" id="horario_atencion_termino" name="horario_atencion_termino">
                     </div>
 
                 </div>

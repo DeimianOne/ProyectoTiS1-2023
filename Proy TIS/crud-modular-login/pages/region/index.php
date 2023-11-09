@@ -41,7 +41,7 @@
                             <th scope="row"><?= $fila['cod_region'] ?></th>
                             <td><?= $fila['nombre_region'] ?></td>
                             <td>
-                                <a href="index.php?p=region/edit&cod_region=<?= $fila['cod_region'] ?>" class="btn btn-sm btn-outline-warning">Revisar</a>
+                                <a href="index.php?p=region/edit&cod_region=<?= $fila['cod_region'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
                                 <a href="pages/region/actions/delete.php?cod_region=<?= $fila['cod_region'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
                             </td>
                         </tr>

@@ -5,9 +5,7 @@
     // Verifica el rol del usuario
     if(isset($_SESSION['rut_usuario'])) {
         if ($_SESSION['rol_usuario'] == '1') {
-            $query = "SELECT * FROM ticket";  // Si es admin, selecciona todos los tickets
-        } elseif ($_SESSION['rol_usuario'] == '2') {
-            $query = "SELECT * FROM ticket WHERE rut_usuario = '" . $_SESSION['rut_usuario'] . "'";  // Selecciona sólo los tickets del rut de sesión
+            $query = "SELECT * FROM registro_ticket";  // Si es admin, selecciona todos los tickets
         } else {
             header("Location: index.php?p=auth/login");
             exit;
@@ -18,21 +16,11 @@
     }
 
     $result = mysqli_query($connection, $query);
-
-    if (isset($_SESSION['mensaje'])) {
-        ?>
-        <div class="alert alert-<?php echo ($_SESSION['mensaje'] == 'Ticket enviado correctamente.') ? 'success' : 'danger'; ?>" role="alert"> 
-            <?php echo $_SESSION['mensaje'];?>
-        </div>
-        <?php
-        unset($_SESSION['mensaje']); // Limpiar la variable de sesión después de mostrar el mensaje
-    }
-
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
     <div class=" p-5 rounded text-center">
-        <h2 class="fw-normal">Mis tickets en el sistema</h2>
+        <h2 class="fw-normal">Registro de tickets en el sistema</h2>
     </div>
 </div>
 
@@ -42,15 +30,8 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Hola, aquí puedes ver los tickets</span>
+                        <span>Registro</span>
                 </div>
-
-                <?php if($_SESSION['rol_usuario'] == '2'): ?> <!-- Si es usuario, puede meter tickets -->
-                    <div>
-                        <a class="btn btn-sm btn-primary" href="index.php?p=tickets/create" role="button">Crear nuevo Ticket</a>
-                    </div>
-                <?php endif; ?>
-                
             </div>
         </div>
 
@@ -58,36 +39,33 @@
             <table class="table table-hover">
                 <thead class="">
                     <tr>
+                        <th scope="col">Código Registro</th>
+                        <th scope="col">Fecha de Registro</th>
                         <th scope="col">Código Ticket</th>
-                        <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra la columna -->
-                            <th scope="col">RUT del Usuario</th>
-                        <?php endif; ?>
+                        <th scope="col">RUT del Usuario</th>
                         <th scope="col">Código Departamento</th>
                         <th scope="col">Tipo de Solicitud</th>
                         <th scope="col">Asunto Ticket</th>
                         <th scope="col">Detalles de Solicitud</th>
                         <th scope="col">Fecha y Hora de Envío</th>
-                        <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra la columna -->
-                            <th scope="col">Visibilidad de Solicitud</th>
-                        <?php endif; ?>
-                        
+                        <th scope="col">Calificación</th>
+                        <th scope="col">Visibilidad de Solicitud</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($fila = mysqli_fetch_array($result)) : ?>
                         <tr>
-                            <th scope="row"><?= $fila['cod_ticket'] ?></th>
-                            <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra el RUT del usuario -->
+                            <th scope="row"><?= $fila['cod_registro'] ?></th>
+                            <td><?= $fila['fecha_hora_registro'] ?></td>
+                            <td><?= $fila['cod_ticket'] ?></td>
                             <td><?= $fila['rut_usuario'] ?></td>
-                            <?php endif; ?>
                             <td><?= $fila['cod_departamento'] ?></td>
                             <td><?= $fila['tipo_solicitud'] ?></td>
                             <td><?= $fila['asunto_ticket'] ?></td>
                             <td><?= $fila['detalles_solicitud'] ?></td>
                             <td><?= $fila['fecha_hora_envio'] ?></td>
-                            <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra el RUT del usuario -->
+                            <td><?= $fila['calificacion'] ?></td>
                             <td><?= $fila['visibilidad_solicitud'] == 1 ? 'Visible' : 'No Visible' ?></td>
-                            <?php endif; ?>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>

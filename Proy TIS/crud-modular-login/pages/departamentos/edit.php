@@ -7,6 +7,9 @@
     $query = "SELECT * FROM departamento WHERE cod_departamento=" . $cod_departamento . ";";
     $result = mysqli_query($connection, $query);
 
+    $query_muni = "SELECT * FROM municipalidad";
+    $result_muni = mysqli_query($connection, $query_muni);
+
     if ($row = mysqli_fetch_assoc($result)) {
         $cod_municipalidad = $row["cod_municipalidad"];
         $nombre_departamento = $row["nombre_departamento"];
@@ -49,12 +52,12 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="horario_atencion_inicio" class="form-label">Horario de Atención (Inicio)</label>
-                        <input type="time" class="form-control" id="horario_atencion_inicio" name="horario_atencion_inicio" value="<?php echo $horario_atencion_inicio ?>" required>
+                        <input type="time" class="form-control" id="horario_atencion_inicio" name="horario_atencion_inicio" value="<?php echo $horario_atencion_inicio ?>">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="horario_atencion_termino" class="form-label">Horario de Atención (Término)</label>
-                        <input type="time" class="form-control" id="horario_atencion_termino" name="horario_atencion_termino" value="<?php echo $horario_atencion_termino ?>" required>
+                        <input type="time" class="form-control" id="horario_atencion_termino" name="horario_atencion_termino" value="<?php echo $horario_atencion_termino ?>">
                     </div>
 
                     

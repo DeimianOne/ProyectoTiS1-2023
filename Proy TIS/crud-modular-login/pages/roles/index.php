@@ -26,10 +26,10 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Agregar roles</span>
+                        <span>Roles</span>
                 </div>
                 <div>
-                    <a class="btn btn-sm btn-primary" href="index.php?p=roles/create" role="button">Agregar nuevo rol</a>
+                    <a class="btn btn-sm btn-primary" href="index.php?p=roles/create" role="button">Agregar nuevo</a>
                 </div>
             </div>
         </div>

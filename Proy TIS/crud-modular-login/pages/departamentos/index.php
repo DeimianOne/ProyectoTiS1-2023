@@ -4,7 +4,8 @@
 
     if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
         
-        $query = "SELECT * FROM departamento";
+        $query = "SELECT departamento.*, municipalidad.nombre_municipalidad AS nombre_municipalidad FROM departamento JOIN municipalidad ON departamento.cod_municipalidad = municipalidad.cod_municipalidad";
+
         $result = mysqli_query($connection, $query);
 
     } else {
@@ -52,7 +53,7 @@
                         <span>Aquí puedes agregar departamentos.</span>
                 </div>
                 <div>
-                    <a class="btn btn-sm btn-primary" href="index.php?p=departamentos/create" role="button">Agregar nuevo Departamento</a>
+                    <a class="btn btn-sm btn-primary" href="index.php?p=departamentos/create" role="button">Agregar nuevo</a>
                 </div>
             </div>
         </div>
@@ -61,7 +62,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Código Departamento</th>
-                        <th scope="col">Código Municipalidad</th>
+                        <th scope="col">Municipalidad</th>
                         <th scope="col">Nombre Departamento</th>
                         <th scope="col">Teléfono</th>
                         <th scope="col">Atención Presencial</th>
@@ -74,7 +75,7 @@
                     <?php while ($fila = mysqli_fetch_array($result)): ?>
                         <tr>
                             <th scope="row"><?= $fila['cod_departamento'] ?></th>
-                            <td><?= $fila['cod_municipalidad'] ?></td>
+                            <td><?= $fila['nombre_municipalidad'] ?></td>
                             <td><?= $fila['nombre_departamento'] ?></td>
                             <td><?= $fila['telefono_departamento'] ?></td>
                             <td><?= $fila['atencion_presencial'] == 1 ? 'Sí' : 'No' ?></td>
