@@ -84,6 +84,9 @@
                         <a class="nav-link" href="">Mapa de estadísticas</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'registro_tickets') !== false) ? 'active' : null ?>" href="index.php?p=registro_tickets/index">Registro de Tickets</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="">Archivo de Tickets</a>
                     </li>
                 </ul>
