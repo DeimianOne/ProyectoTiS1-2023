@@ -43,7 +43,7 @@
                             <td><?= $fila['nombre_permiso'] ?></td>
                             <td><?= $fila['descripcion_permiso'] ?></td>
                             <td>
-                                <a href="index.php?p=permiso/edit&cod_permiso=<?= $fila['cod_permiso'] ?>" class="btn btn-sm btn-outline-warning">Revisar</a>
+                                <a href="index.php?p=permiso/edit&cod_permiso=<?= $fila['cod_permiso'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
                                 <a href="pages/permiso/actions/delete.php?cod_permiso=<?= $fila['cod_permiso'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
                             </td>
                         </tr>
