@@ -57,7 +57,6 @@
                         <th scope="col">Asunto Ticket</th>
                         <th scope="col">Detalles de Solicitud</th>
                         <th scope="col">Fecha y Hora de Envío</th>
-                        <th scope="col">Calificación</th>
                         <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra la columna -->
                             <th scope="col">Visibilidad de Solicitud</th>
                         <?php endif; ?>
@@ -76,7 +75,6 @@
                             <td><?= $fila['asunto_ticket'] ?></td>
                             <td><?= $fila['detalles_solicitud'] ?></td>
                             <td><?= $fila['fecha_hora_envio'] ?></td>
-                            <td><?= $fila['calificacion'] ?></td>
                             <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra el RUT del usuario -->
                             <td><?= $fila['visibilidad_solicitud'] == 1 ? 'Visible' : 'No Visible' ?></td>
                             <?php endif; ?>
