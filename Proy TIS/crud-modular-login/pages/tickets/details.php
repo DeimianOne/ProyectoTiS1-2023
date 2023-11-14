@@ -5,18 +5,15 @@
     // Verifica el rol del usuario
     if(isset($_SESSION['rut_usuario'])) {
         if ($_SESSION['rol_usuario'] == '1') {
-            $query = "SELECT ticket.*, estado.nombre_estado, departamento.nombre_departamento
+            $query = "SELECT ticket.*, estado.nombre_estado
             FROM ticket
             LEFT JOIN estado_ticket ON ticket.cod_ticket = estado_ticket.cod_ticket
-            LEFT JOIN estado ON estado_ticket.cod_estado = estado.cod_estado
-            LEFT JOIN departamento ON ticket.cod_departamento = departamento.cod_departamento";
+            LEFT JOIN estado ON estado_ticket.cod_estado = estado.cod_estado";
         } elseif ($_SESSION['rol_usuario'] == '2') {
-            $query = "SELECT ticket.*, estado.nombre_estado, departamento.nombre_departamento
+            $query = "SELECT ticket.*, estado.nombre_estado
             FROM ticket
             LEFT JOIN estado_ticket ON ticket.cod_ticket = estado_ticket.cod_ticket
-            LEFT JOIN estado ON estado_ticket.cod_estado = estado.cod_estado
-            LEFT JOIN departamento ON ticket.cod_departamento = departamento.cod_departamento
-            WHERE rut_usuario = '" . $_SESSION['rut_usuario'] . "'";
+            LEFT JOIN estado ON estado_ticket.cod_estado = estado.cod_estado WHERE rut_usuario = '" . $_SESSION['rut_usuario'] . "'";
         } else {
             header("Location: index.php?p=auth/login");
             exit;
@@ -95,7 +92,7 @@
                         <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra la columna -->
                             <th scope="col">RUT del Usuario</th>
                         <?php endif; ?>
-                        <th scope="col">Departamento</th>
+                        <th scope="col">Código Departamento</th>
                         <th scope="col">Tipo de Solicitud</th>
                         <th scope="col">Estado Solicitud</th>
                         <th scope="col">Asunto Ticket</th>
@@ -114,8 +111,8 @@
                             <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra el RUT del usuario -->
                             <td><?= $fila['rut_usuario'] ?></td>
                             <?php endif; ?>
-                            <td><?= $fila['nombre_departamento'] ?></td>
-                            <td><?= ucfirst($fila['tipo_solicitud']) ?></td>
+                            <td><?= $fila['cod_departamento'] ?></td>
+                            <td><?= $fila['tipo_solicitud'] ?></td>
                             <td><?= $fila['nombre_estado'] ?></td>
                             <td><?= $fila['asunto_ticket'] ?></td>
                             <td><?= $fila['detalles_solicitud'] ?></td>
