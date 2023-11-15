@@ -2,10 +2,10 @@
 include("database/auth.php");
 include("database/connection.php");  // Incluye la conexión
 
-$query_departamento = "SELECT * FROM departamento";
-$result_departamento = mysqli_query($connection, $query_departamento);
-$query_usuario = "SELECT * FROM usuario";
-$result_usuario = mysqli_query($connection, $query_usuario);
+$query_agenda = "SELECT * FROM agenda";
+$result_agenda = mysqli_query($connection, $query_agenda);
+// $query_usuario = "SELECT * FROM usuario";
+// $result_usuario = mysqli_query($connection, $query_usuario);
 ?>
 
 <!--calendario-->
@@ -29,23 +29,26 @@ $result_usuario = mysqli_query($connection, $query_usuario);
             <form id="formulario">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="nombre">
+                        <input type="text" class="form-control" id="nombre" require>
                         <label for="nombre" class="form-label">Nombre</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="rut" >
+                        <input type="text" class="form-control" id="rut" require>
                         <label for="rut" class="form-label">RUT</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="date" class="form-control" id="fecha" readonly>
                         <label for="fecha" class="form-label">Fecha</label>
                     </div>
-
+                    <div class="form-floating mb-3">
+                        <input type="time" class="form-control" id="hora" require>
+                        <label for="hora" class="form-label">Hora</label>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-warning" type="button" aria-label="Close" data-bs-dismiss="modal">Cancelar</button>
                     <button class="btn btn-info" id="btnAccion" type="submit">Guardar</button>
-                    
+
                 </div>
             </form>
 
@@ -56,4 +59,61 @@ $result_usuario = mysqli_query($connection, $query_usuario);
 
 </main>
 <script src="assets/js/calendario_agenda.js"></script>
+<script>
+    const formulario = document.querySelector("#formulario");
+    formulario.addEventListener("submit", (event) => {
+        // Prevenir el comportamiento predeterminado del formulario al enviarlo
+        event.preventDefault();
 
+        // Obtener los valores del formulario
+        const nombre = document.querySelector("#nombre").value;
+        const rut = document.querySelector("#rut").value;
+        const fecha = document.querySelector("#fecha").value;
+        const hora = document.querySelector("#hora").value;
+
+        console.log(nombre, rut, fecha, hora);
+        if (nombre == '' || rut == '' || fecha == '') {
+            Swal.fire({
+                title: "Aviso",
+                text: "Todo los campos son requeridos",
+                icon: "warning"
+            });
+
+        } else {
+            $.ajax({
+                url: "api/agenda/agendar_hora.php",
+                method: "POST",
+                data: {
+                    nombre: nombre,
+                    rut: rut,
+                    fecha: fecha,
+                    hora: hora,
+                },
+            }).done(function(response) {
+                const result = JSON.parse(response);
+                console.log(result);
+                   if (result.success) {
+                     Swal.fire({
+                       icon: "success",
+                       title: "¡Éxito!",
+                       text: result.message,
+                       showConfirmButton: false,
+                       timer: 1500,
+                     }).then(() => {
+                       location.reload();
+                     });
+                   } else {
+                     Swal.fire({
+                       icon: "error",
+                       title: "¡Error!",
+                       text: result.message,
+                       showConfirmButton: false,
+                       timer: 1500,
+                     });
+                   }
+            });
+        }
+
+
+    });
+</script>
