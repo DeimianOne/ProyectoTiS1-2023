@@ -9,6 +9,7 @@
 
     if ($row = mysqli_fetch_assoc($result)) {
         $nombre = $row["nombre_estado"];
+        $desc = $row["descripcion_estado"];
         $id = $row["cod_estado"];
     } else {
         header("Location: index.php?p=estado/index");
@@ -31,6 +32,11 @@
                     <div class="col-md-12 mb-3">
                         <label for="name" class="form-label">Estado</label>
                         <input type="text" class="form-control" id="name" name="nombre_estado" placeholder="Estado" value="<?php echo $nombre ?>" required>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label for="name" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="name" name="nombre_estado" placeholder="Descripción" value="<?php echo $desc ?>" required>
                     </div>
 
                 </div>

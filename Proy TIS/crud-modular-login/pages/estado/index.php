@@ -56,6 +56,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Estado</th>
+                        <th scope="col">Descripción</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -64,6 +65,7 @@
                         <tr>
                             <th scope="row"><?= $fila['cod_estado'] ?></th>
                             <td><?= $fila['nombre_estado'] ?></td>
+                            <td><?= $fila['descripcion_estado'] ?></td>
                             <td>
                                 <a href="index.php?p=estado/edit&cod_estado=<?= $fila['cod_estado'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
                                 <a href="pages/estado/actions/delete.php?cod_estado=<?= $fila['cod_estado'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
