@@ -5,7 +5,7 @@ include("database/auth.php");
 // Verifica el rol del usuario
 if (isset($_SESSION['rut_usuario'])) {
     if ($_SESSION['rol_usuario'] == '1') {
-        $query = "SELECT ticket.*, estado.nombre_estado, departamento.nombre_departamento
+        $query = "SELECT ticket.*, estado.cod_estado, estado.nombre_estado, departamento.nombre_departamento
             FROM ticket
             LEFT JOIN estado_ticket ON ticket.cod_ticket = estado_ticket.cod_ticket
             LEFT JOIN estado ON estado_ticket.cod_estado = estado.cod_estado
@@ -58,7 +58,7 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
 
 <script>
     $(document).ready(function () {
-        $('#example').DataTable({
+        var table = $('#example').DataTable({
             "language": {
                 "lengthMenu": "Mostrar _MENU_ registros",
                 "zeroRecords": "No se encontraron resultados",
@@ -73,35 +73,25 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
                     "sPrevious": "Anterior",
                 },
                 "sProcessing": "Procesando...",
-            },
-
-            // Configuración adicional para filtrar por tipo de solicitud y estado de solicitud
-            initComplete: function () {
-                var columnTipoSolicitud = this.api().columns(3); // 3 es el índice de la columna 'Tipo de Solicitud'
-                var columnEstadoSolicitud = this.api().columns(4); // 4 es el índice de la columna 'Estado Solicitud'
-
-                // Dropdown para filtrar por Tipo de Solicitud
-                var selectTipoSolicitud = $('#tipoSolicitudFilter');
-                selectTipoSolicitud.on('change', function () {
-                    var selectedValue = $.fn.dataTable.util.escapeRegex($(this).val());
-                    columnTipoSolicitud.search(selectedValue ? '^' + selectedValue + '$' : '', true, false).draw();
-                });
-
-                // Dropdown para filtrar por Estado de Solicitud
-                var selectEstadoSolicitud = $('#estadoSolicitudFilter');
-                selectEstadoSolicitud.append('<option value="">Todos</option>'); // Opción predeterminada
-                <?php foreach ($estados as $codEstado => $nombreEstado): ?>
-                    selectEstadoSolicitud.append('<option value="<?= $codEstado ?>"><?= $nombreEstado ?></option>');
-                <?php endforeach; ?>
-
-                selectEstadoSolicitud.on('change', function () {
-                    var selectedValue = $.fn.dataTable.util.escapeRegex($(this).val());
-                    columnEstadoSolicitud.search(selectedValue ? '^' + selectedValue + '$' : '', true, false).draw();
-                });
             }
-        }); // Cierra aquí la configuración básica de DataTables
-    });
+        });
 
+        $('#tipoSolicitudFilter').on('change', function () {
+            var filtro = $(this).val();
+
+            // Filtra la tabla según el valor seleccionado
+            $('#example').DataTable().column(2).search(filtro).draw();
+        });
+
+        $('#estadoFilter').on('change', function () {
+            var filtroEstado = $(this).val();
+
+            // Filtra la tabla según el valor seleccionado en el nuevo dropdown
+            $('#example').DataTable().column(3).search(filtroEstado).draw();
+        });
+
+        table.column(3).visible(false); 
+    });
 </script>
 
 <main class="container mt-5">
@@ -137,8 +127,15 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <label for="estadoSolicitudFilter" class="form-label">Filtrar por Estado de Solicitud:</label>
-                    <select class="form-select" id="estadoSolicitudFilter"></select>
+                    <label for="estadoFilter" class="form-label">Filtrar por Estado:</label>
+                    <select class="form-select" id="estadoFilter">
+                        <option value="">Todos</option>
+                        <?php foreach ($estados as $codEstado => $nombreEstado): ?>
+                            <option value="<?= $codEstado ?>">
+                                <?= $nombreEstado ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
             </div>
 
@@ -149,6 +146,7 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
                         <th scope="col">Código</th>
                         <th scope="col">Departamento</th>
                         <th scope="col">Tipo de Solicitud</th>
+                        <th scope="col">Estado Solicitud</th>
                         <th scope="col">Estado Solicitud</th>
                         <th scope="col">Fecha y Hora de Envío</th>
                         <?php if ($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra la columna -->
@@ -169,6 +167,9 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
                             </td>
                             <td>
                                 <?= ucfirst($fila['tipo_solicitud']) ?>
+                            </td>
+                            <td>
+                                <?= $fila['cod_estado'] ?>
                             </td>
                             <td>
                                 <?= $fila['nombre_estado'] ?>
