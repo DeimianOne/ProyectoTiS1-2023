@@ -89,14 +89,14 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
             var filtro = $(this).val();
 
             // Filtra la tabla según el valor seleccionado
-            $('#example').DataTable().column(2).search(filtro).draw();
+            $('#example').DataTable().column(3).search(filtro).draw();
         });
 
         $('#estadoFilter').on('change', function () {
             var filtroEstado = $(this).val();
 
             // Filtra la tabla según el valor seleccionado en el nuevo dropdown
-            $('#example').DataTable().column(3).search(filtroEstado).draw();
+            $('#example').DataTable().column(4).search(filtroEstado).draw();
         });
 
         $('#departamentoFilter').on('change', function () {
@@ -107,8 +107,8 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
             $('#example').DataTable().column(1).search(filtroDepartamento).draw();
         });
 
-        table.column(3).visible(false); 
-        table.column(1).visible(false); 
+        table.column(4).visible(false);
+        table.column(1).visible(false);
     });
 </script>
 
@@ -134,7 +134,20 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
         <div class="card-body table-responsive">
 
             <div class="row">
-                <div class="col-md-6 mb-3">
+
+                <div class="col-md-4 mb-3">
+                    <label for="departamentoFilter" class="form-label">Filtrar por Departamento:</label>
+                    <select class="form-select" id="departamentoFilter">
+                        <option value="">Todos</option>
+                        <?php foreach ($departamento as $codDepartamento => $nombreDepartamento): ?>
+                            <option value="<?= $codDepartamento ?>">
+                                <?= $nombreDepartamento ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
                     <label for="tipoSolicitudFilter" class="form-label">Filtrar por Tipo de Solicitud:</label>
                     <select class="form-select" id="tipoSolicitudFilter">
                         <option value="">Todos</option>
@@ -144,25 +157,13 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
                     </select>
                 </div>
 
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
                     <label for="estadoFilter" class="form-label">Filtrar por Estado:</label>
                     <select class="form-select" id="estadoFilter">
                         <option value="">Todos</option>
                         <?php foreach ($estados as $codEstado => $nombreEstado): ?>
                             <option value="<?= $codEstado ?>">
                                 <?= $nombreEstado ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="departamentoFilter" class="form-label">Filtrar por Departamento:</label>
-                    <select class="form-select" id="departamentoFilter">
-                        <option value="">Todos</option>
-                        <?php foreach ($departamento as $codDepartamento => $nombreDepartamento): ?>
-                            <option value="<?= $codDepartamento ?>">
-                                <?= $nombreDepartamento ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -183,7 +184,7 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
                         <?php if ($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra la columna -->
                             <th scope="col">Visibilidad</th>
                         <?php endif; ?>
-                        <th scope="col">Acciones</th>
+                        <th scope="col"></th>
 
                     </tr>
                 </thead>
@@ -213,13 +214,27 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
                             </td>
                             <?php if ($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra el RUT del usuario -->
                                 <td>
-                                <?= $fila['fecha_hora_envio']  ? "Privado" : "Público" ?>
+                                    <?= $fila['fecha_hora_envio'] ? "Privado" : "Público" ?>
                                 </td>
                             <?php endif; ?>
-                            <td>
-                                <a href="index.php?p=tickets/details&cod_ticket=<?= $fila['cod_ticket'] ?>"
-                                    class="btn btn-sm btn-outline-info">Detalles</a>
-                            </td>
+                            <?php if ($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra el RUT del usuario -->
+                                <td>
+                                    <div class="btn-group-sm" role="group" aria-label="Basic example">
+                                        <button
+                                            onclick="window.location.href='index.php?p=tickets/view&cod_ticket=<?= $fila['cod_ticket'] ?>'"
+                                            type="button" class="btn btn-outline-primary">Ver</button>
+                                        <button type="button" class="btn btn-outline-secondary">Detalles</button>
+                                    </div>
+                                </td>
+                            <?php elseif ($_SESSION['rol_usuario'] == '2'): ?>
+                                <td>
+                                    <div class="btn-group-sm" role="group" aria-label="Basic example">
+                                        <button
+                                            onclick="window.location.href='index.php?p=tickets/view&cod_ticket=<?= $fila['cod_ticket'] ?>'"
+                                            type="button" class="btn btn-outline-primary">Ver</button>
+                                    </div>
+                                </td>
+                            <?php endif; ?>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
