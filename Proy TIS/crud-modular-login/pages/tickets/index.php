@@ -47,6 +47,15 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
     $estados[$filaEstado['cod_estado']] = $filaEstado['nombre_estado'];
 }
 
+// Obtener los estados de solicitud
+$queryDepartamentos = "SELECT * FROM departamento";
+$resultDepartamentos = mysqli_query($connection, $queryDepartamentos);
+
+$departamento = array();
+while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
+    $departamento[$filaDepartamento['cod_departamento']] = $filaDepartamento['nombre_departamento'];
+}
+
 ?>
 
 
@@ -90,7 +99,16 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
             $('#example').DataTable().column(3).search(filtroEstado).draw();
         });
 
+        $('#departamentoFilter').on('change', function () {
+            var filtroDepartamento = $(this).val();
+
+            console.log(filtroDepartamento)
+            // Filtra la tabla según el valor seleccionado en el nuevo dropdown
+            $('#example').DataTable().column(1).search(filtroDepartamento).draw();
+        });
+
         table.column(3).visible(false); 
+        table.column(1).visible(false); 
     });
 </script>
 
@@ -120,9 +138,9 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
                     <label for="tipoSolicitudFilter" class="form-label">Filtrar por Tipo de Solicitud:</label>
                     <select class="form-select" id="tipoSolicitudFilter">
                         <option value="">Todos</option>
-                        <option value="felicitacion">feli</option>
-                        <option value="reclamo">recla</option>
-                        <option value="sugerencia">suge</option>
+                        <option value="felicitacion">Felicitaciones</option>
+                        <option value="reclamo">Reclamos</option>
+                        <option value="sugerencia">Sugerencias</option>
                     </select>
                 </div>
 
@@ -137,6 +155,18 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
                         <?php endforeach; ?>
                     </select>
                 </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="departamentoFilter" class="form-label">Filtrar por Departamento:</label>
+                    <select class="form-select" id="departamentoFilter">
+                        <option value="">Todos</option>
+                        <?php foreach ($departamento as $codDepartamento => $nombreDepartamento): ?>
+                            <option value="<?= $codDepartamento ?>">
+                                <?= $nombreDepartamento ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
             </div>
 
 
@@ -144,6 +174,7 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
                 <thead class="">
                     <tr>
                         <th scope="col">Código</th>
+                        <th scope="col">Departamento</th>
                         <th scope="col">Departamento</th>
                         <th scope="col">Tipo de Solicitud</th>
                         <th scope="col">Estado Solicitud</th>
@@ -162,6 +193,9 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
                             <th scope="row">
                                 <?= $fila['cod_ticket'] ?>
                             </th>
+                            <td>
+                                <?= $fila['cod_departamento'] ?>
+                            </td>
                             <td>
                                 <?= $fila['nombre_departamento'] ?>
                             </td>
