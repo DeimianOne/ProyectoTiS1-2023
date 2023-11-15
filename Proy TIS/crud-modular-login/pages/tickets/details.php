@@ -103,8 +103,8 @@ if ($row = mysqli_fetch_assoc($result)) {
         // Obtener valores actuales
         $current_values = array(
             "estado" => $row_entrada["nombre_estado"],
-            "transferido a" => $row_entrada["nombre_departamento"],
-            "visibilidad modificada" => ($row_entrada["visibilidad_solicitud"]) ? "Público" : "Privado"
+            "remitido" => $row_entrada["nombre_departamento"],
+            "visibilidad" => ($row_entrada["visibilidad_solicitud"]) ? "Privado" : "Público"
             // Añadir más columnas según sea necesario
         );
 

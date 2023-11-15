@@ -179,30 +179,7 @@ while ($filaEstado = mysqli_fetch_array($resultEstados)) {
                             </td>
                             <?php if ($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra el RUT del usuario -->
                                 <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input"
-                                            id="checkbox<?= $fila['cod_ticket'] ?>" <?= $fila['visibilidad_solicitud'] == 1 ? 'checked' : '' ?>>
-                                        <label class="custom-control-label" for="checkbox<?= $fila['cod_ticket'] ?>"></label>
-                                        <span>Público</span>
-                                    </div>
-                                    <script>
-                                        // JavaScript y AJAX para manejar la actualización de visibilidad
-                                        document.getElementById('checkbox<?= $fila['cod_ticket'] ?>').addEventListener('change', function () {
-                                            var checkboxValue = this.checked ? 1 : 0;
-                                            var codTicket = <?= $fila['cod_ticket'] ?>;
-
-                                            // Envía la solicitud AJAX
-                                            var xhr = new XMLHttpRequest();
-                                            xhr.open('POST', 'actualizar_visibilidad.php', true);
-                                            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                                            xhr.onreadystatechange = function () {
-                                                if (xhr.readyState == 4 && xhr.status == 200) {
-                                                    // Maneja la respuesta si es necesario
-                                                }
-                                            };
-                                            xhr.send('cod_ticket=' + codTicket + '&visibilidad=' + checkboxValue);
-                                        });
-                                    </script>
+                                <?= $fila['fecha_hora_envio']  ? "Privado" : "Público" ?>
                                 </td>
                             <?php endif; ?>
                             <td>
