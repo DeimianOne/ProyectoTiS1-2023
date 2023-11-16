@@ -41,7 +41,7 @@ $result_tickets = mysqli_query($connection, $query_tickets);
         var ticketEncontrado = false;
         <?php
         while ($row = mysqli_fetch_assoc($result_tickets)) {
-            echo "if ('" . $row['cod_ticket'] . "' === numeroIngreso) { ticketEncontrado = true; }";
+            echo "if ('" . $row['cod_ticket'] . "' === numeroIngreso) { if(".$row['visibilidad_solicitud'].") { ticketEncontrado = true; } }";
         }
         ?>
 

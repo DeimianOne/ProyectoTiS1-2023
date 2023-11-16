@@ -96,7 +96,7 @@ if ($row = mysqli_fetch_assoc($result)) {
             <h3>Detalles del Ticket</h3>
         </div>
         <div class="card-body">
-            <p class="card-text"><strong>Codigo:
+            <p class="card-text"><strong>Codigo de Seguimiento:
                     <?php echo $id; ?>
                 </strong>
             </p>
