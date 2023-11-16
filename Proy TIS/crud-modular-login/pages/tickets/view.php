@@ -215,18 +215,39 @@ if ($row = mysqli_fetch_assoc($result)) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Código de Ticket: <span id="codTicket"></span></p>
+                    <p>Código de Ticket: <span>
+                            <?php echo $id; ?>
+                        </span></p>
                     <div id="detalleTicket"></div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Público
-                        </label>
+                        <label class="form-check-label" for="flexCheckDefault">Público</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="estadoDropdown" class="form-label">Estado</label>
+                        <select class="form-select" id="estadoDropdown">
+                            <?php
+                            foreach ($estados as $id_estado => $n_estado) {
+                                echo "<option value='$id_estado'>$n_estado</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="departamentoDropdown" class="form-label">Departamento</label>
+                        <select class="form-select" id="departamentoDropdown">
+                            <?php
+                            foreach ($departamentos as $id_departamento => $n_departamento) {
+                                echo "<option value='$id_departamento'>$n_departamento</option>";
+                            }
+                            ?>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="guardarCambiosBtn">Guardar cambios</button>
+                    <button type="button" class="btn btn-primary" id="guardarCambiosBtn" data-bs-dismiss="modal">Guardar
+                        cambios</button>
                 </div>
             </div>
         </div>
@@ -370,45 +391,66 @@ if ($row = mysqli_fetch_assoc($result)) {
 
 <script>
     $(document).ready(function () {
-        $('#exampleModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Botón que activó el modal
-            var codTicket = button.data('cod-ticket'); // Obtener el valor del atributo data-cod-ticket
 
-            // Actualizar el contenido del modal con el código de ticket
-            $('#codTicket').text(codTicket);
+        // Variables para almacenar los valores iniciales
+        var checkboxInicial, estadoInicial, departamentoInicial;
+
+        // Al abrir el modal
+        $("#exampleModal").on("show.bs.modal", function () {
+            // Establecer las opciones predeterminadas al abrir el modal
+            $("#flexCheckDefault").prop("checked", <?php echo $visibilidad_solicitud ? 'true' : 'false'; ?>);
+            $("#estadoDropdown").val(<?php echo $cod_estado; ?>);
+            $("#departamentoDropdown").val(<?php echo $cod_departamento; ?>);
+
+            // Actualizar los valores iniciales
+            checkboxInicial = $("#flexCheckDefault").prop("checked");
+            estadoInicial = $("#estadoDropdown").val();
+            departamentoInicial = $("#departamentoDropdown").val();
+
+            // Deshabilitar el botón "Guardar cambios" inicialmente
+            $("#guardarCambiosBtn").prop("disabled", true);
+        });
+
+        // Al cambiar el estado del checkbox o los dropdowns
+        $(".form-check-input, .form-select").change(function () {
+            // Obtener los valores actuales
+            var checkboxActual = $("#flexCheckDefault").prop("checked");
+            var estadoActual = $("#estadoDropdown").val();
+            var departamentoActual = $("#departamentoDropdown").val();
+
+            // Habilitar o deshabilitar el botón según si hay cambios
+            $("#guardarCambiosBtn").prop("disabled", checkboxActual === checkboxInicial && estadoActual === estadoInicial && departamentoActual === departamentoInicial);
+        });
+
+
+        $("#guardarCambiosBtn").click(function () {
+
+            var checkboxValue = $("#flexCheckDefault").is(":checked") ? 1 : 0;
+            var ticketId = "<?php echo $id; ?>";
+            var estadoSeleccionado = $("#estadoDropdown").val();
+            var departamentoSeleccionado = $("#departamentoDropdown").val();
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: "POST",
+                url: "pages/tickets/actions/modificar_ticket.php",
+                data: {
+                    id: ticketId,
+                    visibilidad_solicitud: checkboxValue,
+                    cod_estado: estadoSeleccionado,
+                    cod_departamento: departamentoSeleccionado
+                },
+                success: function (response) {
+                    // Manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Actualizar la página
+                    location.reload();
+                },
+                error: function (error) {
+                    // Manejar errores si es necesario
+                    console.error("Error en la solicitud AJAX: ", error);
+                }
+            });
         });
     });
-
-    function actualizarVariableEnBD(esPublico) {
-        // Creamos un objeto XMLHttpRequest
-        var xhttp = new XMLHttpRequest();
-
-        // Definimos la función a ejecutar cuando se completa la solicitud
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                // La respuesta del servidor (puede ser utilizada para realizar más acciones si es necesario)
-                console.log(this.responseText);
-            }
-        };
-
-        // Abrimos una solicitud POST al archivo PHP en tu servidor
-        xhttp.open("POST", "pages/tickets/actions/modificar_ticket.php", true);
-
-        // Establecemos el encabezado de la solicitud para indicar que se enviarán datos de formulario
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        // Enviamos la solicitud con el estado del checkbox
-        xhttp.send("esPublico=" + esPublico);
-    }
-
-    // Modificamos el evento del botón "Guardar cambios" para llamar a la función actualizarVariableEnBD
-    document.getElementById('guardarCambiosBtn').addEventListener('click', function () {
-        var esPublico = document.getElementById('flexCheckDefault').checked;
-        console.log("Checkbox marcado: " + esPublico);
-
-        // Llamamos a la función para enviar la información al servidor
-        actualizarVariableEnBD(esPublico);
-    });
-
-
 </script>
