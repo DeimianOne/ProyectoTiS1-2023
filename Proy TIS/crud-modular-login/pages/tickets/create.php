@@ -56,7 +56,7 @@
 
                     <div class="col-md-12 mb-3">
                         <label for="asunto_ticket" class="form-label">Asunto Ticket</label>
-                        <textarea class="form-control" id="asunto_ticket" name="asunto_ticket" required></textarea>
+                        <input type="text" class="form-control" id="asunto_ticket" name="asunto_ticket" placeholder="Asunto" required maxlength="50">
                     </div>
 
                     <div class="col-md-12 mb-3">

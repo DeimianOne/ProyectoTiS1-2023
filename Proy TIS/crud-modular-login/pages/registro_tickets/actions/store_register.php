@@ -1,5 +1,5 @@
 <?php
-    function insertar_registro($codigo) {
+    function insertar_registro($codigo, $cod_respuesta = null) {
         include("../../../database/connection.php");
 
         $cod_ticket = $codigo;
@@ -28,8 +28,14 @@
         $fecha_hora_envio = $ticket_data['fecha_hora_envio'];
         $calificacion = $ticket_data['calificacion'];
         $visibilidad_solicitud = $ticket_data['visibilidad_solicitud'];
+        
+        
+        if($cod_respuesta){
+            $query = "INSERT INTO registro_ticket (cod_ticket, cod_departamento, rut_usuario, tipo_solicitud, cod_estado, asunto_ticket, detalles_solicitud, fecha_hora_envio, calificacion, visibilidad_solicitud, cod_respuesta) VALUES ('$cod_ticket', '$cod_departamento', '$rut_usuario', '$tipo_solicitud', '$cod_estado', '$asunto_ticket', '$detalles_solicitud', '$fecha_hora_envio', '$calificacion', '$visibilidad_solicitud', '$cod_respuesta')";
+        } else{
+            $query = "INSERT INTO registro_ticket (cod_ticket, cod_departamento, rut_usuario, tipo_solicitud, cod_estado, asunto_ticket, detalles_solicitud, fecha_hora_envio, calificacion, visibilidad_solicitud) VALUES ('$cod_ticket', '$cod_departamento', '$rut_usuario', '$tipo_solicitud', '$cod_estado', '$asunto_ticket', '$detalles_solicitud', '$fecha_hora_envio', '$calificacion', '$visibilidad_solicitud')";
+        }
 
-        $query = "INSERT INTO registro_ticket (cod_ticket, cod_departamento, rut_usuario, tipo_solicitud, cod_estado, asunto_ticket, detalles_solicitud, fecha_hora_envio, calificacion, visibilidad_solicitud) VALUES ('$cod_ticket', '$cod_departamento', '$rut_usuario', '$tipo_solicitud', '$cod_estado', '$asunto_ticket', '$detalles_solicitud', '$fecha_hora_envio', '$calificacion', '$visibilidad_solicitud')";
         $result =  mysqli_query($connection, $query);
 
     } else {
