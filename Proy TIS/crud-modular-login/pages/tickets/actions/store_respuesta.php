@@ -32,15 +32,15 @@ if ($result) {
     if ($result_correo) {
         $correo = mysqli_fetch_assoc($result_correo)["correo_electronico_usuario"];
 
-        $correo = "josephriv98@gmail.com";
+        $correo = "josephftwyt@gmail.com";
 
         // the message
         $msg = "First line of text\nSecond line of text";
 
         // use wordwrap() if lines are longer than 70 characters
         $msg = wordwrap($msg, 70);
-        $from = "test@hostinger-tutorials.com";
-        $headers = "From:" . $from;
+        $headers = "From: josephriv98@gmail.com";
+
 
         mail($correo, "Ticket Retroalimentacion Ciudadana Actualizado", $msg, $headers);
     }
