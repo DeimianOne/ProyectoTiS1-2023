@@ -1,51 +1,42 @@
 <?php
 include("../../../database/connection.php");
 
-// Obtener el código de ticket enviado por AJAX
-$id = $_GET['codTicket'];
 
-// Consulta para obtener la información del ticket
-$query = "SELECT ticket.*, estado.cod_estado, estado.nombre_estado, departamento.nombre_departamento
-FROM ticket
-LEFT JOIN estado_ticket ON ticket.cod_ticket = estado_ticket.cod_ticket
-LEFT JOIN estado ON estado_ticket.cod_estado = estado.cod_estado
-LEFT JOIN departamento ON ticket.cod_departamento = departamento.cod_departamento 
-WHERE ticket.cod_ticket=" . $id . ";";
-$result = mysqli_query($connection, $query);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-if ($row = mysqli_fetch_assoc($result)) {
+    $cod_ticket = $_POST["id"];
+    $visibilidad_solicitud = $_POST["visibilidad_solicitud"];
+    $cod_estado = $_POST["cod_estado"];
+    $cod_departamento = $_POST["cod_departamento"];
 
-    // Obtener los estados de solicitud
-    $queryEstados = "SELECT * FROM estado";
-    $resultEstados = mysqli_query($connection, $queryEstados);
 
-    $estados = array();
-    while ($filaEstado = mysqli_fetch_array($resultEstados)) {
-        $estados[$filaEstado['cod_estado']] = $filaEstado['nombre_estado'];
+    $query = "UPDATE ticket SET
+    visibilidad_solicitud = '$visibilidad_solicitud',
+    cod_departamento = '$cod_departamento'
+    WHERE cod_ticket = '$cod_ticket';";
+
+    $result = mysqli_query($connection, $query);
+
+    if ($result) {
+        $_SESSION['modal'] = "Ticket modificado correctamente.";
+
+        $query_r_estado = "DELETE FROM estado_ticket WHERE cod_ticket='" . $cod_ticket . "';";
+        $result_r_estado = mysqli_query($connection, $query_r_estado);
+
+        if ($result_r_estado) {
+            $query = "INSERT INTO estado_ticket(cod_ticket, cod_estado) VALUES ('$cod_ticket', '$cod_estado')";
+            $result = mysqli_query($connection, $query);
+        }
+
+        include("../../registro_tickets\actions\store_register.php");
+        insertar_registro($cod_ticket);
+
+    } else {
+        $_SESSION['modal'] = "Error al modificar el ticket: " . mysqli_error($connection);
     }
-
-    // Obtener departamentos de solicitud
-    $queryDepartamentos = "SELECT * FROM departamento";
-    $resultDepartamentos = mysqli_query($connection, $queryDepartamentos);
-
-    $departamentos = array();
-    while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
-        $departamentos[$filaDepartamento['cod_departamento']] = $filaDepartamento['nombre_departamento'];
-    }
-
-    echo "<p>Rut creador del ticket: {$row['rut_usuario']} </p>";
-    echo "<p>Tipo de solicitud: {$row['tipo_solicitud']}</p>";
-    
-    // Checkbox para realizar cambios
-    echo '<input type="checkbox" id="cambiosCheckbox" /> Realizar cambios';
 
 } else {
-    echo "<p>No hay detalles</p>";
+    $_SESSION['modal'] = "Error al modificar el ticket: " . mysqli_error($connection);
 }
-
-echo '<div class="modal-footer">';
-echo '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>';
-echo '<button type="button" class="btn btn-primary" id="guardarCambiosBtn" disabled onclick="guardarCambios()">Guardar cambios</button>';
-echo '</div>';
 
 ?>
