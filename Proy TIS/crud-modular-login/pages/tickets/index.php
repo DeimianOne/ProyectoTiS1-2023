@@ -172,11 +172,18 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
         
         var contenidoCSV = 'data:text/csv;charset=utf-8,'; //crear contenido del archivo CSV
 
-        contenidoCSV += 'Codigo Ticket;RUT Usuario;Codigo Departamento;Tipo Solicitud;Asunto Ticket;Detalles Solicitud;Fecha y Hora Envio;Visibilidad\n'; //encabezados
+        // contenidoCSV += 'Codigo Ticket;RUT Usuario;Codigo Departamento;Tipo Solicitud;Asunto Ticket;Detalles Solicitud;Fecha y Hora Envio;Visibilidad\n'; //encabezados
+
+        // //agregar filas de datos
+        // datos.forEach(function(row) {
+        //     contenidoCSV += row[0] + ';' + row[1] + ';' + row[2] + ';' + row[3] + ';' + row[4] + ';' + row[5] + ';' + row[6] + ';' + row[7] + '\n';
+        // });
+
+        contenidoCSV += 'Codigo Ticket;Departamento;Tipo Solicitud;Estado Solicitud;Fecha y Hora Envio;Visibilidad\n'; //encabezados
 
         //agregar filas de datos
         datos.forEach(function(row) {
-            contenidoCSV += row[0] + ';' + row[1] + ';' + row[2] + ';' + row[3] + ';' + row[4] + ';' + row[5] + ';' + row[6] + ';' + row[7] + '\n';
+            contenidoCSV += row[0] + ';' + row[3] + ';' + row[4] + ';' + row[6] + ';' + row[7] + ';' + row[8] + '\n';
         });
 
         //crear enlace temporal y clic para descargar el archivo
