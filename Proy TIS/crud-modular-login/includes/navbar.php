@@ -21,10 +21,13 @@
                         <a class="nav-link <?php echo (strpos($pagina, 'users') !== false) ? 'active' : null ?>" href="index.php?p=users/index">Calendario de Proyectos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Mapa de estadísticas</a>
+                        <a class="nav-link <?php echo (strpos($pagina, 'calificacion') !== false) ? 'active' : null ?>" href="index.php?p=calificacion/index">Calificacion Sistema</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Archivo de Tickets</a>
+                        <a class="nav-link" hidden href="">Mapa de estadísticas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" hidden href="#">Archivo de Tickets</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -84,10 +87,13 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Mapa de estadísticas</a>
+                        <a class="nav-link" href="" hidden>Mapa de estadísticas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Archivo de Tickets</a>
+                        <a class="nav-link" href="" hidden>Archivo de Tickets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'registro_tickets') !== false) ? 'active' : null ?>" href="index.php?p=registro_tickets/index">Registro de Tickets</a>
                     </li>
                 </ul>
                 <div class="d-flex">

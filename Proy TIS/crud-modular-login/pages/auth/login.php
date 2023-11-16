@@ -23,8 +23,9 @@ if (isset($_REQUEST['rut_usuario']) && isset($_REQUEST['nombre_usuario'])) {
         header("Location: index.php");   // Redirect to user dashboard or any desired page
         exit();
     } else {
-        echo '<script type="text/javascript">alert("Your alert message here.");</script>';
-        header("Location: auth/login.php");
+        echo "<script>alert('Contraseña incorrecta o rut no válido');</script>";
+        echo "<script>setTimeout(function(){ window.location.href = 'index.php?p=auth/login'; }, 250);</script>";
+        //header("Location: index.php?p=auth/login");
         //echo "<div class='form'><h3>Combinación de RUT y nombre incorrectos.</h3><br/>Haz click aquí para <a href='login.php'>intentar de nuevo</a></div>";
     }
 } else {
@@ -40,7 +41,7 @@ if (isset($_REQUEST['rut_usuario']) && isset($_REQUEST['nombre_usuario'])) {
                             <form action="" method="post" name="login">
                                 <div class="form-group mb-3">
                                     <label for="rut_usuario">RUT</label>
-                                    <input type="text" name="rut_usuario" class="form-control"  placeholder="Ingresa tu RUT" required/>
+                                    <input type="text" name="rut_usuario" class="form-control" pattern="[0-9]+" title="Solo numeros" placeholder="Ingresa tu RUT" required />
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="nombre_usuario">Nombre</label>

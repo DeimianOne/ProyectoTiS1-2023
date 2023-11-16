@@ -1,6 +1,7 @@
 <?php
     include("../../../database/connection.php");
 
+    $cod_municipalidad = $_POST["cod_municipalidad"];
     $cod_departamento = $_POST["cod_departamento"];
     $nombre_departamento = $_POST["nombre_departamento"];
     $telefono_departamento = $_POST["telefono_departamento"];
@@ -9,7 +10,6 @@
     $atencion_presencial = isset($_POST["atencion_presencial"]) ? 1 : 0; // Aquí usamos el mismo método que discutimos antes
 
     $query = "UPDATE departamento SET 
-                cod_municipalidad = '$cod_municipalidad', 
                 nombre_departamento = '$nombre_departamento', 
                 telefono_departamento = '$telefono_departamento',
                 atencion_presencial = '$atencion_presencial',

@@ -2,20 +2,25 @@
     include("database/connection.php");  // Incluye la conexión
     include("database/auth.php");  // Comprueba si el usuario está logueado, sino lo redirige al login
 
-    if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
-        
-        $query = "SELECT proyecto.*, departamento.nombre_departamento AS nombre_departamento FROM proyecto JOIN departamento ON proyecto.cod_departamento = departamento.cod_departamento";
-        $result = mysqli_query($connection, $query);
-
+    // Verifica el rol del usuario
+    if(isset($_SESSION['rut_usuario'])) {
+        if ($_SESSION['rol_usuario'] == '1') {
+            $query = "SELECT * FROM registro_ticket";  // Si es admin, selecciona todos los tickets
+        } else {
+            header("Location: index.php?p=auth/login");
+            exit;
+        }
     } else {
         header("Location: index.php?p=auth/login");
+        exit;
     }
 
+    $result = mysqli_query($connection, $query);
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
     <div class=" p-5 rounded text-center">
-        <h2 class="fw-normal">Proyectos en el sistema</h2>
+        <h2 class="fw-normal">Registro de tickets en el sistema</h2>
     </div>
 </div>
 
@@ -49,39 +54,42 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Proyectos</span>
-                </div>
-                <div>
-                    <a class="btn btn-sm btn-primary" href="index.php?p=proyectos/create" role="button">Agregar nuevo</a>
+                        <span>Registro</span>
                 </div>
             </div>
         </div>
+
         <div class="card-body table-responsive">
             <table id="example" class="display table-hover justify-content-center" style="width:100%">
                 <thead class="">
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">Código Registro</th>
+                        <th scope="col">Fecha de Registro</th>
+                        <th scope="col">Código Ticket</th>
+                        <th scope="col">RUT del Usuario</th>
                         <th scope="col">Código Departamento</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Fecha Inicio</th>
-                        <th scope="col">Fecha Término Estimada</th>
-                        <th scope="col">Acciones</th>
+                        <th scope="col">Tipo de Solicitud</th>
+                        <th scope="col">Asunto Ticket</th>
+                        <th scope="col">Detalles de Solicitud</th>
+                        <th scope="col">Fecha y Hora de Envío</th>
+                        <th scope="col">Calificación</th>
+                        <th scope="col">Visibilidad de Solicitud</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($fila = mysqli_fetch_array($result)) : ?>
                         <tr>
-                            <th scope="row"><?= $fila['cod_proyecto'] ?></th>
-                            <td><?= $fila['nombre_departamento'] ?></td>
-                            <td><?= $fila['nombre_proyecto'] ?></td>
-                            <td><?= $fila['descripcion_proyecto'] ?></td>
-                            <td><?= $fila['fecha_inicio_proyecto'] ?></td>
-                            <td><?= $fila['fecha_termino_estimada_proyecto'] ?></td>
-                            <td>
-                                <a href="index.php?p=proyectos/edit&id=<?= $fila['cod_proyecto'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
-                                <a href="pages/proyectos/actions/delete.php?id=<?= $fila['cod_proyecto'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
-                            </td>
+                            <th scope="row"><?= $fila['cod_registro'] ?></th>
+                            <td><?= $fila['fecha_hora_registro'] ?></td>
+                            <td><?= $fila['cod_ticket'] ?></td>
+                            <td><?= $fila['rut_usuario'] ?></td>
+                            <td><?= $fila['cod_departamento'] ?></td>
+                            <td><?= $fila['tipo_solicitud'] ?></td>
+                            <td><?= $fila['asunto_ticket'] ?></td>
+                            <td><?= $fila['detalles_solicitud'] ?></td>
+                            <td><?= $fila['fecha_hora_envio'] ?></td>
+                            <td><?= $fila['calificacion'] ?></td>
+                            <td><?= $fila['visibilidad_solicitud'] == 1 ? 'Visible' : 'No Visible' ?></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>

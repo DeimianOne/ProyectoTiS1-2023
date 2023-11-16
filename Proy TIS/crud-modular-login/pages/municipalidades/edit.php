@@ -2,12 +2,13 @@
     include("database/connection.php");
     include("database/auth.php");
 
-    $id = $_GET["cod_municipalidad"];
+    $cod_municipalidad = $_GET["id"];
 
-    $query = "SELECT * FROM municipalidad WHERE cod_municipalidad=" . $id . ";";
-    $query_comuna = "SELECT * FROM comuna";
+    $query = "SELECT * FROM municipalidad WHERE cod_municipalidad=" . $cod_municipalidad . ";";
     $result =  mysqli_query($connection, $query);
-    $result_comuna =  mysqli_query($connection, $query_comuna);
+
+    $queryComuna = "SELECT * FROM comuna";
+    $resultComuna = mysqli_query($connection, $queryComuna);
 
     if ($row = mysqli_fetch_assoc($result)) {
         $nombre_municipalidad = $row["nombre_municipalidad"];
@@ -21,7 +22,7 @@
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
     <div class="p-5 rounded text-center">
-        <h2 class="fw-normal">Formulario de edición de Municipalidad</h2>
+        <h2 class="fw-normal">Edición de Municipalidad</h2>
     </div>
 </div>
 
@@ -30,10 +31,10 @@
         <form action="pages/municipalidades/actions/update.php" method="POST">
             <div class="card-body">
                 <div class="row">
-                    <input type="text" class="d-none" name="cod_municipalidad" value="<?php echo $id ?>">
+                    <input type="text" class="d-none" name="cod_municipalidad" value="<?php echo $cod_municipalidad ?>">
 
                     <div class="col-md-12 mb-3">
-                        <label for="nombre_municipalidad" class="form-label">Nombre de la Municipalidad</label>
+                        <label for="nombre_municipalidad" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="nombre_municipalidad" name="nombre_municipalidad" value="<?php echo $nombre_municipalidad ?>" required>
                     </div>
 
@@ -42,7 +43,7 @@
                         <select class="form-control" id="origin" name="cod_comuna">
                         <?php
                         // Iterar a través de los resultados y crear opciones para el select
-                        while ($fila = $result_comuna->fetch_assoc()) {
+                        while ($fila = $resultComuna->fetch_assoc()) {
                             $cod_comuna = $fila["cod_comuna"];
                             $nombre_comuna = $fila["nombre_comuna"];
                             $selected = ($cod_comuna == $municipalidad_comuna) ? 'selected' : '';
