@@ -60,6 +60,48 @@
     });
 </script>
 
+<script>
+    function exportarCSV(){
+
+        var tabla = $('#example').DataTable(); //obtener datos tabla
+        //var datos = tabla.rows().data().toArray();
+
+        console.log(tabla.rows().data().toArray()); //depuracion
+
+        //try and catch para ver si se obtienen los datos correctamente
+        try{
+            var datos = tabla.rows().data().toArray();
+        }catch(error){
+            console.error('Error al obtener datos de la datatable:', error);
+            return;
+        }
+
+        //para ver si hay datos
+        if(datos.length === 0) {
+            console.error('No hay datos para exportar.');
+            return;
+        }
+        
+        var contenidoCSV = 'data:text/csv;charset=utf-8,'; //crear contenido del archivo CSV
+
+        contenidoCSV += 'Codigo Ticket;RUT Usuario;Codigo Departamento;Tipo Solicitud;Asunto Ticket;Detalles Solicitud;Fecha y Hora Envio;Visibilidad\n'; //encabezados
+
+        //agregar filas de datos
+        datos.forEach(function(row) {
+            contenidoCSV += row[0] + ';' + row[1] + ';' + row[2] + ';' + row[3] + ';' + row[4] + ';' + row[5] + ';' + row[6] + ';' + row[7] + '\n';
+        });
+
+        //crear enlace temporal y clic para descargar el archivo
+        var uri = encodeURI(contenidoCSV);
+        var link = document.createElement('a');
+        link.setAttribute('href', uri);
+        link.setAttribute('download', 'datos_tickets.csv');
+        document.body.appendChild(link);
+        link.click();
+        
+    }
+</script>
+
 <main class="container mt-5">
 
     <div class="card">
@@ -72,6 +114,12 @@
                 <?php if($_SESSION['rol_usuario'] == '2'): ?> <!-- Si es usuario, puede meter tickets -->
                     <div>
                         <a class="btn btn-sm btn-primary" href="index.php?p=tickets/create" role="button">Crear nuevo Ticket</a>
+                    </div>
+                <?php endif; ?>
+
+                <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, puede exportar los datos de los tickets -->
+                    <div>
+                        <a class="btn btn-sm btn-primary" id="exportBtn" role="button" onclick="exportarCSV()">Exportar datos a archivo CSV</a>
                     </div>
                 <?php endif; ?>
                 
