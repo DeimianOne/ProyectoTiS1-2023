@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-11-2023 a las 07:28:12
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.2.0
+-- Tiempo de generación: 16-11-2023 a las 07:08:50
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -80,7 +80,8 @@ CREATE TABLE `departamento` (
 --
 
 INSERT INTO `departamento` (`cod_departamento`, `cod_municipalidad`, `nombre_departamento`, `telefono_departamento`, `atencion_presencial`, `horario_atencion_inicio`, `horario_atencion_termino`) VALUES
-(10, 56, 'Departamento de obras', 407012, 1, '09:30:00', '14:00:00');
+(10, 56, 'Departamento de obras', 407012, 1, '09:30:00', '14:00:00'),
+(12, 56, 'Departamento de calles', 23462346, 0, '00:00:00', '00:00:00');
 
 -- --------------------------------------------------------
 
@@ -122,17 +123,19 @@ CREATE TABLE `encargado_departamento` (
 
 CREATE TABLE `estado` (
   `cod_estado` bigint(20) NOT NULL,
-  `nombre_estado` varchar(50) NOT NULL
+  `nombre_estado` varchar(50) NOT NULL,
+  `descripcion_estado` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `estado`
 --
 
-INSERT INTO `estado` (`cod_estado`, `nombre_estado`) VALUES
-(5, 'Recibido'),
-(6, 'En proceso'),
-(7, 'Cerrado');
+INSERT INTO `estado` (`cod_estado`, `nombre_estado`, `descripcion_estado`) VALUES
+(0, 'Pendiente de Revisión', 'La solicitud ha sido recibida y almacenada en el sistema, pero aún no ha sido revisada.'),
+(10, 'En Proceso', 'Se ha comenzado a abordar la solicitud, ya sea investigando un reclamo, implementando una sugerencia o preparando una respuesta a una felicitación.'),
+(12, 'Cerrado', 'La solicitud se considera finalizada y cerrada. Esto puede ser aplicable a felicitaciones donde no se requieren acciones adicionales.'),
+(13, 'Remitido', 'La solicitud ha sido enviada o redireccionada a otro departamento para su atención y revisión');
 
 -- --------------------------------------------------------
 
@@ -144,6 +147,16 @@ CREATE TABLE `estado_ticket` (
   `cod_ticket` bigint(20) NOT NULL,
   `cod_estado` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `estado_ticket`
+--
+
+INSERT INTO `estado_ticket` (`cod_ticket`, `cod_estado`) VALUES
+(30, 10),
+(31, 12),
+(32, 12),
+(33, 0);
 
 -- --------------------------------------------------------
 
@@ -265,19 +278,31 @@ CREATE TABLE `registro_ticket` (
   `cod_departamento` bigint(20) NOT NULL,
   `rut_usuario` bigint(20) NOT NULL,
   `tipo_solicitud` enum('felicitacion','sugerencia','reclamo') NOT NULL,
+  `cod_estado` bigint(20) NOT NULL,
   `asunto_ticket` varchar(50) NOT NULL,
   `detalles_solicitud` text NOT NULL,
   `fecha_hora_envio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `calificacion` float DEFAULT NULL,
-  `visibilidad_solicitud` tinyint(1) NOT NULL
+  `visibilidad_solicitud` tinyint(1) NOT NULL,
+  `cod_respuesta` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `registro_ticket`
 --
 
-INSERT INTO `registro_ticket` (`cod_registro`, `fecha_hora_registro`, `cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
-(2, '2023-11-09 06:24:34', 6, 10, 20267690, 'felicitacion', 'asdasda', 'qwe', '2023-11-09 06:24:34', NULL, 0);
+INSERT INTO `registro_ticket` (`cod_registro`, `fecha_hora_registro`, `cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `cod_estado`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`, `cod_respuesta`) VALUES
+(52, '2023-11-16 03:07:20', 30, 12, 1111, 'reclamo', 0, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', 0, 0, NULL),
+(53, '2023-11-16 03:12:49', 30, 12, 1111, 'reclamo', 10, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', 0, 0, 26),
+(54, '2023-11-16 04:56:58', 31, 12, 1111, 'sugerencia', 0, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', 0, 0, NULL),
+(55, '2023-11-16 05:00:30', 31, 12, 1111, 'sugerencia', 10, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', 0, 0, 27),
+(56, '2023-11-16 05:01:32', 31, 12, 1111, 'sugerencia', 12, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', 0, 0, 28),
+(57, '2023-11-16 05:05:42', 31, 10, 1111, 'sugerencia', 12, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 05:05:42', 0, 1, NULL),
+(58, '2023-11-16 05:12:48', 32, 12, 20267690, 'reclamo', 0, 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', 0, 0, NULL),
+(59, '2023-11-16 05:15:12', 32, 12, 20267690, 'reclamo', 10, 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', 0, 0, 29),
+(60, '2023-11-16 05:15:37', 32, 12, 20267690, 'reclamo', 12, 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', 0, 0, 30),
+(61, '2023-11-16 05:17:28', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', 0, 0, NULL),
+(62, '2023-11-16 05:22:50', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', 0, 0, 31);
 
 -- --------------------------------------------------------
 
@@ -292,6 +317,18 @@ CREATE TABLE `respuesta` (
   `detalles_respuesta` text NOT NULL,
   `fecha_hora_envio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `respuesta`
+--
+
+INSERT INTO `respuesta` (`cod_respuesta`, `cod_ticket`, `rut_usuario`, `detalles_respuesta`, `fecha_hora_envio`) VALUES
+(26, 30, 1234, 'pichula', '2023-11-16 03:12:49'),
+(27, 31, 1234, 'no weon', '2023-11-16 05:00:30'),
+(28, 31, 1234, 'chao', '2023-11-16 05:01:32'),
+(29, 32, 1234, 'wena ta en proceso', '2023-11-16 05:15:12'),
+(30, 32, 1234, 'chao', '2023-11-16 05:15:37'),
+(31, 33, 1234, 'gdsrgdrg', '2023-11-16 05:22:50');
 
 -- --------------------------------------------------------
 
@@ -373,7 +410,10 @@ CREATE TABLE `ticket` (
 --
 
 INSERT INTO `ticket` (`cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
-(6, 10, 20267690, 'felicitacion', 'asdasda', 'qwe', '2023-11-09 06:24:34', NULL, 0);
+(30, 12, 1111, 'reclamo', 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', NULL, 0),
+(31, 12, 1111, 'sugerencia', 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', NULL, 0),
+(32, 12, 20267690, 'reclamo', 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', NULL, 0),
+(33, 10, 1111, 'felicitacion', 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -395,6 +435,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`rut_usuario`, `nombre_usuario`, `correo_electronico_usuario`, `correo_electronico_tercero`, `telefono_usuario`, `telefono_tercero`) VALUES
+(1111, 'perkin', 'perkin@perkin.perkin', '', 12345678, 0),
 (1234, 'admin', 'correo@gmail.com', '', 0, 0),
 (20267690, 'juan baeza', 'juanBaeza@gmail.com', '', 0, 0);
 
@@ -426,7 +467,8 @@ CREATE TABLE `usuario_rol` (
 
 INSERT INTO `usuario_rol` (`cod_rol`, `rut_usuario`) VALUES
 (1, 1234),
-(2, 20267690);
+(2, 20267690),
+(2, 1111);
 
 --
 -- Índices para tablas volcadas
@@ -517,7 +559,11 @@ ALTER TABLE `region`
 -- Indices de la tabla `registro_ticket`
 --
 ALTER TABLE `registro_ticket`
-  ADD PRIMARY KEY (`cod_registro`);
+  ADD PRIMARY KEY (`cod_registro`),
+  ADD KEY `cod_ticket` (`cod_ticket`),
+  ADD KEY `cod_departamento` (`cod_departamento`),
+  ADD KEY `cod_estado` (`cod_estado`),
+  ADD KEY `cod_respuesta` (`cod_respuesta`);
 
 --
 -- Indices de la tabla `respuesta`
@@ -595,7 +641,7 @@ ALTER TABLE `comuna`
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `cod_departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `cod_departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `direccion`
@@ -607,7 +653,7 @@ ALTER TABLE `direccion`
 -- AUTO_INCREMENT de la tabla `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `cod_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `cod_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `municipalidad`
@@ -643,13 +689,13 @@ ALTER TABLE `region`
 -- AUTO_INCREMENT de la tabla `registro_ticket`
 --
 ALTER TABLE `registro_ticket`
-  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -661,7 +707,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Restricciones para tablas volcadas
@@ -704,7 +750,7 @@ ALTER TABLE `encargado_departamento`
 --
 ALTER TABLE `estado_ticket`
   ADD CONSTRAINT `estado_ticket_ibfk_1` FOREIGN KEY (`cod_estado`) REFERENCES `estado` (`cod_estado`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `estado_ticket_ibfk_2` FOREIGN KEY (`cod_ticket`) REFERENCES `ticket` (`cod_ticket`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `estado_ticket_ibfk_2` FOREIGN KEY (`cod_ticket`) REFERENCES `ticket` (`cod_ticket`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `municipalidad`
@@ -717,6 +763,15 @@ ALTER TABLE `municipalidad`
 --
 ALTER TABLE `proyecto`
   ADD CONSTRAINT `proyecto_ibfk_1` FOREIGN KEY (`cod_departamento`) REFERENCES `departamento` (`cod_departamento`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `registro_ticket`
+--
+ALTER TABLE `registro_ticket`
+  ADD CONSTRAINT `registro_ticket_ibfk_1` FOREIGN KEY (`cod_ticket`) REFERENCES `ticket` (`cod_ticket`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `registro_ticket_ibfk_2` FOREIGN KEY (`cod_departamento`) REFERENCES `departamento` (`cod_departamento`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `registro_ticket_ibfk_3` FOREIGN KEY (`cod_estado`) REFERENCES `estado` (`cod_estado`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `registro_ticket_ibfk_4` FOREIGN KEY (`cod_respuesta`) REFERENCES `respuesta` (`cod_respuesta`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `respuesta`

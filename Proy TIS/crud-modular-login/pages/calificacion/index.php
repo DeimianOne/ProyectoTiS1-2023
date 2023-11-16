@@ -2,7 +2,6 @@
 include("database/connection.php"); // Incluye la conexión
 include("database/auth.php"); // Comprueba si el usuario está logueado, sino lo redirige al login
 
-// Verifica el rol del usuario
 if (isset($_SESSION['rut_usuario'])) {
     if ($_SESSION['rol_usuario'] == '1') {
         $query = "SELECT * FROM ticket"; // Si es admin, selecciona todos los tickets
@@ -103,15 +102,8 @@ $resultModalA = mysqli_query($connection, $query);
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Horizontal button group">
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-sm btn-warning my-3" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">
-                                        Calificar Sistema
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-warning my-3 "
-                                        data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                        Calificar Atención
-                                    </button>
+                                    <a href="index.php?p=calificacion/calificar_sistema&cod_ticketx=<?= $fila['cod_ticket'] ?>" class="btn btn-sm btn-warning">Calificar Sistema</a>
+                                    <a href="index.php?p=calificacion/calificar_atencion&cod_ticketx=<?= $fila['cod_ticket'] ?>" class="btn btn-sm btn-warning">Calificar Atención</a>
                                 </div>
                             </td>
                         </tr>
@@ -128,154 +120,3 @@ $resultModalA = mysqli_query($connection, $query);
 </main>
 
 
-
-
-<!-- Modal Sistema -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Calificación de sistema</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                <div class="d-flex justify-content-start">
-                    <div class="col-md-12 mb-3 d-flex justify-content-start">
-                        <?php while ($fila = mysqli_fetch_array($resultModalS)): ?>
-                            <div style="text-align: justify;">
-                                <span>
-                                    <h4>En relación al ticket N°:
-                                        <?= $fila['cod_ticket'] ?>
-                                    </h4>
-                                </span>
-                                <div>
-                                    <h4>Asunto:
-                                        <?= $fila['asunto_ticket'] ?>
-                                    </h4>
-                                </div>
-                            </div>
-                        <?php endwhile; ?>
-                    </div>
-                </div>
-                <div>
-                    <form action="pages/calificacion/actions/storeCalificacionSis.php" method="POST">
-                        <div style="text-align: justify;">
-                            <span>
-                                <h4>Califique la facilidad del sistema para ofrecer retroalimentación.</h4>
-                            </span>
-                        </div>
-
-                        <div class="rating my-3 col-md-8" >
-                            <input type="radio" id="star5"      name="calificacion_sistema" value="5"             /> <label class="full" for="star5"      title="Excelente - 5 stars"></label>
-                            <input type="radio" id="star4half"  name="calificacion_sistema" value="4 y medio"     /> <label class="half" for="star4half"  title="Muy Buena - 4.5 stars"></label>
-                            <input type="radio" id="star4"      name="calificacion_sistema" value="4"             /> <label class="full" for="star4"      title="Buena - 4 stars"></label>
-                            <input type="radio" id="star3half"  name="calificacion_sistema" value="3 y medio"     /> <label class="half" for="star3half"  title="Meh - 3.5 stars"></label>
-                            <input type="radio" id="star3"      name="calificacion_sistema" value="3"             /> <label class="full" for="star3"      title="Meh - 3 stars"></label>
-                            <input type="radio" id="star2half"  name="calificacion_sistema" value="2 y medio"     /> <label class="half" for="star2half"  title="Regular - 2.5 stars"></label>
-                            <input type="radio" id="star2"      name="calificacion_sistema" value="2"             /> <label class="full" for="star2"      title="Deficiente - 2 stars"></label>
-                            <input type="radio" id="star1half"  name="calificacion_sistema" value="1 y medio"     /> <label class="half" for="star1half"  title="Mala - 1.5 stars"></label>
-                            <input type="radio" id="star1"      name="calificacion_sistema" value="1"             /> <label class="full" for="star1"      title="Muy mala - 1 star"></label>
-                            <input type="radio" id="starhalf"   name="calificacion_sistema" value="medio"         /> <label class="half" for="starhalf"   title="Pésima - 0.5 stars"></label>
-                        </div>
-                        <br><br><br>
-                        <div style="align-content: start;">
-                            <span>
-                                <h4>Por favor, detalle su experiencia utilizando la plataforma.</h4>
-                            </span>
-                        </div>
-                        <textarea class="form-control" id="comentario_sistema"name="comentario_sistema"></textarea>
-                    </form>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <div class="card-footer text-body-secondary text-end">
-                    <button type="submit" class="btn btn-dark disabled">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Atención -->
-<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Calificación de atención personal</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                <div class="d-flex justify-content-start">
-                    <div class="col-md-12 mb-3 d-flex justify-content-start">
-                        <?php while ($fila = mysqli_fetch_array($resultModalA)): ?>
-                            <div style="text-align: justify;">
-                                <span>
-                                    <h4>En relación al ticket N°:
-                                        <?= $fila['cod_ticket'] ?>
-                                    </h4>
-                                </span>
-                                <span>
-                                    <h4>Asunto:
-                                        <?= $fila['asunto_ticket'] ?>
-                                    </h4>
-                                </span>
-                                <span>
-                                    <h4>Encargado:
-                                    </h4>
-                                </span>
-                                <span>
-                                    <h4>Periodo:
-                                    </h4>
-                                </span>
-                            </div>
-                        <?php endwhile; ?>
-                    </div>
-                </div>
-                <div>
-                    <form action="pages/calificacion/actions/storeCalificacionAt.php" method="POST">
-                        <div style="text-align: justify;">
-                            <span>
-                                <h4>Califique la atención recibida.</h4>
-                            </span>
-                        </div>
-
-                        <div class="rating my-3 col-md-8" >
-                            <input type="radio" id="star5"      name="calificacion_atencion" value="5"             /> <label class="full" for="star5"      title="Excelente - 5 stars"></label>
-                            <input type="radio" id="star4half"  name="calificacion_atencion" value="4 y medio"     /> <label class="half" for="star4half"  title="Muy Buena - 4.5 stars"></label>
-                            <input type="radio" id="star4"      name="calificacion_atencion" value="4"             /> <label class="full" for="star4"      title="Buena - 4 stars"></label>
-                            <input type="radio" id="star3half"  name="calificacion_atencion" value="3 y medio"     /> <label class="half" for="star3half"  title="Meh - 3.5 stars"></label>
-                            <input type="radio" id="star3"      name="calificacion_atencion" value="3"             /> <label class="full" for="star3"      title="Meh - 3 stars"></label>
-                            <input type="radio" id="star2half"  name="calificacion_atencion" value="2 y medio"     /> <label class="half" for="star2half"  title="Regular - 2.5 stars"></label>
-                            <input type="radio" id="star2"      name="calificacion_atencion" value="2"             /> <label class="full" for="star2"      title="Deficiente - 2 stars"></label>
-                            <input type="radio" id="star1half"  name="calificacion_atencion" value="1 y medio"     /> <label class="half" for="star1half"  title="Mala - 1.5 stars"></label>
-                            <input type="radio" id="star1"      name="calificacion_atencion" value="1"             /> <label class="full" for="star1"      title="Muy mala - 1 star"></label>
-                            <input type="radio" id="starhalf"   name="calificacion_atencion" value="medio"         /> <label class="half" for="starhalf"   title="Pésima - 0.5 stars"></label>
-                        </div>
-                        <br><br><br>
-                        <div style="align-content: start;">
-                            <span>
-                                <h4>Por favor, detalle su experiencia utilizando la plataforma.</h4>
-                            </span>
-                        </div>
-                        <textarea class="form-control" id="comentario_sistema"name="comentario_sistema"></textarea>
-                    </form>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <div class="card-footer text-body-secondary text-end">
-                    <button type="submit" class="btn btn-dark disabled">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
