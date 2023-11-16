@@ -75,7 +75,7 @@ if ($row = mysqli_fetch_assoc($result)) {
 
 } else {
     // Si el ticket no existe, redirigir al índice
-    header("Location: index.php?p=brands/index");
+    echo '<script>window.location.href = "index.php?p=home";</script>';
     exit(); // Asegurar que el script se detenga después de redirigir
 }
 ?>
