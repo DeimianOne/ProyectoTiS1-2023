@@ -14,7 +14,7 @@ if ($rut) {
     $nombre_usuario = null;
 }
 
-$query_tickets = "SELECT * FROM tickets";
+$query_tickets = "SELECT * FROM ticket";
 $result_tickets = mysqli_query($connection, $query_tickets);
 
 ?>
@@ -35,11 +35,24 @@ $result_tickets = mysqli_query($connection, $query_tickets);
 
 <script>
     function buscarTicket() {
-        // Obtener el valor del campo de entrada
         var numeroIngreso = document.getElementById("numeroIngreso").value;
 
-        // Redirigir a index.php con el código del ticket como parámetro
-        window.location.href = 'index.php?p=tickets/view&cod_ticket=' + numeroIngreso;
+        // Verifica si el valor ingresado está en la columna "cod_ticket" de $result_tickets
+        var ticketEncontrado = false;
+        <?php
+        while ($row = mysqli_fetch_assoc($result_tickets)) {
+            echo "if ('" . $row['cod_ticket'] . "' === numeroIngreso) { ticketEncontrado = true; }";
+        }
+        ?>
+
+        // Realiza la consulta solo si el ticket se encuentra en $result_tickets
+        if (ticketEncontrado) {
+            // Redirigir a index.php con el código del ticket como parámetro
+            window.location.href = 'index.php?p=tickets/view&cod_ticket=' + numeroIngreso;
+        } else {
+            // Manejo del error cuando el ticket no se encuentra
+            alert("El número de ingreso no corresponde a un ticket válido.");
+        }
     }
 </script>
 
