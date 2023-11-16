@@ -2,11 +2,30 @@
 include("database/connection.php"); // Incluye la conexión
 include("database/auth.php"); // Comprueba si el usuario está logueado, sino lo redirige al login
 
+
+
+if (isset($_SESSION['mensaje'])) {
+    ?>
+    <div class="alert alert-<?php echo ($_SESSION['mensaje'] == 'Respuesta enviada correctamente.') ? 'success' : 'danger'; ?>"
+        role="alert">
+        <?php echo $_SESSION['mensaje']; ?>
+    </div>
+    <?php
+    unset($_SESSION['mensaje']);
+}
+
 if (isset($_SESSION['rut_usuario'])) {
     if ($_SESSION['rol_usuario'] == '1') {
         $query = "SELECT * FROM ticket"; // Si es admin, selecciona todos los tickets
     } elseif ($_SESSION['rol_usuario'] == '2') {
-        $query = "SELECT ticket.*, departamento.nombre_departamento as nombre_departamento, estado.nombre_estado as estado_ticket FROM ticket left join estado_ticket ON (ticket.cod_ticket = estado_ticket.cod_ticket) left join estado on (estado_ticket.cod_estado=estado.cod_estado) left join departamento on (ticket.cod_departamento=departamento.cod_departamento) WHERE rut_usuario = '" . $_SESSION['rut_usuario'] . "'"; // Selecciona sólo los tickets del rut de sesión
+        $query = "  SELECT ticket.*, 
+                    departamento.nombre_departamento as nombre_departamento,
+                    estado.nombre_estado as estado_ticket 
+                    FROM ticket 
+                    left join estado_ticket ON (ticket.cod_ticket = estado_ticket.cod_ticket) 
+                    left join estado on (estado_ticket.cod_estado=estado.cod_estado) 
+                    left join departamento on (ticket.cod_departamento=departamento.cod_departamento) 
+                    WHERE rut_usuario = '" . $_SESSION['rut_usuario'] . "'"; // Selecciona sólo los tickets del rut de sesión
     } else {
         header("Location: index.php?p=auth/login");
         exit;
