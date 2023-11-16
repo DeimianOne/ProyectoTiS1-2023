@@ -71,25 +71,25 @@ if ($result) {
                                 <input type="hidden" name="cod_ticket" value="<?= $cod_ticket ?>" />
 
                                 <div class="rating my-3 col-md-7">
-                                    <input type="radio" id="star5" name="calificacion_atencion" value=5 /> <label
+                                    <input type="radio" id="star5" name="calificacion_atencion" value=5 required /> <label
                                         class="full" for="star5" title="Excelente - 5 stars"></label>
-                                    <input type="radio" id="star4half" name="calificacion_atencion" value=4.5 />
+                                    <input type="radio" id="star4half" name="calificacion_atencion" value=4.5 required />
                                     <label class="half" for="star4half" title="Muy Buena - 4.5 stars"></label>
-                                    <input type="radio" id="star4" name="calificacion_atencion" value=4 /> <label
+                                    <input type="radio" id="star4" name="calificacion_atencion" value=4 required /> <label
                                         class="full" for="star4" title="Buena - 4 stars"></label>
-                                    <input type="radio" id="star3half" name="calificacion_atencion" value=3.5 />
+                                    <input type="radio" id="star3half" name="calificacion_atencion" value=3.5 required />
                                     <label class="half" for="star3half" title="Sobresaliente - 3.5 stars"></label>
-                                    <input type="radio" id="star3" name="calificacion_atencion" value="3" /> <label
+                                    <input type="radio" id="star3" name="calificacion_atencion" value=3 required  /> <label
                                         class="full" for="star3" title="Aceptable - 3 stars"></label>
-                                    <input type="radio" id="star2half" name="calificacion_atencion" value=2.5 />
+                                    <input type="radio" id="star2half" name="calificacion_atencion" value=2.5 required  />
                                     <label class="half" for="star2half" title="Regular - 2.5 stars"></label>
-                                    <input type="radio" id="star2" name="calificacion_atencion" value=2 /> <label
+                                    <input type="radio" id="star2" name="calificacion_atencion" value=2 required /> <label
                                         class="full" for="star2" title="Deficiente - 2 stars"></label>
-                                    <input type="radio" id="star1half" name="calificacion_atencion" value=1.5 />
+                                    <input type="radio" id="star1half" name="calificacion_atencion" value=1.5 required />
                                     <label class="half" for="star1half" title="Mala - 1.5 stars"></label>
-                                    <input type="radio" id="star1" name="calificacion_atencion" value=1 /> <label
+                                    <input type="radio" id="star1" name="calificacion_atencion" value=1 required /> <label
                                         class="full" for="star1" title="Muy mala - 1 star"></label>
-                                    <input type="radio" id="starhalf" name="calificacion_atencion" value=0.5 />
+                                    <input type="radio" id="starhalf" name="calificacion_atencion" value=0.5 required />
                                     <label class="half" for="starhalf" title="Pésima - 0.5 stars"></label>
                                 </div>
                                 <br><br><br>
