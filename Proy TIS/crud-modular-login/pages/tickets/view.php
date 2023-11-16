@@ -80,7 +80,6 @@ if ($row = mysqli_fetch_assoc($result)) {
 }
 ?>
 
-
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
     <div class="p-5 rounded text-center">
         <h2 class="fw-normal">Vista de Ticket</h2>
@@ -94,6 +93,9 @@ if ($row = mysqli_fetch_assoc($result)) {
             <h3>Detalles del Ticket</h3>
         </div>
         <div class="card-body">
+            <p class="card-text"><strong>Codigo: 
+                <?php echo $id; ?></strong>
+            </p>
             <p class="text-muted mb-0">Solicitud:
                 <?php echo ucfirst($tipo_solicitud); ?>
             </p>
@@ -104,20 +106,20 @@ if ($row = mysqli_fetch_assoc($result)) {
                 <?php echo ucfirst($nombre_departamento); ?>
             </p>
             <?php if ($_SESSION['rol_usuario'] == '1'): ?>
-            <p class="text-muted mb-0">Visibilidad:
-                <?= $visibilidad_solicitud ? "Público" : "Privado" ?>
-            </p>
+                <p class="text-muted mb-0">Visibilidad:
+                    <?= $visibilidad_solicitud ? "Público" : "Privado" ?>
+                </p>
             <?php endif; ?>
             <br>
             <p class="text-muted mb-0 fw-bold">Datos del Remitente</p>
             <?php
             $queryUsuario = "SELECT * FROM usuario WHERE rut_usuario = '" . $rut_usuario . "'";
             $resultUsuario = mysqli_query($connection, $queryUsuario);
-            echo '<p class="text-muted mb-0">Nombre: ' . mysqli_fetch_assoc($resultUsuario)['nombre_usuario'] . '</p>';
+            $usuario = mysqli_fetch_assoc($resultUsuario);
+            echo '<p class="text-muted mb-0">Nombre: ' . $usuario['nombre_usuario'] . '</p>';
+            echo '<p class="text-muted mb-0">Rut: ' . $rut_usuario . '</p>';
+            echo '<p class="text-muted mb-0">Correo: ' . $usuario['correo_electronico_usuario'] . '</p>';
             ?>
-            <p class="text-muted mb-0">Rut:
-                <?php echo $rut_usuario; ?>
-            </p>
             <hr>
 
             <p class="card-title"><strong>Asunto:</strong>
@@ -129,6 +131,12 @@ if ($row = mysqli_fetch_assoc($result)) {
             <p class="text-muted mb-0 fw-bold">Fecha y Hora de Envío:
                 <?php echo $fecha_hora_envio; ?>
             </p>
+            <?php if ($_SESSION['rol_usuario'] == '1'): ?>
+            <hr>
+            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    data-cod-ticket="<?= $cod_ticket ?>">Modificar Detalles
+            </button>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -145,7 +153,10 @@ if ($row = mysqli_fetch_assoc($result)) {
                     echo '<div class="respuesta">';
                     $queryUsuarios = "SELECT * FROM usuario WHERE rut_usuario = '" . $respuesta['rut_usuario'] . "'";
                     $resultUsuarios = mysqli_query($connection, $queryUsuarios);
-                    echo '<p class="text-muted mb-0">Remitente: ' . mysqli_fetch_assoc($resultUsuarios)['nombre_usuario'] . '</p>';
+                    $usuario = mysqli_fetch_assoc($resultUsuarios);
+                    echo '<p class="text-muted mb-0">Remitente: ' . $usuario['nombre_usuario'] . '</p>';
+                    echo '<p class="text-muted mb-0">' . $usuario['correo_electronico_usuario'] . '</p>';
+                    echo '<br>';
                     echo '<p><strong>Detalles:</strong> ' . $respuesta['detalles_respuesta'] . '</p>';
                     echo '<p class="text-muted mb-0 fw-bold">' . $respuesta['fecha_hora_envio'] . '</p>';
                     if ($key != array_key_last($respuestas)) {
@@ -177,12 +188,10 @@ if ($row = mysqli_fetch_assoc($result)) {
                         <div class="col-md-4 mb-3">
                             <label for="cod_estado" class="form-label">Cambiar Estado:</label>
                             <select class="form-select" id="cod_estado" name="cod_estado">
-                                <?php foreach ($estados as $codEstado => $nombreEstado): ?>
-                                    <!-- @formatter:off -->
+                            <?php foreach ($estados as $codEstado => $nombreEstado): ?>
                                     <option value="<?= $codEstado ?>" <?php echo ($codEstado == $cod_estado) ? 'selected' : ''; ?>>
                                         <?= $nombreEstado ?>
                                     </option>
-                                    <!-- @formatter:on -->
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -198,6 +207,27 @@ if ($row = mysqli_fetch_assoc($result)) {
             </form>
         </div>
     <?php endif; ?>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detalles de Ticket</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Código de Ticket: <span id="codTicket"></span></p>
+                    <div id="detalleTicket"></div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="guardarCambiosBtn">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- TIMELINE -->
@@ -331,6 +361,18 @@ if ($row = mysqli_fetch_assoc($result)) {
         detallesSolicitud.addEventListener("input", function () {
             // Habilitar el botón si el área de texto tiene contenido, de lo contrario, deshabilitarlo
             btnEnviarRespuesta.disabled = detallesSolicitud.value.trim() === "";
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Botón que activó el modal
+            var codTicket = button.data('cod-ticket'); // Obtener el valor del atributo data-cod-ticket
+
+            // Actualizar el contenido del modal con el código de ticket
+            $('#codTicket').text(codTicket);
         });
     });
 </script>
