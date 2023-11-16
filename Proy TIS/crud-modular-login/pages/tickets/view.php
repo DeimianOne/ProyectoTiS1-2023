@@ -93,8 +93,9 @@ if ($row = mysqli_fetch_assoc($result)) {
             <h3>Detalles del Ticket</h3>
         </div>
         <div class="card-body">
-            <p class="card-text"><strong>Codigo: 
-                <?php echo $id; ?></strong>
+            <p class="card-text"><strong>Codigo:
+                    <?php echo $id; ?>
+                </strong>
             </p>
             <p class="text-muted mb-0">Solicitud:
                 <?php echo ucfirst($tipo_solicitud); ?>
@@ -132,16 +133,16 @@ if ($row = mysqli_fetch_assoc($result)) {
                 <?php echo $fecha_hora_envio; ?>
             </p>
             <?php if ($_SESSION['rol_usuario'] == '1'): ?>
-            <hr>
-            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                <hr>
+                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
                     data-cod-ticket="<?= $cod_ticket ?>">Modificar Detalles
-            </button>
+                </button>
             <?php endif; ?>
         </div>
     </div>
 
     <!-- Detalles de las respuestas -->
-    <?php if (!empty($respuestas)): ?>
+    <?php if (!empty($respuestas) || $_SESSION['rol_usuario'] == '1'): ?>
         <div class="card mt-3">
             <div class="card-header">
                 <h3>Respuestas</h3>
@@ -165,48 +166,45 @@ if ($row = mysqli_fetch_assoc($result)) {
                     echo '</div>';
                 }
                 ?>
+                <?php if ($_SESSION['rol_usuario'] == '1'): ?>
+                    <?php if (!empty($respuestas)): ?>
+                        <hr>
+                    <?php endif; ?>
+                    <form action="pages/tickets/actions/store_respuesta.php" method="POST">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label for="detalles_respuesta" class="form-label">Escribir Nueva Respuesta:</label>
+                                    <textarea class="form-control" id="detalles_respuesta" name="detalles_respuesta"
+                                        required></textarea>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="cod_estado" class="form-label">Cambiar Estado:</label>
+                                    <select class="form-select" id="cod_estado" name="cod_estado">
+                                        <?php foreach ($estados as $codEstado => $nombreEstado): ?>
+                                            <option value="<?= $codEstado ?>" <?php echo ($codEstado == $cod_estado) ? 'selected' : ''; ?>>
+                                                <?= $nombreEstado ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <input type="hidden" name="cod_ticket" value="<?= $cod_ticket ?>">
+
+                                <div>
+                                    <button type="submit" id="btnEnviarRespuesta" class="btn btn-sm btn-success" role="button"
+                                        disabled>Enviar Respuesta</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                <?php endif; ?>
             </div>
         </div>
     <?php endif; ?>
 
 
-    <!-- RESPONDER Ticket, solo lo ve rol 1 -->
-    <?php if ($_SESSION['rol_usuario'] == '1'): ?>
-        <div class="card mt-3">
-            <div class="card-header">
-                <h3>Responder Ticket</h3>
-            </div>
-            <form action="pages/tickets/actions/store_respuesta.php" method="POST">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <label for="detalles_respuesta" class="form-label">Detalles de Respuesta:</label>
-                            <textarea class="form-control" id="detalles_respuesta" name="detalles_respuesta"
-                                required></textarea>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label for="cod_estado" class="form-label">Cambiar Estado:</label>
-                            <select class="form-select" id="cod_estado" name="cod_estado">
-                            <?php foreach ($estados as $codEstado => $nombreEstado): ?>
-                                    <option value="<?= $codEstado ?>" <?php echo ($codEstado == $cod_estado) ? 'selected' : ''; ?>>
-                                        <?= $nombreEstado ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
-                        <input type="hidden" name="cod_ticket" value="<?= $cod_ticket ?>">
-
-                        <div>
-                            <button type="submit" id="btnEnviarRespuesta" class="btn btn-sm btn-success" role="button"
-                                disabled>Enviar Respuesta</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    <?php endif; ?>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -219,7 +217,12 @@ if ($row = mysqli_fetch_assoc($result)) {
                 <div class="modal-body">
                     <p>Código de Ticket: <span id="codTicket"></span></p>
                     <div id="detalleTicket"></div>
-
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Público
+                        </label>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -375,4 +378,37 @@ if ($row = mysqli_fetch_assoc($result)) {
             $('#codTicket').text(codTicket);
         });
     });
+
+    function actualizarVariableEnBD(esPublico) {
+        // Creamos un objeto XMLHttpRequest
+        var xhttp = new XMLHttpRequest();
+
+        // Definimos la función a ejecutar cuando se completa la solicitud
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // La respuesta del servidor (puede ser utilizada para realizar más acciones si es necesario)
+                console.log(this.responseText);
+            }
+        };
+
+        // Abrimos una solicitud POST al archivo PHP en tu servidor
+        xhttp.open("POST", "pages/tickets/actions/modificar_ticket.php", true);
+
+        // Establecemos el encabezado de la solicitud para indicar que se enviarán datos de formulario
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        // Enviamos la solicitud con el estado del checkbox
+        xhttp.send("esPublico=" + esPublico);
+    }
+
+    // Modificamos el evento del botón "Guardar cambios" para llamar a la función actualizarVariableEnBD
+    document.getElementById('guardarCambiosBtn').addEventListener('click', function () {
+        var esPublico = document.getElementById('flexCheckDefault').checked;
+        console.log("Checkbox marcado: " + esPublico);
+
+        // Llamamos a la función para enviar la información al servidor
+        actualizarVariableEnBD(esPublico);
+    });
+
+
 </script>
