@@ -14,6 +14,9 @@ if ($rut) {
     $nombre_usuario = null;
 }
 
+$query_tickets = "SELECT * FROM tickets";
+$result_tickets = mysqli_query($connection, $query_tickets);
+
 ?>
 
 <div class="container-fluid my-3">
