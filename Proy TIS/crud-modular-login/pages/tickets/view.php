@@ -93,7 +93,7 @@ if ($row = mysqli_fetch_assoc($result)) {
     <!-- Detalles del Ticket -->
     <div class="card">
         <div class="card-header">
-            <h3>Detalles del Ticket</h3>
+            <h3>Detalles</h3>
         </div>
         <div class="card-body">
             <p class="card-text"><strong>Codigo de Seguimiento:
