@@ -109,8 +109,13 @@ $resultModalA = mysqli_query($connection, $query);
                         $resultCalificacionAtencion = mysqli_query($connection, $queryCalificacionAtencion);
                         $calificacionAtencion = mysqli_fetch_array($resultCalificacionAtencion);
 
+                        // Verificar si el ticket ha sido respondido
+                        $queryRespuesta = "SELECT COUNT(*) as count FROM respuesta WHERE cod_ticket = " . $fila['cod_ticket'];
+                        $resultRespuesta = mysqli_query($connection, $queryRespuesta);
+                        $respuesta = mysqli_fetch_array($resultRespuesta);
+
                         $botonCalificarSistemaDeshabilitado = $calificacionSistema['count'] > 0 ? 'disabled' : '';
-                        $botonCalificarAtencionDeshabilitado = $calificacionAtencion['count'] > 0 ? 'disabled' : '';
+                        $botonCalificarAtencionDeshabilitado = ($calificacionAtencion['count'] > 0 || $respuesta['count'] == 0) ? 'disabled' : '';
                         ?>
                         <tr>
                             <td>
