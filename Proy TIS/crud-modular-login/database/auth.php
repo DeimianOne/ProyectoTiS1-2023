@@ -28,7 +28,7 @@
         session_start();
     }
 
-    $allowed_pages = array("home", "tickets/view"); // Agrega "home" a la lista de páginas permitidas
+    $allowed_pages = array("home","tickets/view"); // Agrega "home" a la lista de páginas permitidas
 
     // Comprueba si el usuario está logueado solo si no está en una página permitida
     if(!isset($_SESSION["rut_usuario"]) && !in_array($_GET['p'], $allowed_pages)){

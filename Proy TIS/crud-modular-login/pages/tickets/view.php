@@ -2,6 +2,9 @@
 include("database/connection.php");
 include("database/auth.php");
 
+
+error_log("La sesión 'rut_usuario' está establecida: " . (isset($_SESSION["rol_usuario"]) ? 'true' : 'false'), 0);
+
 if (isset($_SESSION['mensaje'])) {
     ?>
     <div class="alert alert-<?php echo ($_SESSION['mensaje'] == 'Respuesta enviada correctamente.') ? 'success' : 'danger'; ?>"
@@ -106,10 +109,13 @@ if ($row = mysqli_fetch_assoc($result)) {
             <p class="text-muted mb-0">Departamento:
                 <?php echo ucfirst($nombre_departamento); ?>
             </p>
+            
+            <?php if (isset($_SESSION["rol_usuario"])): ?>
             <?php if ($_SESSION['rol_usuario'] == '1'): ?>
                 <p class="text-muted mb-0">Visibilidad:
                     <?= $visibilidad_solicitud ? "Público" : "Privado" ?>
                 </p>
+            <?php endif; ?>
             <?php endif; ?>
             <br>
             <p class="text-muted mb-0 fw-bold">Datos del Remitente</p>
@@ -132,11 +138,13 @@ if ($row = mysqli_fetch_assoc($result)) {
             <p class="text-muted mb-0 fw-bold">Fecha y Hora de Envío:
                 <?php echo $fecha_hora_envio; ?>
             </p>
+            <?php if (isset($_SESSION["rol_usuario"])): ?>
             <?php if ($_SESSION['rol_usuario'] == '1'): ?>
                 <hr>
                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
                     data-cod-ticket="<?= $cod_ticket ?>">Modificar Detalles
                 </button>
+            <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>
@@ -166,6 +174,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                     echo '</div>';
                 }
                 ?>
+                <?php if (isset($_SESSION["rol_usuario"])): ?>
                 <?php if ($_SESSION['rol_usuario'] == '1'): ?>
                     <?php if (!empty($respuestas)): ?>
                         <hr>
@@ -199,6 +208,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                             </div>
                         </div>
                     </form>
+                <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>
