@@ -41,7 +41,19 @@ $result_agenda = mysqli_query($connection, $query_agenda);
                         <label for="fecha" class="form-label">Fecha</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="time" class="form-control" id="hora" require>
+                        <select class=form-control id='hora' name="intervalo">
+                            <?php
+                            // Definir la hora inicial y final
+                            $hora_inicio = strtotime('09:00');
+                            $hora_fin = strtotime('14:00');
+
+                            // Generar opciones cada 30 minutos
+                            for ($hora_actual = $hora_inicio; $hora_actual <= $hora_fin; $hora_actual += 1800) { // 1800 segundos = 30 minutos
+                                $hora_formateada = date('H:i', $hora_actual);
+                                echo "<option value=\"$hora_formateada\">$hora_formateada</option>";
+                            }
+                            ?>
+                        </select>
                         <label for="hora" class="form-label">Hora</label>
                     </div>
                 </div>
@@ -58,62 +70,6 @@ $result_agenda = mysqli_query($connection, $query_agenda);
 
 
 </main>
-<script src="assets/js/calendario_agenda.js"></script>
-<script>
-    const formulario = document.querySelector("#formulario");
-    formulario.addEventListener("submit", (event) => {
-        // Prevenir el comportamiento predeterminado del formulario al enviarlo
-        event.preventDefault();
-
-        // Obtener los valores del formulario
-        const nombre = document.querySelector("#nombre").value;
-        const rut = document.querySelector("#rut").value;
-        const fecha = document.querySelector("#fecha").value;
-        const hora = document.querySelector("#hora").value;
-
-        console.log(nombre, rut, fecha, hora);
-        if (nombre == '' || rut == '' || fecha == '') {
-            Swal.fire({
-                title: "Aviso",
-                text: "Todo los campos son requeridos",
-                icon: "warning"
-            });
-
-        } else {
-            $.ajax({
-                url: "api/agenda/agendar_hora.php",
-                method: "POST",
-                data: {
-                    nombre: nombre,
-                    rut: rut,
-                    fecha: fecha,
-                    hora: hora,
-                },
-            }).done(function(response) {
-                const result = JSON.parse(response);
-                console.log(result);
-                   if (result.success) {
-                     Swal.fire({
-                       icon: "success",
-                       title: "¡Éxito!",
-                       text: result.message,
-                       showConfirmButton: false,
-                       timer: 1500,
-                     }).then(() => {
-                       location.reload();
-                     });
-                   } else {
-                     Swal.fire({
-                       icon: "error",
-                       title: "¡Error!",
-                       text: result.message,
-                       showConfirmButton: false,
-                       timer: 1500,
-                     });
-                   }
-            });
-        }
-
-
-    });
+<script src="assets/js/calendario_agenda.js">
 </script>
+<script src="assets/js/ajax_agenda.js"></script>

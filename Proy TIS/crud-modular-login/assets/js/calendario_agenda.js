@@ -3,6 +3,11 @@ let frm = document.getElementById('formulario');
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
             locale: "es",
             events:'api/agenda/listar_eventos.php',
             dateClick: function(info) {
