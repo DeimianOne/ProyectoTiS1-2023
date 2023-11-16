@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-11-2023 a las 09:09:32
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 16-11-2023 a las 11:22:18
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,10 +29,63 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `agenda` (
   `cod_agenda` bigint(20) NOT NULL,
+  `cod_departamento` bigint(20) NOT NULL,
   `rut_usuario` bigint(20) NOT NULL,
   `fecha` date NOT NULL,
   `hora` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `calificacion_atencion`
+--
+
+CREATE TABLE `calificacion_atencion` (
+  `cod_calificacion_atencion` bigint(20) NOT NULL,
+  `cod_ticket` bigint(20) DEFAULT NULL,
+  `calificacion_atencion` int(11) NOT NULL,
+  `comentario_atencion` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `calificacion_atencion`
+--
+
+INSERT INTO `calificacion_atencion` (`cod_calificacion_atencion`, `cod_ticket`, `calificacion_atencion`, `comentario_atencion`) VALUES
+(1, 34, 5, 'asdasd'),
+(2, 32, 5, ''),
+(3, 33, 0, ''),
+(4, 33, 0, ''),
+(5, 30, 4, 'ertaerterg');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `calificacion_sistema`
+--
+
+CREATE TABLE `calificacion_sistema` (
+  `cod_calificacion_sistema` bigint(20) NOT NULL,
+  `cod_ticket` bigint(20) DEFAULT NULL,
+  `calificacion_sistema` float NOT NULL,
+  `comentario_sistema` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `calificacion_sistema`
+--
+
+INSERT INTO `calificacion_sistema` (`cod_calificacion_sistema`, `cod_ticket`, `calificacion_sistema`, `comentario_sistema`) VALUES
+(1, 34, 2, 'asdqwe'),
+(2, 32, 5, 'holis muy bien'),
+(3, 34, 3, 'asdasdqwe'),
+(4, 32, 0, ''),
+(5, 34, 0, ''),
+(6, 32, 4, ''),
+(7, 33, 5, 'asdad'),
+(8, 30, 3, 'asd'),
+(9, 35, 5, 'muy bien');
 
 -- --------------------------------------------------------
 
@@ -153,9 +206,11 @@ CREATE TABLE `estado_ticket` (
 
 INSERT INTO `estado_ticket` (`cod_ticket`, `cod_estado`) VALUES
 (31, 12),
-(30, 10),
+(32, 12),
 (33, 0),
-(32, 10);
+(34, 10),
+(30, 10),
+(35, 0);
 
 -- --------------------------------------------------------
 
@@ -302,34 +357,10 @@ INSERT INTO `registro_ticket` (`cod_registro`, `fecha_hora_registro`, `cod_ticke
 (60, '2023-11-16 05:15:37', 32, 12, 20267690, 'reclamo', 12, 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', 0, 0, 30),
 (61, '2023-11-16 05:17:28', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', 0, 0, NULL),
 (62, '2023-11-16 05:22:50', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', 0, 0, 31),
-(63, '2023-11-16 06:54:42', 33, 12, 1111, 'felicitacion', 13, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 06:54:42', 0, 1, NULL),
-(64, '2023-11-16 06:55:13', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 06:55:13', 0, 1, NULL),
-(65, '2023-11-16 06:55:19', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 06:55:19', 0, 0, NULL),
-(66, '2023-11-16 06:59:04', 33, 12, 1111, 'felicitacion', 10, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 06:59:04', 0, 0, NULL),
-(67, '2023-11-16 07:01:55', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:01:55', 0, 1, NULL),
-(68, '2023-11-16 07:03:58', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:01:55', 0, 1, NULL),
-(69, '2023-11-16 07:04:03', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:04:03', 0, 0, NULL),
-(70, '2023-11-16 07:04:12', 33, 12, 1111, 'felicitacion', 12, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:04:12', 0, 1, NULL),
-(71, '2023-11-16 07:05:26', 30, 10, 1111, 'reclamo', 0, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 07:05:26', 0, 1, NULL),
-(74, '2023-11-16 07:05:58', 30, 10, 1111, 'reclamo', 0, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 07:05:57', 0, 1, NULL),
-(75, '2023-11-16 07:06:06', 30, 10, 1111, 'reclamo', 0, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 07:06:06', 0, 0, NULL),
-(76, '2023-11-16 07:06:11', 30, 10, 1111, 'reclamo', 0, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 07:06:11', 0, 1, NULL),
-(79, '2023-11-16 07:07:15', 30, 10, 1111, 'reclamo', 13, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 07:06:16', 0, 0, NULL),
-(80, '2023-11-16 07:07:22', 30, 10, 1111, 'reclamo', 12, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 07:06:16', 0, 0, NULL),
-(81, '2023-11-16 07:07:26', 30, 12, 1111, 'reclamo', 0, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 07:07:26', 0, 0, NULL),
-(82, '2023-11-16 07:07:39', 30, 10, 1111, 'reclamo', 0, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 07:07:39', 0, 0, NULL),
-(83, '2023-11-16 07:07:45', 30, 10, 1111, 'reclamo', 10, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 07:07:45', 0, 1, NULL),
-(84, '2023-11-16 07:10:09', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:10:09', 0, 0, NULL),
-(85, '2023-11-16 07:10:32', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:10:09', 0, 0, NULL),
-(86, '2023-11-16 07:10:34', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:10:34', 0, 1, NULL),
-(87, '2023-11-16 07:10:41', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:10:41', 0, 0, NULL),
-(88, '2023-11-16 07:10:45', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:10:45', 0, 1, NULL),
-(89, '2023-11-16 07:10:50', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:10:45', 0, 1, NULL),
-(90, '2023-11-16 07:15:35', 33, 10, 1111, 'felicitacion', 12, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:10:45', 0, 1, NULL),
-(91, '2023-11-16 07:15:50', 33, 12, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:15:49', 0, 1, NULL),
-(92, '2023-11-16 07:18:26', 33, 12, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:15:49', 0, 1, NULL),
-(93, '2023-11-16 07:18:49', 33, 12, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:18:49', 0, 0, NULL),
-(94, '2023-11-16 07:32:45', 32, 12, 20267690, 'reclamo', 10, 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', 0, 0, NULL);
+(63, '2023-11-16 06:15:01', 34, 10, 20267690, 'felicitacion', 0, 'Hola', 'Que tal', '2023-11-16 06:15:01', 0, 0, NULL),
+(64, '2023-11-16 06:16:52', 34, 10, 20267690, 'felicitacion', 10, 'Hola', 'Que tal', '2023-11-16 06:15:01', 0, 0, 32),
+(65, '2023-11-16 10:06:19', 30, 12, 1111, 'reclamo', 10, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', 0, 0, 33),
+(66, '2023-11-16 10:19:37', 35, 10, 1111, 'felicitacion', 0, 'qaweawevwawavavavaavv', 'qewqwe123123', '2023-11-16 10:19:37', 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -355,7 +386,9 @@ INSERT INTO `respuesta` (`cod_respuesta`, `cod_ticket`, `rut_usuario`, `detalles
 (28, 31, 1234, 'chao', '2023-11-16 05:01:32'),
 (29, 32, 1234, 'wena ta en proceso', '2023-11-16 05:15:12'),
 (30, 32, 1234, 'chao', '2023-11-16 05:15:37'),
-(31, 33, 1234, 'gdsrgdrg', '2023-11-16 05:22:50');
+(31, 33, 1234, 'gdsrgdrg', '2023-11-16 05:22:50'),
+(32, 34, 1234, 'Hola, Muy bien grasias', '2023-11-16 06:16:52'),
+(33, 30, 1234, 'hola', '2023-11-16 10:06:19');
 
 -- --------------------------------------------------------
 
@@ -437,10 +470,12 @@ CREATE TABLE `ticket` (
 --
 
 INSERT INTO `ticket` (`cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
-(30, 10, 1111, 'reclamo', 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 07:07:45', NULL, 1),
+(30, 12, 1111, 'reclamo', 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', NULL, 0),
 (31, 12, 1111, 'sugerencia', 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', NULL, 0),
 (32, 12, 20267690, 'reclamo', 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', NULL, 0),
-(33, 12, 1111, 'felicitacion', 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 07:18:49', NULL, 0);
+(33, 10, 1111, 'felicitacion', 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', NULL, 0),
+(34, 10, 20267690, 'felicitacion', 'Hola', 'Que tal', '2023-11-16 06:15:01', NULL, 0),
+(35, 10, 1111, 'felicitacion', 'qaweawevwawavavavaavv', 'qewqwe123123', '2023-11-16 10:19:37', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -506,7 +541,22 @@ INSERT INTO `usuario_rol` (`cod_rol`, `rut_usuario`) VALUES
 --
 ALTER TABLE `agenda`
   ADD PRIMARY KEY (`cod_agenda`),
+  ADD KEY `agenda_ibfk_1` (`cod_departamento`),
   ADD KEY `rut_usuario` (`rut_usuario`);
+
+--
+-- Indices de la tabla `calificacion_atencion`
+--
+ALTER TABLE `calificacion_atencion`
+  ADD PRIMARY KEY (`cod_calificacion_atencion`),
+  ADD KEY `cod_ticket` (`cod_ticket`);
+
+--
+-- Indices de la tabla `calificacion_sistema`
+--
+ALTER TABLE `calificacion_sistema`
+  ADD PRIMARY KEY (`cod_calificacion_sistema`),
+  ADD KEY `cod_ticket` (`cod_ticket`);
 
 --
 -- Indices de la tabla `comuna`
@@ -658,6 +708,18 @@ ALTER TABLE `agenda`
   MODIFY `cod_agenda` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `calificacion_atencion`
+--
+ALTER TABLE `calificacion_atencion`
+  MODIFY `cod_calificacion_atencion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `calificacion_sistema`
+--
+ALTER TABLE `calificacion_sistema`
+  MODIFY `cod_calificacion_sistema` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT de la tabla `comuna`
 --
 ALTER TABLE `comuna`
@@ -715,13 +777,13 @@ ALTER TABLE `region`
 -- AUTO_INCREMENT de la tabla `registro_ticket`
 --
 ALTER TABLE `registro_ticket`
-  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -733,7 +795,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Restricciones para tablas volcadas
@@ -743,7 +805,20 @@ ALTER TABLE `ticket`
 -- Filtros para la tabla `agenda`
 --
 ALTER TABLE `agenda`
+  ADD CONSTRAINT `agenda_ibfk_1` FOREIGN KEY (`cod_departamento`) REFERENCES `departamento` (`cod_departamento`) ON UPDATE CASCADE,
   ADD CONSTRAINT `agenda_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `calificacion_atencion`
+--
+ALTER TABLE `calificacion_atencion`
+  ADD CONSTRAINT `calificacion_atencion_ibfk_1` FOREIGN KEY (`cod_ticket`) REFERENCES `ticket` (`cod_ticket`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `calificacion_sistema`
+--
+ALTER TABLE `calificacion_sistema`
+  ADD CONSTRAINT `calificacion_sistema_ibfk_1` FOREIGN KEY (`cod_ticket`) REFERENCES `ticket` (`cod_ticket`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `comuna`
