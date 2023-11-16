@@ -2,10 +2,10 @@
 include("database/auth.php");
 include("database/connection.php");  // Incluye la conexión
 
-$query_departamento = "SELECT * FROM departamento";
-$result_departamento = mysqli_query($connection, $query_departamento);
-$query_usuario = "SELECT * FROM usuario";
-$result_usuario = mysqli_query($connection, $query_usuario);
+$query_agenda = "SELECT * FROM agenda";
+$result_agenda = mysqli_query($connection, $query_agenda);
+// $query_usuario = "SELECT * FROM usuario";
+// $result_usuario = mysqli_query($connection, $query_usuario);
 ?>
 
 <!--calendario-->
@@ -29,22 +29,38 @@ $result_usuario = mysqli_query($connection, $query_usuario);
             <form id="formulario">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="nombre">
+                        <input type="text" class="form-control" id="nombre" require>
                         <label for="nombre" class="form-label">Nombre</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="rut" >
+                        <input type="text" class="form-control" id="rut" require>
                         <label for="rut" class="form-label">RUT</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="date" class="form-control" id="fecha" readonly>
                         <label for="fecha" class="form-label">Fecha</label>
                     </div>
+                    <div class="form-floating mb-3">
+                        <select class=form-control id='hora' name="intervalo">
+                            <?php
+                            // Definir la hora inicial y final
+                            $hora_inicio = strtotime('09:00');
+                            $hora_fin = strtotime('14:00');
 
+                            // Generar opciones cada 30 minutos
+                            for ($hora_actual = $hora_inicio; $hora_actual <= $hora_fin; $hora_actual += 1800) { // 1800 segundos = 30 minutos
+                                $hora_formateada = date('H:i', $hora_actual);
+                                echo "<option value=\"$hora_formateada\">$hora_formateada</option>";
+                            }
+                            ?>
+                        </select>
+                        <label for="hora" class="form-label">Hora</label>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-warning" type="button" aria-label="Close" data-bs-dismiss="modal">Cancelar</button>
                     <button class="btn btn-info" id="btnAccion" type="submit">Guardar</button>
+
                 </div>
             </form>
 
@@ -54,31 +70,6 @@ $result_usuario = mysqli_query($connection, $query_usuario);
 
 
 </main>
-<script>
-    let frm = document.getElementById('formulario');
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: "es",
-            dateClick: function(info) {
-                $("#myModal").modal("show");
-                document.getElementById('fecha').value = info.dateStr;
-            }
-        });
-        calendar.render();
-        frm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const nombre = document.getElementById('nombre').value;
-            const rut = document.getElementById('rut').value;
-            const fecha = document.getElementById('fecha').value;
-            if (nombre == '' || rut == '' || fecha == '') {
-                Swal.fire({
-                    title: "Aviso",
-                    text: "Todo los campos son requeridos",
-                    icon: "warning"
-                });
-            } 
-        })
-    });
+<script src="assets/js/calendario_agenda.js">
 </script>
+<script src="assets/js/ajax_agenda.js"></script>

@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 
             <?php
-            if (isset($_SESSION["rut_usuario"]) && $_SESSION["rol_usuario"] == 2 ) {
+            if (isset($_SESSION["rut_usuario"]) && $_SESSION["rol_usuario"] == 2) {
             ?>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
@@ -36,8 +36,8 @@
                 </div>
                 <!-- <a href="pages/auth/actions/logout.php">Cerrar Sesión</a> -->
             <?php
-            } elseif( isset($_SESSION["rut_usuario"]) && $_SESSION["rol_usuario"] == 1 ){
-                ?>
+            } elseif (isset($_SESSION["rut_usuario"]) && $_SESSION["rol_usuario"] == 1) {
+            ?>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link <?php echo ($pagina == 'home') ? 'active' : null ?>" aria-current="page" href="index.php?p=home">Inicio</a>
@@ -99,10 +99,7 @@
                 </div>
                 <!-- <a href="pages/auth/actions/logout.php">Cerrar Sesión</a> -->
             <?php
-            }
-            
-            
-            else {
+            } else {
             ?>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
