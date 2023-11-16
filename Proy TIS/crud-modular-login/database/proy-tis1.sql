@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-11-2023 a las 12:03:26
+-- Tiempo de generación: 16-11-2023 a las 12:22:36
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -194,9 +194,9 @@ CREATE TABLE `estado_ticket` (
 
 INSERT INTO `estado_ticket` (`cod_ticket`, `cod_estado`) VALUES
 (38, 0),
-(37, 10),
 (39, 12),
-(40, 13);
+(40, 13),
+(37, 12);
 
 -- --------------------------------------------------------
 
@@ -235,7 +235,7 @@ CREATE TABLE `palabra_ofensiva` (
 --
 
 INSERT INTO `palabra_ofensiva` (`cod_palabra`, `palabra`) VALUES
-(1, 'mierdaa'),
+(1, 'mierda'),
 (2, 'conchetumadre'),
 (4, 'hijo de puta'),
 (5, 'carajo');
@@ -341,7 +341,8 @@ INSERT INTO `registro_ticket` (`cod_registro`, `fecha_hora_registro`, `cod_ticke
 (74, '2023-11-16 10:53:54', 39, 10, 20267690, 'felicitacion', 12, 'Teatro Biobío', 'Buen trabajo con el teatro Biobío', '2023-11-16 10:53:54', 0, 1, NULL),
 (75, '2023-11-16 10:58:24', 40, 10, 20267690, 'reclamo', 0, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-16 10:58:24', 0, 0, NULL),
 (76, '2023-11-16 11:01:53', 40, 12, 20267690, 'reclamo', 13, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-16 11:01:53', 0, 0, NULL),
-(77, '2023-11-16 11:02:45', 40, 12, 20267690, 'reclamo', 13, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-16 11:01:53', 0, 0, 36);
+(77, '2023-11-16 11:02:45', 40, 12, 20267690, 'reclamo', 13, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-16 11:01:53', 0, 0, 36),
+(78, '2023-11-16 11:19:33', 37, 12, 19815448, 'reclamo', 12, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-16 10:46:49', 0, 1, 37);
 
 -- --------------------------------------------------------
 
@@ -364,7 +365,8 @@ CREATE TABLE `respuesta` (
 INSERT INTO `respuesta` (`cod_respuesta`, `cod_ticket`, `rut_usuario`, `detalles_respuesta`, `fecha_hora_envio`) VALUES
 (34, 37, 1234, 'Estamos analizando su caso e informaremos a la Municipalidad', '2023-11-16 10:45:33'),
 (35, 39, 1234, 'Muchas gracias por su retroalimentación!', '2023-11-16 10:53:48'),
-(36, 40, 1234, 'Solicitud ha sido remitida al departamento de calles', '2023-11-16 11:02:45');
+(36, 40, 1234, 'Solicitud ha sido remitida al departamento de calles', '2023-11-16 11:02:45'),
+(37, 37, 1234, 'Se ha reparado el alcantarillado', '2023-11-16 11:19:33');
 
 -- --------------------------------------------------------
 
@@ -753,13 +755,13 @@ ALTER TABLE `region`
 -- AUTO_INCREMENT de la tabla `registro_ticket`
 --
 ALTER TABLE `registro_ticket`
-  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
