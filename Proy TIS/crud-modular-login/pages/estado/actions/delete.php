@@ -3,9 +3,13 @@
 
     $id = $_GET["cod_estado"];
 
-    $query = "DELETE FROM estado WHERE cod_estado=".$id.";";
+    if ($id != 0){
 
-    $result =  mysqli_query($connection, $query);
+        $query = "DELETE FROM estado WHERE cod_estado=".$id.";";
+
+        $result =  mysqli_query($connection, $query);
+
+    }
 
     header("Location: ../../../index.php?p=estado/index");
 ?>
