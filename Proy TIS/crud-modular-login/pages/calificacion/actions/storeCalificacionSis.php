@@ -1,8 +1,8 @@
 <?php
     include("../../../database/connection.php");
     
-    $calificacion = $_POST["nombre_region"];
-    $id= $_POST["cod_region"];
+    $calificacion_sistema = $_POST["calificacion_sistema"];
+    $comentario_sistema= $_POST["comentario_sistema"];
     
     $query = "UPDATE region SET nombre_region = '$nombre' WHERE cod_region = ".$id.";";
 
