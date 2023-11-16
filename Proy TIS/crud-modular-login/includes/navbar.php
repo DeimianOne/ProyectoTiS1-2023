@@ -43,7 +43,7 @@
                         <a class="nav-link <?php echo ($pagina == 'home') ? 'active' : null ?>" aria-current="page" href="index.php?p=home">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo (strpos($pagina, 'tickets') !== false) ? 'active' : null ?>" href="index.php?p=tickets/index">Tickets Asignados a mí</a>
+                        <a class="nav-link <?php echo (strpos($pagina, 'tickets') !== false) ? 'active' : null ?>" href="index.php?p=tickets/index">Archivo de Tickets</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?php echo (strpos($pagina, 'users') !== false) ? 'active' : null ?>" href="index.php?p=users/index">Calendario de Proyectos</a>
@@ -91,9 +91,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="" hidden>Archivo de Tickets</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?php echo (strpos($pagina, 'registro_tickets') !== false) ? 'active' : null ?>" href="index.php?p=registro_tickets/index">Registro de Tickets</a>
                     </li>
                 </ul>
                 <div class="d-flex">

@@ -33,18 +33,19 @@
 
         if ($resultInsercion) {
             $_SESSION['mensaje'] = "Ticket enviado correctamente.";
+
+            $codigo = mysqli_insert_id($connection);
+
+            $query_estado_ticket = "INSERT INTO estado_ticket (cod_ticket, cod_estado) VALUES ('$codigo', 0)"; //0 es el codigo del estado prestablecido para indicar un ticket recien insertado
+            $result_estado_ticket = mysqli_query($connection, $query_estado_ticket);
+
+            include("../../registro_tickets\actions\store_register.php"); 
+            insertar_registro($codigo);
+
         } else {
             $_SESSION['mensaje'] = "Error al enviar el ticket: " . mysqli_error($connection);
         }
     }
-
-    //$query = "INSERT INTO ticket (cod_departamento, rut_usuario, tipo_solicitud, asunto_ticket, detalles_solicitud) VALUES ('$cod_departamento', '$rut_usuario', '$tipo_solicitud', '$asunto_ticket', '$detalles_solicitud')";
-    //$result = mysqli_query($connection, $query);
-
-    $codigo = mysqli_insert_id($connection);
-
-    $query_registro = "INSERT INTO registro_ticket (cod_ticket, cod_departamento, rut_usuario, tipo_solicitud, asunto_ticket, detalles_solicitud) VALUES ('$codigo','$cod_departamento', '$rut_usuario', '$tipo_solicitud', '$asunto_ticket', '$detalles_solicitud')";
-    $result_registro = mysqli_query($connection, $query_registro);
 
 
     header("Location: ../../../index.php?p=tickets/index");

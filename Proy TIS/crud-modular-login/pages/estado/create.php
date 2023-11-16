@@ -19,6 +19,11 @@
                         <input type="text" class="form-control" id="name" name="nombre_estado" placeholder="Estado" required>
                     </div>
 
+                    <div class="col-md-12 mb-3">
+                        <label for="name" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="name" name="descripcion_estado" placeholder="Descripción" required>
+                    </div>
+
                 </div>
             </div>
 
