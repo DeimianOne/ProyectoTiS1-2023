@@ -2,11 +2,28 @@
 include("database/connection.php"); // Incluye la conexión
 include("database/auth.php"); // Comprueba si el usuario está logueado, sino lo redirige al login
 
+if (isset($_SESSION['mensaje'])) {
+    ?>
+    <div class="alert alert-<?php echo ($_SESSION['mensaje'] == 'Respuesta enviada correctamente.') ? 'success' : 'danger'; ?>"
+        role="alert">
+        <?php echo $_SESSION['mensaje']; ?>
+    </div>
+    <?php
+    unset($_SESSION['mensaje']);
+}
+
 if (isset($_SESSION['rut_usuario'])) {
     if ($_SESSION['rol_usuario'] == '1') {
         $query = "SELECT * FROM ticket"; // Si es admin, selecciona todos los tickets
     } elseif ($_SESSION['rol_usuario'] == '2') {
-        $query = "SELECT ticket.*, departamento.nombre_departamento as nombre_departamento, estado.nombre_estado as estado_ticket FROM ticket left join estado_ticket ON (ticket.cod_ticket = estado_ticket.cod_ticket) left join estado on (estado_ticket.cod_estado=estado.cod_estado) left join departamento on (ticket.cod_departamento=departamento.cod_departamento) WHERE rut_usuario = '" . $_SESSION['rut_usuario'] . "'"; // Selecciona sólo los tickets del rut de sesión
+        $query = "  SELECT ticket.*, 
+                    departamento.nombre_departamento as nombre_departamento,
+                    estado.nombre_estado as estado_ticket 
+                    FROM ticket 
+                    left join estado_ticket ON (ticket.cod_ticket = estado_ticket.cod_ticket) 
+                    left join estado on (estado_ticket.cod_estado=estado.cod_estado) 
+                    left join departamento on (ticket.cod_departamento=departamento.cod_departamento) 
+                    WHERE rut_usuario = '" . $_SESSION['rut_usuario'] . "'"; // Selecciona sólo los tickets del rut de sesión
     } else {
         header("Location: index.php?p=auth/login");
         exit;
@@ -81,6 +98,20 @@ $resultModalA = mysqli_query($connection, $query);
 
                 <tbody>
                     <?php while ($fila = mysqli_fetch_array($result)): ?>
+                        <?php
+                        // Verificar si existe calificación de sistema para el ticket actual
+                        $queryCalificacionSistema = "SELECT COUNT(*) as count FROM calificacion_sistema WHERE cod_ticket = " . $fila['cod_ticket'];
+                        $resultCalificacionSistema = mysqli_query($connection, $queryCalificacionSistema);
+                        $calificacionSistema = mysqli_fetch_array($resultCalificacionSistema);
+
+                        // Verificar si existe calificación de atención para el ticket actual
+                        $queryCalificacionAtencion = "SELECT COUNT(*) as count FROM calificacion_atencion WHERE cod_ticket = " . $fila['cod_ticket'];
+                        $resultCalificacionAtencion = mysqli_query($connection, $queryCalificacionAtencion);
+                        $calificacionAtencion = mysqli_fetch_array($resultCalificacionAtencion);
+
+                        $botonCalificarSistemaDeshabilitado = $calificacionSistema['count'] > 0 ? 'disabled' : '';
+                        $botonCalificarAtencionDeshabilitado = $calificacionAtencion['count'] > 0 ? 'disabled' : '';
+                        ?>
                         <tr>
                             <td>
                                 <?= $fila['tipo_solicitud'] ?>
@@ -102,8 +133,12 @@ $resultModalA = mysqli_query($connection, $query);
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Horizontal button group">
-                                    <a href="index.php?p=calificacion/calificar_sistema&cod_ticketx=<?= $fila['cod_ticket'] ?>" class="btn btn-sm btn-warning">Calificar Sistema</a>
-                                    <a href="index.php?p=calificacion/calificar_atencion&cod_ticketx=<?= $fila['cod_ticket'] ?>" class="btn btn-sm btn-warning">Calificar Atención</a>
+                                    <a href="index.php?p=calificacion/calificar_sistema&cod_ticketx=<?= $fila['cod_ticket'] ?>"
+                                        class="btn btn-sm btn-warning <?= $botonCalificarSistemaDeshabilitado ?>">Calificar
+                                        Sistema</a>
+                                    <a href="index.php?p=calificacion/calificar_atencion&cod_ticketx=<?= $fila['cod_ticket'] ?>"
+                                        class="btn btn-sm btn-warning <?= $botonCalificarAtencionDeshabilitado ?>">Calificar
+                                        Atención</a>
                                 </div>
                             </td>
                         </tr>
@@ -118,5 +153,3 @@ $resultModalA = mysqli_query($connection, $query);
 
     </div>
 </main>
-
-

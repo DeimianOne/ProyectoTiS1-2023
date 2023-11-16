@@ -6,9 +6,14 @@ $cod_ticket = $_GET["cod_ticketx"];
 $query = "  SELECT * 
                 FROM ticket 
                 left join respuesta on (ticket.cod_ticket = respuesta.cod_ticket)
-                WHERE ticket.cod_ticket=" . $cod_ticket . ";";
+                WHERE ticket.cod_ticket=" . $cod_ticket . "
+                LIMIT 1;";
 $result = mysqli_query($connection, $query);
+if ($result) {
+    $_SESSION['mensaje'] = "Respuesta enviada correctamente.";
+}
 ?>
+
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
     <div class="p-5 rounded text-center">
