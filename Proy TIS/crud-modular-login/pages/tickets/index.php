@@ -317,10 +317,9 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
                                         <button
                                             onclick="window.location.href='index.php?p=tickets/view&cod_ticket=<?= $fila['cod_ticket'] ?>'"
                                             type="button" class="btn btn-outline-primary">Ver</button>
-                                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                        <!-- <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal"
-                                            data-cod-ticket="<?= $fila['cod_ticket'] ?>">Detalles</button>
-
+                                            data-cod-ticket="<?= $fila['cod_ticket'] ?>">Detalles</button> -->
                                     </div>
                                 </td>
                             <?php elseif ($_SESSION['rol_usuario'] == '2'): ?>
