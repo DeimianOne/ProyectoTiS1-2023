@@ -4,8 +4,13 @@ include("database/connection.php");  // Incluye la conexión
 
 $query_agenda = "SELECT * FROM agenda";
 $result_agenda = mysqli_query($connection, $query_agenda);
-// $query_usuario = "SELECT * FROM usuario";
-// $result_usuario = mysqli_query($connection, $query_usuario);
+$query_usuario = "SELECT * FROM usuario where rut_usuario = '" . $_SESSION['rut_usuario'] . "'";
+$result_usuario = mysqli_query($connection, $query_usuario);
+while($fila = $result_usuario->fetch_assoc())
+{
+    $nombre = $fila['nombre_usuario'];
+    $rut = $fila['rut_usuario'];
+}
 ?>
 
 <!--calendario-->
@@ -29,11 +34,11 @@ $result_agenda = mysqli_query($connection, $query_agenda);
             <form id="formulario">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="nombre" require>
+                        <input type="text" class="form-control" id="nombre" value = "<?= $nombre?>" readonly>
                         <label for="nombre" class="form-label">Nombre</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="rut" require>
+                        <input type="text" class="form-control" id="rut" value = "<?= $rut ?>" readonly>
                         <label for="rut" class="form-label">RUT</label>
                     </div>
                     <div class="form-floating mb-3">
