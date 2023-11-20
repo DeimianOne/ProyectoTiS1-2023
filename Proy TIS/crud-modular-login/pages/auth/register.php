@@ -9,6 +9,12 @@ if (isset($_REQUEST['rut_usuario'])) {
     $nombre_usuario = stripslashes($_REQUEST['nombre_usuario']);
     $nombre_usuario = mysqli_real_escape_string($connection, $nombre_usuario);
 
+    $password_usuario = stripslashes($_REQUEST['password_usuario']);
+    $password_usuario = mysqli_real_escape_string($connection, $password_usuario);
+
+    //HASHING USANDO BCRYPT que es el por defecto en la version actual, más apropiado que cd5 o SHA
+    $password_hash = password_hash($password_usuario, PASSWORD_DEFAULT);
+
     $correo_electronico_usuario = stripslashes($_REQUEST['correo_electronico_usuario']);
     $correo_electronico_usuario = mysqli_real_escape_string($connection, $correo_electronico_usuario);
 
@@ -22,9 +28,9 @@ if (isset($_REQUEST['rut_usuario'])) {
     $telefono_tercero = mysqli_real_escape_string($connection, $telefono_tercero);
 
     $trn_date = date("Y-m-d H:i:s");
-    $query = "INSERT into `usuario` (rut_usuario, nombre_usuario, correo_electronico_usuario, correo_electronico_tercero, telefono_usuario, telefono_tercero) VALUES ('$rut_usuario', '$nombre_usuario', '$correo_electronico_usuario', '$correo_electronico_tercero', '$telefono_usuario', '$telefono_tercero');";
+    $query = "INSERT into `usuario` (rut_usuario, nombre_usuario, password_usuario, correo_electronico_usuario, correo_electronico_tercero, telefono_usuario, telefono_tercero) VALUES ('$rut_usuario', '$nombre_usuario','$password_hash', '$correo_electronico_usuario', '$correo_electronico_tercero', '$telefono_usuario', '$telefono_tercero');";
     $result = mysqli_query($connection, $query);
-    $query2 = "INSERT into `usuario_rol` (cod_rol, rut_usuario) VALUES (2,'$rut_usuario')";
+    $query2 = "INSERT into `usuario_rol` (cod_rol, rut_usuario) VALUES (1,'$rut_usuario')";
     $result2 = mysqli_query($connection, $query2);
 
     if ($result && $result2) {
@@ -48,6 +54,10 @@ if (isset($_REQUEST['rut_usuario'])) {
                             <div class="form-group mb-3">
                                 <label for="nombre_usuario" class="form-label">Nombre</label>
                                 <input type="text" name="nombre_usuario" class="form-control" id="nombre_usuario">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="password_usuario" class="form-label">Contraseña</label>
+                                <input type="password" name="password_usuario" class="form-control" id="password_usuario">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="correo_electronico_usuario" class="form-label">Correo Electrónico</label>
