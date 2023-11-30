@@ -76,7 +76,8 @@ $enum_values = explode("','", $matches[1]);
                                 placeholder="Ingrese la dirección del ticket">
                         </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-success" id="botonBuscar" onclick="geocodeTicketAddress()">Buscar
+                            <button type="button" class="btn btn-success" id="botonBuscar"
+                                onclick="geocodeTicketAddress()">Buscar
                                 dirección</button>
                         </div>
                     </div>
@@ -107,10 +108,45 @@ $enum_values = explode("','", $matches[1]);
             center: { lat: -32.94630768405489, lng: -70.73575459886952 },
             zoom: 4,
             mapId: '5ea9ce137bbd703d'
+            gestureHandling: 'greedy', // Esto permite el scroll sin necesidad de presionar CTRL
+            fullscreenControl: false   // Esto desactiva el botón de pantalla completa
         });
 
         ticketMap.addListener('click', function (e) {
             placeMarkerAndPanTo(e.latLng, ticketMap);
+        });
+
+        // Inicialización correcta del Autocompletado de Google Places
+        var input = document.getElementById('ticketAddress');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', ticketMap);
+
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                window.alert("No se encontraron detalles para: '" + place.name + "'");
+                return;
+            }
+
+            if (place.geometry.viewport) {
+                ticketMap.fitBounds(place.geometry.viewport);
+            } else {
+                ticketMap.setCenter(place.geometry.location);
+                ticketMap.setZoom(17);
+            }
+
+            if (ticketMarker) {
+                ticketMarker.setPosition(place.geometry.location);
+            } else {
+                ticketMarker = new google.maps.Marker({
+                    position: place.geometry.location,
+                    map: ticketMap,
+                    draggable: true
+                });
+            }
+
+            document.getElementById('lat').value = place.geometry.location.lat();
+            document.getElementById('lng').value = place.geometry.location.lng();
         });
     }
 
@@ -162,6 +198,4 @@ $enum_values = explode("','", $matches[1]);
         toggleMap(geocodeTicketAddress); // Pasa geocodeTicketAddress como callback
     };
 
-    // Asegúrate de que esta función se llame en el callback de carga del mapa en el footer
-    // Por ejemplo: if (typeof initTicketMap === 'function') { initTicketMap(); }
 </script>

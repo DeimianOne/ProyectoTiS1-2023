@@ -52,7 +52,7 @@
 
 <!--Maps API -->
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWTchPkQp1ZRiaRZwNqHkz98Jc64z4-4Y&callback=initMapCallback" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWTchPkQp1ZRiaRZwNqHkz98Jc64z4-4Y&libraries=places&callback=initMapCallback" async defer></script>
 
 <script>
     function initMapCallback() {

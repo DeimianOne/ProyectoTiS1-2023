@@ -15,7 +15,6 @@ $result = mysqli_query($connection, $query);
     <title>Añadir Municipalidad</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -51,7 +50,7 @@ $result = mysqli_query($connection, $query);
                         <div class="container">
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <input type="text" id="address" name="direccion_municipalidad" class="form-control" placeholder="Ingrese la dirección precisa">
+                                <input type="text" id="address" name="direccion_municipalidad" class="form-control" placeholder="Ingrese la dirección precisa" autocomplete="off">
                                 </div>
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn-success"
@@ -103,12 +102,18 @@ $result = mysqli_query($connection, $query);
         map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: -32.94630768405489, lng: -70.73575459886952 },
             zoom: 4,
-            mapId: '5ea9ce137bbd703d'
+            mapId: '5ea9ce137bbd703d',
+            gestureHandling: 'greedy', // Esto permite el scroll sin necesidad de presionar CTRL
+            fullscreenControl: false
         });
 
         map.addListener('click', function(e) {
             placeMarkerAndPanTo(e.latLng, map);
         });
+
+        var input = document.getElementById('address');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
     }
 
     function placeMarkerAndPanTo(latLng, map) {
@@ -152,6 +157,35 @@ $result = mysqli_query($connection, $query);
             }
         });
     }
+
+    autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+        if (!place.geometry) {
+            window.alert("No se encontraron detalles para: '" + place.name + "'");
+            return;
+        }
+
+        if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+        } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+        }
+
+        if (marker) {
+            marker.setPosition(place.geometry.location);
+        } else {
+            marker = new google.maps.Marker({
+                position: place.geometry.location,
+                map: map,
+                draggable: true
+            });
+        }
+
+        document.getElementById('lat').value = place.geometry.location.lat();
+        document.getElementById('lng').value = place.geometry.location.lng();
+    });
+
 </script>
 
 </body>
