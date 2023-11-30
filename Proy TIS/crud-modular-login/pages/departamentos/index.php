@@ -60,7 +60,8 @@ if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
                 ]
             }),
             success: function (response) {
-                const dependentTables = Array.isArray(response) ? response.join(', ') : response;
+                const parsedResponse = JSON.parse(response);
+                const dependentTables = Array.isArray(parsedResponse) ? parsedResponse : [];
 
                 if (dependentTables.length > 0) {
                     // Es clave foránea, mostrar alerta con información de las tablas

@@ -1,9 +1,9 @@
 <?php
-    include("database/connection.php");  // Incluye la conexión
-    include("database/auth.php");  // Comprueba si el usuario está logueado, sino lo redirige al login
+include("database/connection.php");  // Incluye la conexión
+include("database/auth.php");  // Comprueba si el usuario está logueado, sino lo redirige al login
 
-    $query = "SELECT comuna.*, region.nombre_region AS nombre_region FROM comuna JOIN region ON comuna.cod_region = region.cod_region";
-    $result = mysqli_query($connection, $query);
+$query = "SELECT comuna.*, region.nombre_region AS nombre_region FROM comuna JOIN region ON comuna.cod_region = region.cod_region";
+$result = mysqli_query($connection, $query);
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
@@ -34,6 +34,37 @@
             }
         });
     });
+
+    function confirmDelete(cod_tabla) {
+        // Verificar si valor es clave foránea en varias tablas
+        $.ajax({
+            url: 'pages/actions/check_foreign_key.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                value: cod_tabla,
+                checks: [
+                    { table: 'municipalidad', field: 'cod_comuna' },
+                    { table: 'direccion', field: 'cod_comuna' }
+                ]
+            }),
+            success: function (response) {
+                const parsedResponse = JSON.parse(response);
+                const dependentTables = Array.isArray(parsedResponse) ? parsedResponse : [];
+
+                if (dependentTables.length > 0) {
+                    // Es clave foránea, mostrar alerta con información de las tablas
+                    alert(`No se puede borrar este dato, ya que depende de las siguientes tablas: ${dependentTables.join(', ')}`);
+                } else {
+                    // No es clave foránea, redirigir a delete.php para eliminar
+                    window.location.href = 'pages/comuna/actions/delete.php?cod_comuna=' + cod_tabla;
+                }
+            },
+            error: function (error) {
+                console.error('Error al verificar clave foránea:', error);
+            }
+        });
+    }
 </script>
 
 <main class="container mt-5">
@@ -43,7 +74,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Comunas</span>
+                    <span>Listado de comunas</span>
                 </div>
                 <div>
                     <a class="btn btn-sm btn-primary" href="index.php?p=comuna/create" role="button">Agregar nuevo</a>
@@ -61,14 +92,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($fila = mysqli_fetch_array($result)) : ?>
+                    <?php while ($fila = mysqli_fetch_array($result)): ?>
                         <tr>
-                            <th scope="row"><?= $fila['cod_comuna'] ?></th>
-                            <td><?= $fila['nombre_comuna'] ?></td>
-                            <td><?= $fila['nombre_region'] ?></td>
+                            <th scope="row">
+                                <?= $fila['cod_comuna'] ?>
+                            </th>
                             <td>
-                                <a href="index.php?p=comuna/edit&cod_comuna=<?= $fila['cod_comuna'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
-                                <a href="pages/comuna/actions/delete.php?cod_comuna=<?= $fila['cod_comuna'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                <?= $fila['nombre_comuna'] ?>
+                            </td>
+                            <td>
+                                <?= $fila['nombre_region'] ?>
+                            </td>
+                            <!-- <td>
+                                <a href="index.php?p=comuna/edit&cod_comuna=<?= $fila['cod_comuna'] ?>"
+                                    class="btn btn-sm btn-outline-warning">Editar</a>
+                                <a href="pages/comuna/actions/delete.php?cod_comuna=<?= $fila['cod_comuna'] ?>"
+                                    class="btn btn-sm btn-outline-danger">Eliminar</a>
+                            </td> -->
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Acciones">
+                                    <a href="index.php?p=comuna/edit&cod_comuna=<?= $fila['cod_comuna'] ?>"
+                                        class="btn btn-sm btn-outline-warning">Editar</a>
+                                    <a href="javascript:void(0);" onclick="confirmDelete(<?= $fila['cod_comuna'] ?>)"
+                                        class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                </div>
                             </td>
                         </tr>
 

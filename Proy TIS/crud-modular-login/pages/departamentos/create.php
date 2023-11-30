@@ -49,16 +49,17 @@
                         <div class="col-md-12 mb-3">
                             <label for="nombre_departamento" class="form-label">Nombre Departamento</label>
                             <input type="text" class="form-control" id="nombre_departamento" name="nombre_departamento"
-                                pattern="[A-Za-z0-9\s]{1,50}"
-                                title="Solo se permiten letras y números, máximo 50 caracteres" required>
+                                pattern="[A-Za-z0-9\s'áéíóúÁÉÍÓÚüÜñÑ]{1,50}"
+                                title="Solo se permiten letras, letras con tilde, números y el signo ' (comilla simple), máximo 50 caracteres"
+                                required>
                         </div>
 
 
                         <div class="col-md-12 mb-3">
                             <label for="telefono_departamento" class="form-label">Teléfono Departamento</label>
                             <input type="tel" class="form-control" id="telefono_departamento"
-                                name="telefono_departamento" pattern="[0-9]{1,20}" title="Ingrese solo números, máximo 20 caracteres"
-                                required>
+                                name="telefono_departamento" pattern="[0-9]{6,15}"
+                                title="Ingrese solo números, entre 6 y 15 dígitos" required>
                         </div>
 
 

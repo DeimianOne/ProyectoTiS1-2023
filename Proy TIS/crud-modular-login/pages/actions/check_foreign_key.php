@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $dependentTables = getDependentTables($value, $checks);
 
-        // Devolver el resultado como JSON
+        // Devolver el resultado como JSON con una clave específica
         echo json_encode($dependentTables);
     }
 }
