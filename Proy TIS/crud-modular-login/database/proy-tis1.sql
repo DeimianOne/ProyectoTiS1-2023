@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-11-2023 a las 23:58:02
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 30-11-2023 a las 23:57:54
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -53,7 +53,13 @@ CREATE TABLE `calificacion_atencion` (
 --
 
 INSERT INTO `calificacion_atencion` (`cod_calificacion_atencion`, `cod_ticket`, `calificacion_atencion`, `comentario_atencion`) VALUES
-(7, 39, 5, 'muy buena');
+(1, 34, 5, 'asdasd'),
+(2, 32, 5, ''),
+(3, 33, 0, ''),
+(4, 33, 0, ''),
+(5, 30, 4, 'ertaerterg'),
+(6, 31, 2, 'qwe'),
+(7, 36, 4, '');
 
 -- --------------------------------------------------------
 
@@ -73,7 +79,17 @@ CREATE TABLE `calificacion_sistema` (
 --
 
 INSERT INTO `calificacion_sistema` (`cod_calificacion_sistema`, `cod_ticket`, `calificacion_sistema`, `comentario_sistema`) VALUES
-(11, 39, 5, 'muy buena');
+(1, 34, 2, 'asdqwe'),
+(2, 32, 5, 'holis muy bien'),
+(3, 34, 3, 'asdasdqwe'),
+(4, 32, 0, ''),
+(5, 34, 0, ''),
+(6, 32, 4, ''),
+(7, 33, 5, 'asdad'),
+(8, 30, 3, 'asd'),
+(9, 35, 5, 'muy bien'),
+(10, 31, 0, ''),
+(11, 36, 4, '');
 
 -- --------------------------------------------------------
 
@@ -187,21 +203,6 @@ CREATE TABLE `estado_ticket` (
   `cod_estado` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `estado_ticket`
---
-
-INSERT INTO `estado_ticket` (`cod_ticket`, `cod_estado`) VALUES
-(39, 2),
-(38, 2),
-(37, 2),
-(40, 1),
-(41, 2),
-(42, 16),
-(43, 1),
-(44, 0),
-(45, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -212,7 +213,9 @@ CREATE TABLE `municipalidad` (
   `cod_municipalidad` bigint(20) NOT NULL,
   `nombre_municipalidad` varchar(50) NOT NULL,
   `cod_comuna` bigint(20) NOT NULL,
-  `direccion_municipalidad` varchar(255) NOT NULL,
+  `direccion_municipalidad` varchar(255) DEFAULT NULL,
+  `latitud` float DEFAULT NULL,
+  `longitud` float DEFAULT NULL,
   `correo_municipalidad` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -220,8 +223,16 @@ CREATE TABLE `municipalidad` (
 -- Volcado de datos para la tabla `municipalidad`
 --
 
-INSERT INTO `municipalidad` (`cod_municipalidad`, `nombre_municipalidad`, `cod_comuna`, `direccion_municipalidad`, `correo_municipalidad`) VALUES
-(56, 'Municipalidad de Concepción', 13, 'Bernardo O`Higgins 525', 'asistenciasocialconcepcion@gmail.com');
+INSERT INTO `municipalidad` (`cod_municipalidad`, `nombre_municipalidad`, `cod_comuna`, `direccion_municipalidad`, `latitud`, `longitud`, `correo_municipalidad`) VALUES
+(56, 'Municipalidad de Concepción', 13, 'Bernardo O`Higgins 525', NULL, NULL, 'asistenciasocialconcepcion@gmail.com'),
+(60, 'Hola que pasa', 13, 'Braulio Arenas Carvajal 8114', -36.8963, -73.1337, 'poroto@porots.com'),
+(61, 'callbackNuevo', 13, 'Braulio Arenas Carvajal 8114', -36.8963, -73.1337, 'ojala@funcione'),
+(62, 'Municipalidad de Santiago', 17, 'Amunategui 980', -33.4329, -70.6577, 'mun@stgo'),
+(63, 'comprobacion', 16, 'San Felipe 80, puerto montt, Chile', -41.472, -72.9371, 'mun@ptomont'),
+(64, 'holax', 13, '', -14.7431, -56.7434, 'brzil@xd'),
+(65, 'testcalle', 13, 'Calle Braulio Arenas Carvajal, San Pedro de la Paz, Chile', -36.8947, -73.1332, 'xxd@xd'),
+(66, 'poroto', 13, 'Calle Braulio Arenas Carvajal, San Pedro de la Paz, Chile', -36.8947, -73.1332, 'qweqw@asd'),
+(67, 'ElDemian', 13, 'Orompello, Concepción, Chile', -36.8191, -73.048, 'demian@one');
 
 -- --------------------------------------------------------
 
@@ -239,7 +250,7 @@ CREATE TABLE `palabra_ofensiva` (
 --
 
 INSERT INTO `palabra_ofensiva` (`cod_palabra`, `palabra`) VALUES
-(1, 'mierda'),
+(1, 'mierdaa'),
 (2, 'conchetumadre'),
 (4, 'hijo de puta'),
 (5, 'carajo');
@@ -332,86 +343,6 @@ CREATE TABLE `registro_ticket` (
   `cod_respuesta` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `registro_ticket`
---
-
-INSERT INTO `registro_ticket` (`cod_registro`, `fecha_hora_registro`, `cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `cod_estado`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`, `cod_respuesta`) VALUES
-(68, '2023-11-16 10:33:51', 37, 12, 19815448, 'reclamo', 0, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-16 10:33:51', 0, 0, NULL),
-(69, '2023-11-16 10:37:43', 38, 10, 20267690, 'sugerencia', 0, 'CESFAM', 'Faltan mas CESFAM en Talcahuano', '2023-11-16 10:37:43', 0, 0, NULL),
-(70, '2023-11-16 10:45:33', 37, 12, 19815448, 'reclamo', 1, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-16 10:33:51', 0, 0, 34),
-(71, '2023-11-16 10:46:49', 37, 12, 19815448, 'reclamo', 1, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-16 10:46:49', 0, 1, NULL),
-(72, '2023-11-16 10:49:10', 39, 10, 20267690, 'felicitacion', 0, 'Teatro Biobío', 'Buen trabajo con el teatro Biobío', '2023-11-16 10:49:10', 0, 0, NULL),
-(73, '2023-11-16 10:53:48', 39, 10, 20267690, 'felicitacion', 2, 'Teatro Biobío', 'Buen trabajo con el teatro Biobío', '2023-11-16 10:49:10', 0, 0, 35),
-(74, '2023-11-16 10:53:54', 39, 10, 20267690, 'felicitacion', 2, 'Teatro Biobío', 'Buen trabajo con el teatro Biobío', '2023-11-16 10:53:54', 0, 1, NULL),
-(75, '2023-11-16 10:58:24', 40, 10, 20267690, 'reclamo', 0, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-16 10:58:24', 0, 0, NULL),
-(76, '2023-11-16 11:01:53', 40, 12, 20267690, 'reclamo', 3, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-16 11:01:53', 0, 0, NULL),
-(77, '2023-11-16 11:02:45', 40, 12, 20267690, 'reclamo', 3, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-16 11:01:53', 0, 0, 36),
-(78, '2023-11-16 11:19:33', 37, 12, 19815448, 'reclamo', 2, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-16 10:46:49', 0, 1, 37),
-(79, '2023-11-17 18:11:53', 41, 10, 19815448, 'felicitacion', 0, 'pichula bombero', ' sdkawdawd', '2023-11-17 18:11:53', 0, 0, NULL),
-(80, '2023-11-18 01:53:00', 41, 10, 19815448, 'felicitacion', 0, 'pichula bombero', ' sdkawdawd', '2023-11-18 01:53:00', 0, 1, NULL),
-(81, '2023-11-18 01:53:42', 41, 10, 19815448, 'felicitacion', 1, 'pichula bombero', ' sdkawdawd', '2023-11-18 01:53:00', 0, 1, 38),
-(82, '2023-11-18 01:55:19', 41, 10, 19815448, 'felicitacion', 2, 'pichula bombero', ' sdkawdawd', '2023-11-18 01:53:00', 0, 1, 39),
-(83, '2023-11-30 03:21:06', 37, 10, 19815448, 'reclamo', 3, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, NULL),
-(84, '2023-11-30 03:50:07', 37, 10, 19815448, 'reclamo', 2, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, NULL),
-(85, '2023-11-30 03:50:10', 37, 10, 19815448, 'reclamo', 1, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, NULL),
-(86, '2023-11-30 03:51:31', 37, 10, 19815448, 'reclamo', 2, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, NULL),
-(87, '2023-11-30 03:55:13', 40, 10, 20267690, 'reclamo', 2, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-30 03:55:13', 0, 0, NULL),
-(88, '2023-11-30 03:55:59', 38, 12, 20267690, 'sugerencia', 2, 'CESFAM', 'Faltan mas CESFAM en Talcahuano', '2023-11-30 03:55:59', 0, 0, NULL),
-(89, '2023-11-30 04:03:20', 37, 10, 19815448, 'reclamo', 0, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, NULL),
-(90, '2023-11-30 04:03:27', 37, 10, 19815448, 'reclamo', 2, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, NULL),
-(91, '2023-11-30 04:03:41', 37, 10, 19815448, 'reclamo', 1, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, NULL),
-(92, '2023-11-30 04:03:48', 37, 10, 19815448, 'reclamo', 2, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, NULL),
-(93, '2023-11-30 04:06:24', 37, 10, 19815448, 'reclamo', 1, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, NULL),
-(94, '2023-11-30 04:07:55', 37, 10, 19815448, 'reclamo', 1, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, 40),
-(95, '2023-11-30 04:08:12', 37, 10, 19815448, 'reclamo', 16, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, 41),
-(96, '2023-11-30 04:11:14', 37, 10, 19815448, 'reclamo', 2, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, 42),
-(97, '2023-11-30 04:11:36', 37, 10, 19815448, 'reclamo', 1, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, NULL),
-(98, '2023-11-30 04:11:55', 37, 10, 19815448, 'reclamo', 2, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', 0, 1, 43),
-(99, '2023-11-30 04:16:42', 40, 10, 20267690, 'reclamo', 1, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-30 03:55:13', 0, 0, NULL),
-(100, '2023-11-30 04:18:48', 40, 10, 20267690, 'reclamo', 2, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-30 03:55:13', 0, 0, 44),
-(101, '2023-11-30 04:18:59', 40, 10, 20267690, 'reclamo', 1, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-30 03:55:13', 0, 0, NULL),
-(102, '2023-11-30 04:21:27', 40, 10, 20267690, 'reclamo', 2, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-30 03:55:13', 0, 0, 45),
-(103, '2023-11-30 04:22:29', 40, 12, 20267690, 'reclamo', 3, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-30 04:22:29', 0, 0, NULL),
-(104, '2023-11-30 04:22:41', 40, 12, 20267690, 'reclamo', 2, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-30 04:22:29', 0, 0, NULL),
-(105, '2023-11-30 04:27:25', 40, 12, 20267690, 'reclamo', 1, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-30 04:22:29', 0, 0, NULL),
-(106, '2023-11-30 04:28:28', 41, 10, 19815448, 'felicitacion', 1, 'pichula bombero', ' sdkawdawd', '2023-11-18 01:53:00', 0, 1, NULL),
-(107, '2023-11-30 04:29:01', 41, 10, 19815448, 'felicitacion', 2, 'pichula bombero', ' sdkawdawd', '2023-11-18 01:53:00', 0, 1, 46),
-(108, '2023-11-30 04:51:20', 42, 12, 1234, 'reclamo', 0, 'reclamo y wea', 'este es mi reclamo', '2023-11-30 04:51:20', 0, 0, NULL),
-(109, '2023-11-30 05:38:12', 42, 12, 1234, 'reclamo', 16, 'reclamo y wea', 'este es mi reclamo', '2023-11-30 04:51:20', 0, 0, 47),
-(110, '2023-11-30 05:49:06', 42, 12, 1234, 'reclamo', 16, 'reclamo y wea', 'este es mi reclamo', '2023-11-30 04:51:20', 0, 0, 48),
-(111, '2023-11-30 06:08:55', 43, 10, 19815448, 'reclamo', 0, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, NULL),
-(112, '2023-11-30 06:13:19', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 49),
-(113, '2023-11-30 06:17:23', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 50),
-(114, '2023-11-30 06:22:26', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 51),
-(115, '2023-11-30 06:23:55', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 52),
-(116, '2023-11-30 06:28:22', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 53),
-(117, '2023-11-30 06:29:46', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 54),
-(118, '2023-11-30 06:30:01', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 55),
-(119, '2023-11-30 06:31:58', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 56),
-(120, '2023-11-30 06:34:50', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 57),
-(121, '2023-11-30 06:37:01', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 58),
-(122, '2023-11-30 06:42:28', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 59),
-(123, '2023-11-30 06:43:09', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 60),
-(124, '2023-11-30 06:45:39', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 61),
-(125, '2023-11-30 06:46:51', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 62),
-(126, '2023-11-30 06:49:01', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 63),
-(127, '2023-11-30 06:55:34', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:08:55', 0, 0, 64),
-(128, '2023-11-30 06:59:51', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:59:51', 0, 1, NULL),
-(129, '2023-11-30 08:03:14', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:59:51', 0, 1, 65),
-(130, '2023-11-30 08:05:22', 43, 10, 19815448, 'reclamo', 16, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:59:51', 0, 1, 66),
-(131, '2023-11-30 08:26:47', 43, 10, 19815448, 'reclamo', 1, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:59:51', 0, 1, 67),
-(132, '2023-11-30 08:33:04', 43, 10, 19815448, 'reclamo', 1, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:59:51', 0, 1, 68),
-(133, '2023-11-30 08:35:41', 43, 10, 19815448, 'reclamo', 1, 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:59:51', 0, 1, 69),
-(134, '2023-11-30 08:39:37', 44, 12, 19815448, 'sugerencia', 0, 'podrian hacer esto', 'jaja ayudaaaa', '2023-11-30 08:39:37', 0, 0, NULL),
-(135, '2023-11-30 08:55:17', 44, 12, 19815448, 'sugerencia', 0, 'podrian hacer esto', 'jaja ayudaaaa', '2023-11-30 08:55:17', 0, 1, NULL),
-(136, '2023-11-30 09:01:42', 44, 12, 19815448, 'sugerencia', 0, 'podrian hacer esto', 'jaja ayudaaaa', '2023-11-30 09:01:42', 0, 0, NULL),
-(137, '2023-11-30 09:10:06', 44, 12, 19815448, 'sugerencia', 0, 'podrian hacer esto', 'jaja ayudaaaa', '2023-11-30 09:10:06', 0, 1, NULL),
-(138, '2023-11-30 09:34:45', 44, 12, 19815448, 'sugerencia', 0, 'podrian hacer esto', 'jaja ayudaaaa', '2023-11-30 09:34:45', 0, 0, NULL),
-(139, '2023-11-30 09:35:25', 44, 12, 19815448, 'sugerencia', 0, 'podrian hacer esto', 'jaja ayudaaaa', '2023-11-30 09:35:24', 0, 1, NULL),
-(140, '2023-11-30 09:42:08', 44, 12, 19815448, 'sugerencia', 0, 'podrian hacer esto', 'jaja ayudaaaa', '2023-11-30 09:35:24', 0, 1, 70),
-(141, '2023-11-30 22:37:44', 45, 12, 1111, 'felicitacion', 0, 'los felicito', 'felicito', '2023-11-30 22:37:44', 0, 0, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -425,49 +356,6 @@ CREATE TABLE `respuesta` (
   `detalles_respuesta` text NOT NULL,
   `fecha_hora_envio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `respuesta`
---
-
-INSERT INTO `respuesta` (`cod_respuesta`, `cod_ticket`, `rut_usuario`, `detalles_respuesta`, `fecha_hora_envio`) VALUES
-(34, 37, 1234, 'Estamos analizando su caso e informaremos a la Municipalidad', '2023-11-16 10:45:33'),
-(35, 39, 1234, 'Muchas gracias por su retroalimentación!', '2023-11-16 10:53:48'),
-(36, 40, 1234, 'Solicitud ha sido remitida al departamento de calles', '2023-11-16 11:02:45'),
-(37, 37, 1234, 'Se ha reparado el alcantarillado', '2023-11-16 11:19:33'),
-(38, 41, 1234, 'Analizaremos su caso', '2023-11-18 01:53:42'),
-(39, 41, 1234, 'El caso ha sido solucionado', '2023-11-18 01:55:19'),
-(40, 37, 1234, 'gsdrgsdr', '2023-11-30 04:07:55'),
-(41, 37, 1234, 'gyjgyj', '2023-11-30 04:08:12'),
-(42, 37, 1234, 'sfsef', '2023-11-30 04:11:14'),
-(43, 37, 1234, 'calle en raparacion', '2023-11-30 04:11:55'),
-(44, 40, 1234, 'hdthfth', '2023-11-30 04:18:48'),
-(45, 40, 1234, 'jgyjgyjgy', '2023-11-30 04:21:27'),
-(46, 41, 1234, 'hukhuk', '2023-11-30 04:29:01'),
-(47, 42, 1234, 'ghdthfth', '2023-11-30 05:38:12'),
-(48, 42, 1234, 'hkbuykugyk', '2023-11-30 05:49:06'),
-(49, 43, 1234, 'wena', '2023-11-30 06:13:19'),
-(50, 43, 1234, 'wenad', '2023-11-30 06:17:23'),
-(51, 43, 1234, 'wena esto es una respuesta', '2023-11-30 06:22:26'),
-(52, 43, 1234, 'wena esto es otra respuesta', '2023-11-30 06:23:55'),
-(53, 43, 1234, 'jgyjgyjgyj', '2023-11-30 06:28:22'),
-(54, 43, 1234, 'fsefsefsef', '2023-11-30 06:29:46'),
-(55, 43, 1234, 'hfthfthfth', '2023-11-30 06:30:01'),
-(56, 43, 1234, 'thyjgyjgygj', '2023-11-30 06:31:58'),
-(57, 43, 1234, 'fcfycvfgycgy', '2023-11-30 06:34:50'),
-(58, 43, 1234, 'fcfycvfgycgyfse', '2023-11-30 06:37:01'),
-(59, 43, 1234, 'hfthfthfthfthfthfth', '2023-11-30 06:42:28'),
-(60, 43, 1234, 'hfthfthfthfthfthftht6u', '2023-11-30 06:43:09'),
-(61, 43, 1234, 'sfefsefsef', '2023-11-30 06:45:39'),
-(62, 43, 1234, 'fsefsefsesfe', '2023-11-30 06:46:51'),
-(63, 43, 1234, 'sfefsefsef', '2023-11-30 06:49:01'),
-(64, 43, 1234, 'hthrthrth', '2023-11-30 06:55:34'),
-(65, 43, 1234, 'dawdawdawda', '2023-11-30 08:03:14'),
-(66, 43, 1234, 'dgdgdrgd', '2023-11-30 08:05:22'),
-(67, 43, 1234, 'wena tula', '2023-11-30 08:26:47'),
-(68, 43, 1234, 'fhfthfthfthfh', '2023-11-30 08:33:04'),
-(69, 43, 1234, 'wenarduim', '2023-11-30 08:35:41'),
-(70, 44, 1234, 'tula suprema', '2023-11-30 09:42:08');
 
 -- --------------------------------------------------------
 
@@ -543,21 +431,6 @@ CREATE TABLE `ticket` (
   `visibilidad_solicitud` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `ticket`
---
-
-INSERT INTO `ticket` (`cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
-(37, 10, 19815448, 'reclamo', 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-30 03:21:06', NULL, 1),
-(38, 12, 20267690, 'sugerencia', 'CESFAM', 'Faltan mas CESFAM en Talcahuano', '2023-11-30 03:55:59', NULL, 0),
-(39, 10, 20267690, 'felicitacion', 'Teatro Biobío', 'Buen trabajo con el teatro Biobío', '2023-11-16 10:53:54', NULL, 1),
-(40, 12, 20267690, 'reclamo', 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-30 04:22:29', NULL, 0),
-(41, 10, 19815448, 'felicitacion', 'pichula bombero', ' sdkawdawd', '2023-11-18 01:53:00', NULL, 1),
-(42, 12, 1234, 'reclamo', 'reclamo y wea', 'este es mi reclamo', '2023-11-30 04:51:20', NULL, 0),
-(43, 10, 19815448, 'reclamo', 'oye tengo un reclamo', 'chaa oe tengo un reclamo', '2023-11-30 06:59:51', NULL, 1),
-(44, 12, 19815448, 'sugerencia', 'podrian hacer esto', 'jaja ayudaaaa', '2023-11-30 09:35:24', NULL, 1),
-(45, 12, 1111, 'felicitacion', 'los felicito', 'felicito', '2023-11-30 22:37:44', NULL, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -567,6 +440,7 @@ INSERT INTO `ticket` (`cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_sol
 CREATE TABLE `usuario` (
   `rut_usuario` bigint(20) NOT NULL,
   `nombre_usuario` varchar(255) NOT NULL,
+  `password_usuario` varchar(255) DEFAULT NULL,
   `correo_electronico_usuario` varchar(255) NOT NULL,
   `correo_electronico_tercero` varchar(255) DEFAULT NULL,
   `telefono_usuario` bigint(20) DEFAULT NULL,
@@ -577,11 +451,16 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`rut_usuario`, `nombre_usuario`, `correo_electronico_usuario`, `correo_electronico_tercero`, `telefono_usuario`, `telefono_tercero`) VALUES
-(1111, 'ciudadano', 'josephriv98@gmail.com', '', 12345678, 0),
-(1234, 'admin', 'correo@gmail.com', '', 0, 0),
-(19815448, 'jose rivas', 'jrivas@ing.ucsc.cl', '', 966737620, 0),
-(20267690, 'juan baeza', 'juanBaeza@gmail.com', '', 0, 0);
+INSERT INTO `usuario` (`rut_usuario`, `nombre_usuario`, `password_usuario`, `correo_electronico_usuario`, `correo_electronico_tercero`, `telefono_usuario`, `telefono_tercero`) VALUES
+(1, 'prueba', '$2y$10$9eM2w16NZKdsfpYtTc.5MuJC8urjEr8vkQ6L7frdQ42mI0Zs678G2', 'q@we', '', 0, 0),
+(2, 'poto', '$2y$10$7MAEeotXwSP0D9w4xLBgruezOmZhkubFe4dAG67oET0nOw.Y5P/gO', 'admin@poto', '', 0, 0),
+(666, 'pollo', '$2y$10$ep1RCzXLyD2Jq5XpqR9QTODr3CCUbf99kH5ChkG89K6fk59L0rOWO', 'pollo@pollo', '', 123, 0),
+(1111, 'perkin', NULL, 'perkin@perkin.perkin', '', 123456789, 0),
+(1234, 'admin', NULL, 'correo@gmail.com', '', 0, 0),
+(999999, 'admin3', '$2y$10$L29sCC7oXCpPy2CBsMfmj.C0xN2M61PD3AQI085Kvs7etAO22HKqW', 'admin3@poto', '', 0, 0),
+(20267690, 'juan baeza', NULL, 'juanBaeza@gmail.com', '', 0, 0),
+(999999998, 'admin4', '$2y$10$fZ/FPAzJGgVgiV6hStqn..qIH1/SqLtPh2H2Df5Z4zHcnwQH8ywHa', 'admin4@poto', '', 0, 0),
+(999999999, 'admin2', '$2y$10$6Kb3aNNKG332a9.klNhj7OyveCuDIz9Kz0HPWiPjeEeBGJCu0G2/W', 'poto@admin2', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -613,7 +492,12 @@ INSERT INTO `usuario_rol` (`cod_rol`, `rut_usuario`) VALUES
 (1, 1234),
 (2, 20267690),
 (2, 1111),
-(2, 19815448);
+(2, 1),
+(1, 2),
+(1, 999999999),
+(1, 999999),
+(1, 999999998),
+(2, 666);
 
 --
 -- Índices para tablas volcadas
@@ -830,7 +714,7 @@ ALTER TABLE `estado`
 -- AUTO_INCREMENT de la tabla `municipalidad`
 --
 ALTER TABLE `municipalidad`
-  MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT de la tabla `palabra_ofensiva`
@@ -860,13 +744,13 @@ ALTER TABLE `region`
 -- AUTO_INCREMENT de la tabla `registro_ticket`
 --
 ALTER TABLE `registro_ticket`
-  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -878,7 +762,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Restricciones para tablas volcadas
