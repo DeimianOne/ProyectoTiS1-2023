@@ -48,7 +48,23 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!--InputMask -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7/inputmask.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+
+<!--Maps API -->
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWTchPkQp1ZRiaRZwNqHkz98Jc64z4-4Y&callback=initMapCallback" async defer></script>
+
+<script>
+    function initMapCallback() {
+    if (typeof initCreateMap === 'function') {
+        initCreateMap();
+    } else if (typeof initLoadMap === 'function') {
+        initLoadMap();
+    } else if (typeof initTicketMap === 'function') {
+            initTicketMap();
+        }
+    // Puedes agregar más condicionales para otras páginas/mapas
+}</script>
 </body>
 
 </html>

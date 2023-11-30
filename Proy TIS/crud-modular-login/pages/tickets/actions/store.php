@@ -22,6 +22,8 @@
     $tipo_solicitud = $_POST["tipo_solicitud"];
     $asunto_ticket = $_POST["asunto_ticket"];
     $detalles_solicitud = $_POST["detalles_solicitud"];
+    $latitud = $_POST["latitud"];
+    $longitud = $_POST["longitud"]; //falta crear estos espacios en la bd
 
     // Verificar malas palabras
     if (contieneMalasPalabras($detalles_solicitud, $connection)) {

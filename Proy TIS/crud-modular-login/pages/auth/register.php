@@ -31,7 +31,7 @@ if (isset($_REQUEST['rut_usuario'])) {
     $trn_date = date("Y-m-d H:i:s");
     $query = "INSERT into `usuario` (rut_usuario, nombre_usuario, password_usuario, correo_electronico_usuario, correo_electronico_tercero, telefono_usuario, telefono_tercero) VALUES ('$rut_usuario', '$nombre_usuario','$password_hash', '$correo_electronico_usuario', '$correo_electronico_tercero', '$telefono_usuario', '$telefono_tercero');";
     $result = mysqli_query($connection, $query);
-    $query2 = "INSERT into `usuario_rol` (cod_rol, rut_usuario) VALUES (1,'$rut_usuario')";
+    $query2 = "INSERT into `usuario_rol` (cod_rol, rut_usuario) VALUES (2,'$rut_usuario')";
     $result2 = mysqli_query($connection, $query2);
 
     if ($result && $result2) {
