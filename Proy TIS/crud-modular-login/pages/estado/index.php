@@ -104,12 +104,16 @@ $result = mysqli_query($connection, $query);
                                 <?= $fila['descripcion_estado'] ?>
                             </td>
                             <td>
-                                <div class="btn-group" role="group" aria-label="Acciones">
-                                    <a href="index.php?p=estado/edit&cod_estado=<?= $fila['cod_estado'] ?>"
-                                        class="btn btn-sm btn-outline-warning">Editar</a>
-                                    <a href="javascript:void(0);" onclick="confirmDelete(<?= $fila['cod_estado'] ?>)"
-                                        class="btn btn-sm btn-outline-danger">Eliminar</a>
-                                </div>
+                                <?php if ($fila['cod_estado'] != 0 && $fila['cod_estado'] != 1 && $fila['cod_estado'] != 2 && $fila['cod_estado'] != 3): ?>
+                                    <div class="btn-group" role="group" aria-label="Acciones">
+                                        <a href="index.php?p=estado/edit&cod_estado=<?= $fila['cod_estado'] ?>"
+                                            class="btn btn-sm btn-outline-warning">Editar</a>
+                                        <a href="javascript:void(0);" onclick="confirmDelete(<?= $fila['cod_estado'] ?>)"
+                                            class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                    </div>
+                                <?php else: ?>
+                                    <span class="btn btn-sm disabled">Acciones no disponibles</span>
+                                <?php endif; ?>
                             </td>
                         </tr>
 

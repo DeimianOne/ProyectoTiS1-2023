@@ -138,11 +138,17 @@ if ($row = mysqli_fetch_assoc($result)) {
             <p class="text-muted mb-0 fw-bold">Fecha y Hora de Envío:
                 <?php echo $fecha_hora_envio; ?>
             </p>
-            <?php if (isset($_SESSION["rol_usuario"])): ?>
+            <?php if (isset($_SESSION["rol_usuario"]) && $cod_estado != 2): ?>
             <?php if ($_SESSION['rol_usuario'] == '1'): ?>
                 <hr>
                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
                     data-cod-ticket="<?= $cod_ticket ?>">Modificar Detalles
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal2"
+                    data-cod-ticket="<?= $cod_ticket ?>">Derivar a otro Departamento
+                </button>
+                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#warningModal"
+                    data-cod-ticket="<?= $cod_ticket ?>">Cerrar Ticket
                 </button>
             <?php endif; ?>
             <?php endif; ?>
@@ -174,12 +180,12 @@ if ($row = mysqli_fetch_assoc($result)) {
                     echo '</div>';
                 }
                 ?>
-                <?php if (isset($_SESSION["rol_usuario"])): ?>
+                <?php if (isset($_SESSION["rol_usuario"]) && $cod_estado != 2): ?>
                 <?php if ($_SESSION['rol_usuario'] == '1'): ?>
                     <?php if (!empty($respuestas)): ?>
                         <hr>
                     <?php endif; ?>
-                    <form action="pages/tickets/actions/store_respuesta.php" method="POST">
+                    <form id="respuestaForm" action="pages/tickets/actions/store_respuesta.php" method="POST">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12 mb-3">
@@ -202,9 +208,18 @@ if ($row = mysqli_fetch_assoc($result)) {
                                 <input type="hidden" name="cod_ticket" value="<?= $cod_ticket ?>">
 
                                 <div>
-                                    <button type="submit" id="btnEnviarRespuesta" class="btn btn-sm btn-success" role="button"
-                                        disabled>Enviar Respuesta</button>
+                                    <div>
+                                        <button type="submit" id="btnEnviarRespuesta" class="btn btn-sm btn-success" role="button" disabled>Enviar Respuesta</button>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <button type="button" id="btnEnviarRespuestaCerrar" class="btn btn-sm btn-danger" role="button" disabled data-bs-toggle="modal" data-bs-target="#warningModalResponder">
+                                            Enviar Respuesta y Cerrar Ticket
+                                        </button>
+                                        <div id="descripcion_modal_help" class="form-text">Se enviará la respuesta, pero el estado elegido se ignorará y se pondrá en estado cerrado.</div>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </form>
@@ -214,9 +229,49 @@ if ($row = mysqli_fetch_assoc($result)) {
         </div>
     <?php endif; ?>
 
+    <!-- Warning Modal -->
+    <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white text-center">
+                    <h1 class="modal-title fs-5" id="warningModalLabel">
+                        Advertencia
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p><strong>¿Seguro que deseas cerrar el ticket?</strong> <br> Esto pondrá el ticket en estado <strong>Cerrado</strong> y no se podrán realizar más modificaciones ni respuestas.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No Cerrar Ticket</button>
+                    <button type="button" class="btn btn-danger" id="cerrarRespuesta">Deseo Cerrar el Ticket</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Warning Modal Responder -->
+    <div class="modal fade" id="warningModalResponder" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white text-center">
+                    <h1 class="modal-title fs-5" id="warningModalLabel">
+                        Advertencia
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p><strong>¿Seguro que deseas responder y cerrar el ticket?</strong> <br> Se enviará la respuesta, pero el estado elegido se ignorará y se cambiará el estado del ticket a <strong>Cerrado</strong>. <br> No se podrán realizar más modificaciones ni respuestas.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmRespuestaCerrar">Deseo Responder y Cerrar el Ticket</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- Modal -->
+    <!-- Modal 1 -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -225,9 +280,9 @@ if ($row = mysqli_fetch_assoc($result)) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Código de Ticket: <span>
+                <p><strong>Código de Ticket: <span>
                             <?php echo $id; ?>
-                        </span></p>
+                        </span></strong></p>
                     <div id="detalleTicket"></div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -243,8 +298,31 @@ if ($row = mysqli_fetch_assoc($result)) {
                             ?>
                         </select>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="guardarCambiosBtn" data-bs-dismiss="modal">Guardar
+                        cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Modal 2 -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detalles de Ticket</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Código de Ticket: <span>
+                            <?php echo $id; ?>
+                        </span></strong></p>
+                    <div id="detalleTicket"></div>
                     <div class="mb-3">
-                        <label for="departamentoDropdown" class="form-label">Departamento</label>
+                        <label for="departamentoDropdown" class="form-label">Seleccione Departamento a Derivar</label>
                         <select class="form-select" id="departamentoDropdown">
                             <?php
                             foreach ($departamentos as $id_departamento => $n_departamento) {
@@ -252,12 +330,12 @@ if ($row = mysqli_fetch_assoc($result)) {
                             }
                             ?>
                         </select>
+                        <div id="descripcion_modal_help" class="form-text">Los tickets derivados cambian automaticamente su estado a "Remitido".</div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="guardarCambiosBtn" data-bs-dismiss="modal">Guardar
-                        cambios</button>
+                    <button type="button" class="btn btn-danger" id="derivar" data-bs-dismiss="modal">Derivar</button>
                 </div>
             </div>
         </div>
@@ -369,12 +447,14 @@ if ($row = mysqli_fetch_assoc($result)) {
                 }
             }
         }
-
         $first_entry = false;
 
         // Guardar la fecha y los valores actuales como valores previos para la próxima iteración
         $prev_fecha = $fecha;
         $prev_values = $current_values;
+    }
+    if ($cod_estado == 2) {
+        echo '<p class="text-muted mb-0 fw-bold">Ticket Cerrado</p>';
     }
 
     echo '</ul></section>';
@@ -390,11 +470,13 @@ if ($row = mysqli_fetch_assoc($result)) {
         // Seleccionar el área de texto y el botón
         var detallesSolicitud = document.getElementById("detalles_respuesta");
         var btnEnviarRespuesta = document.getElementById("btnEnviarRespuesta");
+        var btnEnviarRespuestaCerrar = document.getElementById("btnEnviarRespuestaCerrar");
 
         // Agregar un evento de entrada al área de texto
         detallesSolicitud.addEventListener("input", function () {
             // Habilitar el botón si el área de texto tiene contenido, de lo contrario, deshabilitarlo
             btnEnviarRespuesta.disabled = detallesSolicitud.value.trim() === "";
+            btnEnviarRespuestaCerrar.disabled = detallesSolicitud.value.trim() === "";
         });
     });
 </script>
@@ -402,10 +484,16 @@ if ($row = mysqli_fetch_assoc($result)) {
 <script>
     $(document).ready(function () {
 
+
+        $('#confirmRespuestaCerrar').on('click', function () {
+            $('#cod_estado').val(2);
+            $('form#respuestaForm').submit();
+        });
+
         // Variables para almacenar los valores iniciales
         var checkboxInicial, estadoInicial, departamentoInicial;
 
-        // Al abrir el modal
+        // Al abrir el modal 1
         $("#exampleModal").on("show.bs.modal", function () {
             // Establecer las opciones predeterminadas al abrir el modal
             $("#flexCheckDefault").prop("checked", <?php echo $visibilidad_solicitud ? 'true' : 'false'; ?>);
@@ -421,6 +509,22 @@ if ($row = mysqli_fetch_assoc($result)) {
             $("#guardarCambiosBtn").prop("disabled", true);
         });
 
+        // Al abrir el modal 2
+        $("#exampleModal2").on("show.bs.modal", function () {
+            // Establecer las opciones predeterminadas al abrir el modal
+            $("#flexCheckDefault").prop("checked", <?php echo $visibilidad_solicitud ? 'true' : 'false'; ?>);
+            $("#estadoDropdown").val(<?php echo $cod_estado; ?>);
+            $("#departamentoDropdown").val(<?php echo $cod_departamento; ?>);
+
+            // Actualizar los valores iniciales
+            checkboxInicial = $("#flexCheckDefault").prop("checked");
+            estadoInicial = $("#estadoDropdown").val();
+            departamentoInicial = $("#departamentoDropdown").val();
+
+            // Deshabilitar el botón "Guardar cambios" inicialmente
+            $("#derivar").prop("disabled", true);
+        });
+
         // Al cambiar el estado del checkbox o los dropdowns
         $(".form-check-input, .form-select").change(function () {
             // Obtener los valores actuales
@@ -430,9 +534,10 @@ if ($row = mysqli_fetch_assoc($result)) {
 
             // Habilitar o deshabilitar el botón según si hay cambios
             $("#guardarCambiosBtn").prop("disabled", checkboxActual === checkboxInicial && estadoActual === estadoInicial && departamentoActual === departamentoInicial);
+            $("#derivar").prop("disabled", checkboxActual === checkboxInicial && estadoActual === estadoInicial && departamentoActual === departamentoInicial);
         });
 
-
+        // Boton de modificar detalles
         $("#guardarCambiosBtn").click(function () {
 
             var checkboxValue = $("#flexCheckDefault").is(":checked") ? 1 : 0;
@@ -462,5 +567,69 @@ if ($row = mysqli_fetch_assoc($result)) {
                 }
             });
         });
+
+        // Boton de derivar
+        $("#derivar").click(function () {
+
+            var checkboxValue = "<?php echo $visibilidad_solicitud; ?>";
+            var ticketId = "<?php echo $id; ?>";
+            var estadoSeleccionado = 3
+            var departamentoSeleccionado = $("#departamentoDropdown").val();
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: "POST",
+                url: "pages/tickets/actions/modificar_ticket.php",
+                data: {
+                    id: ticketId,
+                    visibilidad_solicitud: checkboxValue,
+                    cod_estado: estadoSeleccionado,
+                    cod_departamento: departamentoSeleccionado
+                },
+                success: function (response) {
+                    // Manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Actualizar la página
+                    location.reload();
+                },
+                error: function (error) {
+                    // Manejar errores si es necesario
+                    console.error("Error en la solicitud AJAX: ", error);
+                }
+            });
+        });
+
+        // Boton de cerrar
+        $("#cerrarRespuesta").click(function () {
+
+            var checkboxValue = "<?php echo $visibilidad_solicitud; ?>";
+            var ticketId = "<?php echo $id; ?>";
+            var estadoSeleccionado = 2
+            var departamentoSeleccionado = "<?php echo $cod_departamento; ?>";
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: "POST",
+                url: "pages/tickets/actions/modificar_ticket.php",
+                data: {
+                    id: ticketId,
+                    visibilidad_solicitud: checkboxValue,
+                    cod_estado: estadoSeleccionado,
+                    cod_departamento: departamentoSeleccionado
+                },
+                success: function (response) {
+                    // Manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Actualizar la página
+                    location.reload();
+                },
+                error: function (error) {
+                    // Manejar errores si es necesario
+                    console.error("Error en la solicitud AJAX: ", error);
+                }
+            });
+        });
+        
+
     });
 </script>
