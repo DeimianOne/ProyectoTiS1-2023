@@ -4,10 +4,17 @@ require('database/connection.php');
 // If form submitted, insert values into the database.
 if (isset($_REQUEST['rut_usuario'])) {
     $rut_usuario = stripslashes($_REQUEST['rut_usuario']);
+    $rut_usuario = str_replace('.', '', $rut_usuario);
     $rut_usuario = mysqli_real_escape_string($connection, $rut_usuario);
 
     $nombre_usuario = stripslashes($_REQUEST['nombre_usuario']);
     $nombre_usuario = mysqli_real_escape_string($connection, $nombre_usuario);
+
+    $password_usuario = stripslashes($_REQUEST['password_usuario']);
+    $password_usuario = mysqli_real_escape_string($connection, $password_usuario);
+
+    //HASHING USANDO BCRYPT que es el por defecto en la version actual, más apropiado que cd5 o SHA
+    $password_hash = password_hash($password_usuario, PASSWORD_DEFAULT);
 
     $correo_electronico_usuario = stripslashes($_REQUEST['correo_electronico_usuario']);
     $correo_electronico_usuario = mysqli_real_escape_string($connection, $correo_electronico_usuario);
@@ -22,7 +29,7 @@ if (isset($_REQUEST['rut_usuario'])) {
     $telefono_tercero = mysqli_real_escape_string($connection, $telefono_tercero);
 
     $trn_date = date("Y-m-d H:i:s");
-    $query = "INSERT into `usuario` (rut_usuario, nombre_usuario, correo_electronico_usuario, correo_electronico_tercero, telefono_usuario, telefono_tercero) VALUES ('$rut_usuario', '$nombre_usuario', '$correo_electronico_usuario', '$correo_electronico_tercero', '$telefono_usuario', '$telefono_tercero');";
+    $query = "INSERT into `usuario` (rut_usuario, nombre_usuario, password_usuario, correo_electronico_usuario, correo_electronico_tercero, telefono_usuario, telefono_tercero) VALUES ('$rut_usuario', '$nombre_usuario','$password_hash', '$correo_electronico_usuario', '$correo_electronico_tercero', '$telefono_usuario', '$telefono_tercero');";
     $result = mysqli_query($connection, $query);
     $query2 = "INSERT into `usuario_rol` (cod_rol, rut_usuario) VALUES (2,'$rut_usuario')";
     $result2 = mysqli_query($connection, $query2);
@@ -31,7 +38,7 @@ if (isset($_REQUEST['rut_usuario'])) {
         echo "<div class='form'><h3>Te has registrado correctamente!</h3><br/>Haz click aquí para <a href='index.php?p=auth/login'>Logearte</a></div>";
     }
 } else {
-?>
+    ?>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -43,19 +50,27 @@ if (isset($_REQUEST['rut_usuario'])) {
                         <form name="registration" action="" method="post">
                             <div class="form-group mb-3">
                                 <label for="rut_usuario" class="form-label">RUT</label>
-                                <input type="text" name="rut_usuario" class="form-control" id="rut_usuario" required>
+                                <input type="text" name="rut_usuario" maxlength="11" class="form-control" id="rut_usuario"
+                                    required>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="nombre_usuario" class="form-label">Nombre</label>
                                 <input type="text" name="nombre_usuario" class="form-control" id="nombre_usuario">
                             </div>
                             <div class="form-group mb-3">
-                                <label for="correo_electronico_usuario" class="form-label">Correo Electrónico</label>
-                                <input type="email" name="correo_electronico_usuario" class="form-control" id="correo_electronico_usuario">
+                                <label for="password_usuario" class="form-label">Contraseña</label>
+                                <input type="password" name="password_usuario" class="form-control" id="password_usuario">
                             </div>
                             <div class="form-group mb-3">
-                                <label for="correo_electronico_tercero" class="form-label">Correo Electrónico Tercero</label>
-                                <input type="email" name="correo_electronico_tercero" class="form-control" id="correo_electronico_tercero">
+                                <label for="correo_electronico_usuario" class="form-label">Correo Electrónico</label>
+                                <input type="email" name="correo_electronico_usuario" class="form-control"
+                                    id="correo_electronico_usuario">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="correo_electronico_tercero" class="form-label">Correo Electrónico
+                                    Tercero</label>
+                                <input type="email" name="correo_electronico_tercero" class="form-control"
+                                    id="correo_electronico_tercero">
                             </div>
                             <div class="form-group mb-3">
                                 <label for="telefono_usuario" class="form-label">Teléfono</label>
@@ -74,6 +89,36 @@ if (isset($_REQUEST['rut_usuario'])) {
             </div>
         </div>
     </div>
-<?php
+    <script>
+
+        function formatRut(value) {
+            // First, remove any non-digits and then any leading zeros
+            let rut = value.replace(/\D/g, '').replace(/^0+/, '');
+            // Reverse the RUT string to start formatting from the end (right side)
+            let reversedRut = rut.split('').reverse().join('');
+            // Add a dot every three characters
+            let formattedRut = reversedRut.match(/.{1,3}/g).join('.');
+            // Reverse the string back to its normal order
+            formattedRut = formattedRut.split('').reverse().join('');
+            return formattedRut;
+        }
+
+        function rutFormatter() {
+            const inputField = document.getElementById('rut_usuario');
+            inputField.addEventListener('input', function () {
+                const formattedInputValue = formatRut(this.value);
+                this.value = formattedInputValue;
+            });
+        }
+
+        // Initialize the rutFormatter on window load
+        window.addEventListener('load', rutFormatter);
+
+
+    </script>
+
+
+
+    <?php
 }
 ?>
