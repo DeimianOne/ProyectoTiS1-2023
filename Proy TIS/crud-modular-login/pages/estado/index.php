@@ -112,7 +112,7 @@ $result = mysqli_query($connection, $query);
                                             class="btn btn-sm btn-outline-danger">Eliminar</a>
                                     </div>
                                 <?php else: ?>
-                                    <span class="btn btn-sm disabled">Acciones no disponibles</span>
+                                    <span class="text-muted mb-0 small">Acciones no disponibles</span>
                                 <?php endif; ?>
                             </td>
                         </tr>

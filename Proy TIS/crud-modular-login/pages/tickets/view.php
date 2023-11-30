@@ -248,9 +248,11 @@ if ($row = mysqli_fetch_assoc($result)) {
                                     <label for="cod_estado" class="form-label">Cambiar Estado:</label>
                                     <select class="form-select" id="cod_estado" name="cod_estado">
                                         <?php foreach ($estados as $codEstado => $nombreEstado): ?>
+                                            <?php if ($codEstado != 2 && $codEstado != 3): ?>
                                             <option value="<?= $codEstado ?>" <?php echo ($codEstado == $cod_estado) ? 'selected' : ''; ?>>
                                                 <?= $nombreEstado ?>
                                             </option>
+                                            <?php endif; ?>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -373,7 +375,9 @@ if ($row = mysqli_fetch_assoc($result)) {
                         <select class="form-select" id="estadoDropdown">
                             <?php
                             foreach ($estados as $id_estado => $n_estado) {
-                                echo "<option value='$id_estado'>$n_estado</option>";
+                                if ($id_estado != 2 && $id_estado != 3) {
+                                    echo "<option value='$id_estado'>$n_estado</option>";
+                                }
                             }
                             ?>
                         </select>

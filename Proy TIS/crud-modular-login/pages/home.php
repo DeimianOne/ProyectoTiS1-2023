@@ -94,8 +94,12 @@ $result_tickets = mysqli_query($connection, $query_tickets);
         <div class="col-md-12">
             <div class="px-2 py-2 my-2 text-center">
                 <img class="d-block mx-auto mb-4" src='./media/logoGov.png' height="100px" width="100px">
-                <h1 class="display-5 fw-bold">¡Bienvenido,
-                    <?php echo $nombre_usuario; ?>!
+                <h1 class="display-5 fw-bold">
+                    <?php if($nombre_usuario != null): ?>
+                        ¡Bienvenido/a, <?php echo $nombre_usuario;?>!
+                    <?php else:?>
+                        ¡Bienvenido/a!
+                    <?php endif;?>
                 </h1>
                 <div class="col-lg-12 mx-auto">
                     <p class="my-3">¡Tu opinión cuenta! Ahorra tiempo y esfuerzo visitando nuestra página de
