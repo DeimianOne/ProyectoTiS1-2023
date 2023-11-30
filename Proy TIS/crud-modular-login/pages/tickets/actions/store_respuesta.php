@@ -45,8 +45,10 @@ if ($result) {
         $correo = $row["correo_electronico_usuario"];
         $nombre_usuario = $row["nombre_usuario"];
         $nombre_estado = $row["nombre_estado"];
+        $asunto_ticket = $row["asunto_ticket"];
+        $tipo_solicitud = $row["tipo_solicitud"];
 
-        enviarCorreoRespuesta($correo, $nombre_usuario, $cod_ticket, $nombre_estado);
+        enviarCorreoRespuesta($correo, $nombre_usuario, $cod_ticket, $nombre_estado, $asunto_ticket, $tipo_solicitud);
     }
 
     
@@ -59,7 +61,7 @@ if ($result) {
         $resultSuscriptor = mysqli_query($connection, $querySuscriptor);
 
         if($row = mysqli_fetch_array($resultSuscriptor)){
-            enviarCorreoRespuesta($row['correo_electronico_usuario'], $row['nombre_usuario'], $cod_ticket, $nombre_estado);
+            enviarCorreoSuscripcion($row['correo_electronico_usuario'], $row['nombre_usuario'], $cod_ticket, $nombre_estado, $asunto_ticket, $tipo_solicitud);
         }
     }
 
