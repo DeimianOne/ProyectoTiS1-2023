@@ -1,5 +1,7 @@
 <?php
 include("../../../database/connection.php");
+include("../../../mail/index.php");
+
 session_start();
 
 $cod_ticket = $_POST["cod_ticket"];
@@ -26,23 +28,39 @@ if ($result) {
     include("../../registro_tickets\actions\store_register.php");
     insertar_registro($cod_ticket, $codigo);
 
-    $query_correo = "SELECT ticket.*, usuario.correo_electronico_usuario FROM ticket JOIN usuario ON ticket.rut_usuario = usuario.rut_usuario WHERE ticket.cod_ticket='" . $cod_ticket . "';";
+
+
+
+    $query_correo = "SELECT ticket.*, usuario.correo_electronico_usuario, usuario.nombre_usuario, estado_ticket.cod_estado, estado.nombre_estado
+    FROM ticket 
+    JOIN usuario ON ticket.rut_usuario = usuario.rut_usuario 
+    LEFT JOIN estado_ticket ON ticket.cod_ticket = estado_ticket.cod_ticket
+    LEFT JOIN estado ON estado_ticket.cod_estado = estado.cod_estado
+    WHERE ticket.cod_ticket ='" . $cod_ticket . "';";
     $result_correo = mysqli_query($connection, $query_correo);
 
-    if ($result_correo) {
-        $correo = mysqli_fetch_assoc($result_correo)["correo_electronico_usuario"];
 
-        $correo = "josephftwyt@gmail.com";
+    // Enviar correo a usuario creador del ticket
+    if ($row = mysqli_fetch_assoc($result_correo)) {
+        $correo = $row["correo_electronico_usuario"];
+        $nombre_usuario = $row["nombre_usuario"];
+        $nombre_estado = $row["nombre_estado"];
 
-        // the message
-        $msg = "First line of text\nSecond line of text";
+        enviarCorreoRespuesta($correo, $nombre_usuario, $cod_ticket, $nombre_estado);
+    }
 
-        // use wordwrap() if lines are longer than 70 characters
-        $msg = wordwrap($msg, 70);
-        $headers = "From: josephriv98@gmail.com";
+    
+    // Obtener los suscriptores del ticket y enviarles correo
+    $querySuscriptores = "SELECT * FROM suscripcion WHERE cod_ticket = ".$cod_ticket;
+    $resultSuscriptores = mysqli_query($connection, $querySuscriptores);
 
+    while ($filaSuscriptores = mysqli_fetch_array($resultSuscriptores)) {
+        $querySuscriptor = "SELECT * FROM usuario WHERE rut_usuario =".$filaSuscriptores['rut_usuario'];
+        $resultSuscriptor = mysqli_query($connection, $querySuscriptor);
 
-        mail($correo, "Ticket Retroalimentacion Ciudadana Actualizado", $msg, $headers);
+        if($row = mysqli_fetch_array($resultSuscriptor)){
+            enviarCorreoRespuesta($row['correo_electronico_usuario'], $row['nombre_usuario'], $cod_ticket, $nombre_estado);
+        }
     }
 
 } else {

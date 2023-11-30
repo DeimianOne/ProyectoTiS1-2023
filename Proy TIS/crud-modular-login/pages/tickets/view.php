@@ -76,6 +76,22 @@ if ($row = mysqli_fetch_assoc($result)) {
     }
 
 
+    // Revisar si el usuario actualmente en sesion esta suscrito al ticket
+    if (isset($_SESSION['rut_usuario'])){
+        $querySuscripcion = "SELECT * FROM suscripcion WHERE rut_usuario = ".$_SESSION['rut_usuario']." AND cod_ticket = ".$cod_ticket;
+        $resultSuscripcion = mysqli_query($connection, $querySuscripcion);
+    
+    
+        if ($row = mysqli_fetch_assoc($resultSuscripcion)) {
+            $suscripcion = true;
+        } else {
+            $suscripcion = false;
+        }
+    } else {
+        $suscripcion = false;
+    }
+
+
 } else {
     // Si el ticket no existe, redirigir al índice
     echo '<script>window.location.href = "index.php?p=home";</script>';
@@ -150,6 +166,39 @@ if ($row = mysqli_fetch_assoc($result)) {
                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#warningModal"
                     data-cod-ticket="<?= $cod_ticket ?>">Cerrar Ticket
                 </button>
+
+            <!-- SUSCRIBIRSE PARA RECIBIR NOTIFICACIONES -->
+            <?php else: ?>
+                <?php if ($_SESSION['rut_usuario'] != $rut_usuario): ?>
+                    <?php if (!$suscripcion): ?>
+                    <hr>
+
+                    <form action="pages/tickets/actions/suscripcion.php" method="POST">
+                        <input type="hidden" name="suscripcion" value="<?php echo $suscripcion; ?>">
+                        <input type="hidden" name="rut_usuario" value="<?php echo $_SESSION['rut_usuario']; ?>">
+                        <input type="hidden" name="cod_ticket" value="<?php echo $cod_ticket; ?>">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            Recibir Notificaciones
+                        </button>
+                    </form>
+
+                    <div id="descripcion_modal_help" class="form-text">Si desea recibir notificaciones, se le notificará mediante correo electrónico cada vez que se actualice este ticket.</div>
+
+                    <?php else: ?>
+                    <hr>
+
+                    <form action="pages/tickets/actions/suscripcion.php" method="POST">
+                        <input type="hidden" name="suscripcion" value="<?php echo $suscripcion; ?>">
+                        <input type="hidden" name="rut_usuario" value="<?php echo $_SESSION['rut_usuario']; ?>">
+                        <input type="hidden" name="cod_ticket" value="<?php echo $cod_ticket; ?>">
+                        <button type="submit" class="btn btn-sm btn-outline-primary">
+                            Dejar de Recibir Notificaciones
+                        </button>
+                    </form>
+                    <div id="descripcion_modal_help" class="form-text">Actualmente está recibiendo notificaciones. Se le notificará mediante correo electrónico cada vez que se actualice este ticket.</div>
+
+                    <?php endif; ?>
+                <?php endif; ?>
             <?php endif; ?>
             <?php endif; ?>
         </div>
