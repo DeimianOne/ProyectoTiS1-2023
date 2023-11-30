@@ -205,6 +205,7 @@ if ($row = mysqli_fetch_assoc($result)) {
     </div>
 
     <!-- Detalles de las respuestas -->
+    <?php if (isset($_SESSION['rol_usuario'])): ?>
     <?php if (!empty($respuestas) || $_SESSION['rol_usuario'] == '1'): ?>
         <div class="card mt-3">
             <div class="card-header">
@@ -276,6 +277,36 @@ if ($row = mysqli_fetch_assoc($result)) {
                 <?php endif; ?>
             </div>
         </div>
+    <?php endif; ?>
+    <!-- SI NO HAY SESION INICIADA SIMPLEMENTE MUESTRA LAS RESPUESTAS -->
+    <?php else: ?>
+    <?php if (!empty($respuestas)): ?>
+        <div class="card mt-3">
+            <div class="card-header">
+                <h3>Respuestas</h3>
+            </div>
+            <div class="card-body">
+                <?php
+                // Itera sobre cada respuesta y muestra los detalles
+                foreach ($respuestas as $key => $respuesta) {
+                    echo '<div class="respuesta">';
+                    $queryUsuarios = "SELECT * FROM usuario WHERE rut_usuario = '" . $respuesta['rut_usuario'] . "'";
+                    $resultUsuarios = mysqli_query($connection, $queryUsuarios);
+                    $usuario = mysqli_fetch_assoc($resultUsuarios);
+                    echo '<p class="text-muted mb-0">Remitente: ' . $usuario['nombre_usuario'] . '</p>';
+                    echo '<p class="text-muted mb-0">' . $usuario['correo_electronico_usuario'] . '</p>';
+                    echo '<br>';
+                    echo '<p><strong>Detalles:</strong> ' . $respuesta['detalles_respuesta'] . '</p>';
+                    echo '<p class="text-muted mb-0 fw-bold">' . $respuesta['fecha_hora_envio'] . '</p>';
+                    if ($key != array_key_last($respuestas)) {
+                        echo '<hr>';
+                    }
+                    echo '</div>';
+                }
+                ?>
+            </div>
+        </div>
+    <?php endif; ?>
     <?php endif; ?>
 
     <!-- Warning Modal -->
