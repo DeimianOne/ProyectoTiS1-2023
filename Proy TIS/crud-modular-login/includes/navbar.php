@@ -27,6 +27,9 @@
                         <a class="nav-link <?php echo (strpos($pagina, 'calificacion') !== false) ? 'active' : null ?>" href="index.php?p=calificacion/index">Calificacion Sistema</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'mapa_estadisticas') !== false) ? 'active' : null ?>" href="index.php?p=mapa/index">Mapa de estadísticas</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" hidden href="">Mapa de estadísticas</a>
                     </li>
                     <li class="nav-item">
