@@ -1,6 +1,10 @@
 <?php
 include("database/auth.php");
 include("database/connection.php");
+
+$query_proyecto = "SELECT * FROM proyecto";
+$result_proyecto = mysqli_query($connection, $query_proyecto);
+
 ?>
 
 <main class="container mt-5">
@@ -22,6 +26,8 @@ include("database/connection.php");
             <form id="formulario">
                 <div class="modal-body">
                     <div class="form-floating mb-3">
+                        <input type="hidden" class="form-control" id="cod_proyecto" readonly>
+                    <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="evento">
                         <label for="evento" class="form-label">Nombre del evento</label>
                     </div>
@@ -30,10 +36,14 @@ include("database/connection.php");
                         <label for="descripcion" class="form-label">descripcion</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" id="fecha_evento" readonly>
-                        <label for="fecha_evento" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fecha_inicio" readonly>
+                        <label for="fecha_inicio" class="form-label">Fecha de inicio</label>
                     </div>
-
+                    <div>
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control" id="fecha_termino" readonly>
+                        <label for="fecha_termino" class="form-label">Fecha de termino</label>
+                    </div>
                 </div>
                 <div class="modal-footer">
 
@@ -50,10 +60,16 @@ include("database/connection.php");
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             locale: "es",
-            dateClick: function(info) {
+            events:'api/agenda/listar_proyectos.php',
+            eventClick: function(info) {
+                console.log(info.event.description);    
+                document.getElementById('cod_proyecto').value = info.event.id;
+                document.getElementById('evento').value = info.event.title;
+                document.getElementById('descripcion').value = info.event.extendedProps.description;
+                document.getElementById('fecha_inicio').value = info.event.startStr;
+                document.getElementById('fecha_termino').value = info.event.endStr;
                 $("#myModal").modal("show");
-                document.getElementById('fecha_evento').value = info.dateStr;
-            }
+            },
         });
         calendar.render();
     });
