@@ -34,6 +34,36 @@
             }
         });
     });
+
+    function confirmDelete(cod_tabla) {
+        // Verificar si valor es clave foránea en varias tablas
+        $.ajax({
+            url: 'pages/actions/check_foreign_key.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                value: cod_tabla,
+                checks: [
+                    { table: 'comuna', field: 'cod_region' }
+                ]
+            }),
+            success: function (response) {
+                const parsedResponse = JSON.parse(response);
+                const dependentTables = Array.isArray(parsedResponse) ? parsedResponse : [];
+
+                if (dependentTables.length > 0) {
+                    // Es clave foránea, mostrar alerta con información de las tablas
+                    alert(`No se puede borrar este dato, ya que depende de las siguientes tablas: ${dependentTables.join(', ')}`);
+                } else {
+                    // No es clave foránea, redirigir a delete.php para eliminar
+                    window.location.href = 'pages/region/actions/delete.php?cod_region=' + cod_tabla;
+                }
+            },
+            error: function (error) {
+                console.error('Error al verificar clave foránea:', error);
+            }
+        });
+    }
 </script>
 
 <main class="container mt-5">
@@ -43,7 +73,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Regiones</span>
+                        <span>Listado de regiones</span>
                 </div>
                 <div>
                     <a class="btn btn-sm btn-primary" href="index.php?p=region/create" role="button">Agregar nuevo</a>
@@ -65,8 +95,12 @@
                             <th scope="row"><?= $fila['cod_region'] ?></th>
                             <td><?= $fila['nombre_region'] ?></td>
                             <td>
-                                <a href="index.php?p=region/edit&cod_region=<?= $fila['cod_region'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
-                                <a href="pages/region/actions/delete.php?cod_region=<?= $fila['cod_region'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                <div class="btn-group" role="group" aria-label="Acciones">
+                                    <a href="index.php?p=region/edit&cod_region=<?= $fila['cod_region'] ?>"
+                                        class="btn btn-sm btn-outline-warning">Editar</a>
+                                    <a href="javascript:void(0);" onclick="confirmDelete(<?= $fila['cod_region'] ?>)"
+                                        class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                </div>
                             </td>
                         </tr>
 

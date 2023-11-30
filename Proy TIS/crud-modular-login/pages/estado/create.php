@@ -1,5 +1,5 @@
 <?php
-    include("database/auth.php");
+include("database/auth.php");
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
@@ -13,15 +13,20 @@
         <form action="pages/estado/actions/store.php" method="POST">
             <div class="card-body">
                 <div class="row">
-                
+
                     <div class="col-md-12 mb-3">
                         <label for="name" class="form-label">Estado</label>
-                        <input type="text" class="form-control" id="name" name="nombre_estado" pattern="[A-Za-z ]+" title="Ocupa solo espacios y letras del abecedario" placeholder="Estado" required>
+                        <input type="text" class="form-control" id="name" name="nombre_estado"
+                            pattern="[A-Za-z0-9\s'áéíóúÁÉÍÓÚüÜñÑ]{1,50}"
+                            title="Solo se permiten letras, letras con tilde, números, máximo 50 caracteres"
+                            placeholder="Estado" required>
                     </div>
 
                     <div class="col-md-12 mb-3">
                         <label for="name" class="form-label">Descripción</label>
-                        <input type="text" class="form-control" id="name" name="descripcion_estado" placeholder="Descripción" required>
+                        <input type="text" class="form-control" id="name" name="descripcion_estado" maxlength="250"
+                            placeholder="Descripción" required>
+                        <div id="descripcion_proyecto_help" class="form-text">Máximo 250 caracteres.</div>
                     </div>
 
                 </div>

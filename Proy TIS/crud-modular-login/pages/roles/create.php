@@ -20,7 +20,10 @@ $result = mysqli_query($connection, $query);
 
                     <div class="col-md-12 mb-3">
                         <label for="name" class="form-label">Nombre del rol</label>
-                        <input type="text" class="form-control" id="name" name="nombre_rol" placeholder="Rol" required>
+                        <input type="text" class="form-control" id="name" name="nombre_rol" placeholder="Rol"
+                            pattern="[A-Za-z0-9\s'áéíóúÁÉÍÓÚüÜñÑ]{1,50}"
+                            title="Solo se permiten letras, letras con tilde, números y el signo ' (comilla simple), máximo 50 caracteres"
+                            required>
                     </div>
 
                     <div class="col-md-12 mb-3">

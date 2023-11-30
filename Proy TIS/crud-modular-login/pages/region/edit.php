@@ -1,18 +1,18 @@
 <?php
-    include("database/connection.php");
-    include("database/auth.php");
+include("database/connection.php");
+include("database/auth.php");
 
-    $id = $_GET["cod_region"];
+$id = $_GET["cod_region"];
 
-    $query = "SELECT * FROM region WHERE cod_region=" . $id . ";";
-    $result =  mysqli_query($connection, $query);
+$query = "SELECT * FROM region WHERE cod_region=" . $id . ";";
+$result = mysqli_query($connection, $query);
 
-    if ($row = mysqli_fetch_assoc($result)) {
-        $nombre = $row["nombre_region"];
-        $id = $row["cod_region"];
-    } else {
-        header("Location: index.php?p=region/index");
-    }
+if ($row = mysqli_fetch_assoc($result)) {
+    $nombre = $row["nombre_region"];
+    $id = $row["cod_region"];
+} else {
+    header("Location: index.php?p=region/index");
+}
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
@@ -30,7 +30,10 @@
 
                     <div class="col-md-12 mb-3">
                         <label for="name" class="form-label">Nombre de la Región</label>
-                        <input type="text" class="form-control" id="name" name="nombre_region" placeholder="Región" value="<?php echo $nombre ?>" required>
+                        <input type="text" class="form-control" id="name" name="nombre_region" placeholder="Región"
+                            pattern="[A-Za-z0-9\s'áéíóúÁÉÍÓÚüÜñÑ]{1,50}"
+                            title="Solo se permiten letras, letras con tilde, números y el signo ' (comilla simple), máximo 50 caracteres"
+                            value="<?php echo $nombre ?>" required>
                     </div>
 
                 </div>

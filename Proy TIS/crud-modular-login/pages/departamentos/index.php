@@ -1,16 +1,16 @@
 <?php
-    include("database/connection.php");  // Incluye la conexión
-    include("database/auth.php");  // Comprueba si el usuario está logueado, sino lo redirige al login
+include("database/connection.php");  // Incluye la conexión
+include("database/auth.php");  // Comprueba si el usuario está logueado, sino lo redirige al login
 
-    if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
-        
-        $query = "SELECT departamento.*, municipalidad.nombre_municipalidad AS nombre_municipalidad FROM departamento JOIN municipalidad ON departamento.cod_municipalidad = municipalidad.cod_municipalidad";
+if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
 
-        $result = mysqli_query($connection, $query);
+    $query = "SELECT departamento.*, municipalidad.nombre_municipalidad AS nombre_municipalidad FROM departamento JOIN municipalidad ON departamento.cod_municipalidad = municipalidad.cod_municipalidad";
 
-    } else {
-        header("Location: index.php?p=auth/login");
-    }
+    $result = mysqli_query($connection, $query);
+
+} else {
+    header("Location: index.php?p=auth/login");
+}
 
 ?>
 
@@ -42,6 +42,41 @@
             }
         });
     });
+
+    function confirmDelete(cod_departamento) {
+        // Verificar si el departamento es clave foránea en varias tablas
+        $.ajax({
+            url: 'pages/actions/check_foreign_key.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                value: cod_departamento,
+                checks: [
+                    { table: 'proyecto', field: 'cod_departamento' },
+                    { table: 'registro_ticket', field: 'cod_departamento' },
+                    { table: 'encargado_departamento', field: 'cod_departamento' },
+                    { table: 'agenda', field: 'cod_departamento' },
+                    { table: 'ticket', field: 'cod_departamento' }
+                ]
+            }),
+            success: function (response) {
+                const parsedResponse = JSON.parse(response);
+                const dependentTables = Array.isArray(parsedResponse) ? parsedResponse : [];
+
+                if (dependentTables.length > 0) {
+                    // Es clave foránea, mostrar alerta con información de las tablas
+                    alert(`No se puede borrar este departamento, ya que depende de las siguientes tablas: ${dependentTables}`);
+                } else {
+                    // No es clave foránea, redirigir a delete.php para eliminar
+                    window.location.href = 'pages/departamentos/actions/delete.php?id=' + cod_departamento;
+                }
+            },
+            error: function (error) {
+                console.error('Error al verificar clave foránea:', error);
+            }
+        });
+    }
+
 </script>
 
 <main class="container mt-5">
@@ -50,10 +85,11 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Aquí puedes agregar departamentos.</span>
+                    <span>Listado de departamentos</span>
                 </div>
                 <div>
-                    <a class="btn btn-sm btn-primary" href="index.php?p=departamentos/create" role="button">Agregar nuevo</a>
+                    <a class="btn btn-sm btn-primary" href="index.php?p=departamentos/create" role="button">Agregar
+                        nuevo</a>
                 </div>
             </div>
         </div>
@@ -74,16 +110,34 @@
                 <tbody>
                     <?php while ($fila = mysqli_fetch_array($result)): ?>
                         <tr>
-                            <th scope="row"><?= $fila['cod_departamento'] ?></th>
-                            <td><?= $fila['nombre_municipalidad'] ?></td>
-                            <td><?= $fila['nombre_departamento'] ?></td>
-                            <td><?= $fila['telefono_departamento'] ?></td>
-                            <td><?= $fila['atencion_presencial'] == 1 ? 'Sí' : 'No' ?></td>
-                            <td><?= $fila['horario_atencion_inicio'] ?></td>
-                            <td><?= $fila['horario_atencion_termino'] ?></td>
+                            <th scope="row">
+                                <?= $fila['cod_departamento'] ?>
+                            </th>
                             <td>
-                                <a href="index.php?p=departamentos/edit&id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-warning my-2">Editar</a>
-                                <a href="pages/departamentos/actions/delete.php?id=<?= $fila['cod_departamento'] ?>" class="btn btn-sm btn-outline-danger my-2">Eliminar</a>
+                                <?= $fila['nombre_municipalidad'] ?>
+                            </td>
+                            <td>
+                                <?= $fila['nombre_departamento'] ?>
+                            </td>
+                            <td>
+                                <?= $fila['telefono_departamento'] ?>
+                            </td>
+                            <td>
+                                <?= $fila['atencion_presencial'] == 1 ? 'Sí' : 'No' ?>
+                            </td>
+                            <td>
+                                <?= $fila['horario_atencion_inicio'] ?>
+                            </td>
+                            <td>
+                                <?= $fila['horario_atencion_termino'] ?>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Acciones">
+                                    <a href="index.php?p=departamentos/edit&id=<?= $fila['cod_departamento'] ?>"
+                                        class="btn btn-sm btn-outline-warning">Editar</a>
+                                    <a href="javascript:void(0);" onclick="confirmDelete(<?= $fila['cod_departamento'] ?>)"
+                                        class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                </div>
                             </td>
                         </tr>
                     <?php endwhile; ?>
