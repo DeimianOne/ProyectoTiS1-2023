@@ -5,7 +5,7 @@ include("database/auth.php");
 $id = $_GET["cod_rol"];
 
 $query = "SELECT * FROM rol WHERE cod_rol=" . $id . ";";
-$result =  mysqli_query($connection, $query);
+$result = mysqli_query($connection, $query);
 
 if ($row = mysqli_fetch_assoc($result)) {
     $nombre_rol = $row["nombre_rol"];
@@ -30,7 +30,10 @@ if ($row = mysqli_fetch_assoc($result)) {
 
                     <div class="col-md-12 mb-3">
                         <label for="name" class="form-label">Nombre del rol</label>
-                        <input type="text" class="form-control" id="name" name="nombre_rol" placeholder="Rol" value="<?php echo $nombre_rol; ?>" required>
+                        <input type="text" class="form-control" id="name" name="nombre_rol" placeholder="Rol"
+                            pattern="[A-Za-z0-9\s'áéíóúÁÉÍÓÚüÜñÑ]{1,50}"
+                            title="Solo se permiten letras, letras con tilde, números y el signo ' (comilla simple), máximo 50 caracteres"
+                            value="<?php echo $nombre_rol; ?>" required>
                     </div>
 
                     <div class="col-md-12 mb-3">

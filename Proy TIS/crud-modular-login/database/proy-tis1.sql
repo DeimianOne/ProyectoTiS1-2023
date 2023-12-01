@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 16, 2023 at 03:30 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 01-12-2023 a las 02:12:41
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,33 +18,27 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `proy-tis1`
+-- Base de datos: `proy-tis1`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `agenda`
+-- Estructura de tabla para la tabla `agenda`
 --
 
 CREATE TABLE `agenda` (
   `cod_agenda` bigint(20) NOT NULL,
+  `cod_departamento` bigint(20) NOT NULL,
   `rut_usuario` bigint(20) NOT NULL,
   `fecha` date NOT NULL,
   `hora` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `agenda`
---
-
-INSERT INTO `agenda` (`cod_agenda`, `rut_usuario`, `fecha`, `hora`) VALUES
-(1, 1111, '2023-11-17', '09:30:00');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `calificacion_atencion`
+-- Estructura de tabla para la tabla `calificacion_atencion`
 --
 
 CREATE TABLE `calificacion_atencion` (
@@ -52,19 +46,25 @@ CREATE TABLE `calificacion_atencion` (
   `cod_ticket` bigint(20) DEFAULT NULL,
   `calificacion_atencion` int(11) NOT NULL,
   `comentario_atencion` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `calificacion_atencion`
+-- Volcado de datos para la tabla `calificacion_atencion`
 --
 
 INSERT INTO `calificacion_atencion` (`cod_calificacion_atencion`, `cod_ticket`, `calificacion_atencion`, `comentario_atencion`) VALUES
-(7, 39, 5, 'muy buena');
+(1, 34, 5, 'asdasd'),
+(2, 32, 5, ''),
+(3, 33, 0, ''),
+(4, 33, 0, ''),
+(5, 30, 4, 'ertaerterg'),
+(6, 31, 2, 'qwe'),
+(7, 36, 4, '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `calificacion_sistema`
+-- Estructura de tabla para la tabla `calificacion_sistema`
 --
 
 CREATE TABLE `calificacion_sistema` (
@@ -72,29 +72,39 @@ CREATE TABLE `calificacion_sistema` (
   `cod_ticket` bigint(20) DEFAULT NULL,
   `calificacion_sistema` float NOT NULL,
   `comentario_sistema` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `calificacion_sistema`
+-- Volcado de datos para la tabla `calificacion_sistema`
 --
 
 INSERT INTO `calificacion_sistema` (`cod_calificacion_sistema`, `cod_ticket`, `calificacion_sistema`, `comentario_sistema`) VALUES
-(11, 39, 5, 'muy buena');
+(1, 34, 2, 'asdqwe'),
+(2, 32, 5, 'holis muy bien'),
+(3, 34, 3, 'asdasdqwe'),
+(4, 32, 0, ''),
+(5, 34, 0, ''),
+(6, 32, 4, ''),
+(7, 33, 5, 'asdad'),
+(8, 30, 3, 'asd'),
+(9, 35, 5, 'muy bien'),
+(10, 31, 0, ''),
+(11, 36, 4, '');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comuna`
+-- Estructura de tabla para la tabla `comuna`
 --
 
 CREATE TABLE `comuna` (
   `cod_comuna` bigint(20) NOT NULL,
   `cod_region` bigint(20) NOT NULL,
   `nombre_comuna` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `comuna`
+-- Volcado de datos para la tabla `comuna`
 --
 
 INSERT INTO `comuna` (`cod_comuna`, `cod_region`, `nombre_comuna`) VALUES
@@ -108,7 +118,7 @@ INSERT INTO `comuna` (`cod_comuna`, `cod_region`, `nombre_comuna`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `departamento`
+-- Estructura de tabla para la tabla `departamento`
 --
 
 CREATE TABLE `departamento` (
@@ -119,10 +129,10 @@ CREATE TABLE `departamento` (
   `atencion_presencial` tinyint(1) NOT NULL,
   `horario_atencion_inicio` time DEFAULT NULL,
   `horario_atencion_termino` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `departamento`
+-- Volcado de datos para la tabla `departamento`
 --
 
 INSERT INTO `departamento` (`cod_departamento`, `cod_municipalidad`, `nombre_departamento`, `telefono_departamento`, `atencion_presencial`, `horario_atencion_inicio`, `horario_atencion_termino`) VALUES
@@ -132,7 +142,7 @@ INSERT INTO `departamento` (`cod_departamento`, `cod_municipalidad`, `nombre_dep
 -- --------------------------------------------------------
 
 --
--- Table structure for table `direccion`
+-- Estructura de tabla para la tabla `direccion`
 --
 
 CREATE TABLE `direccion` (
@@ -141,10 +151,10 @@ CREATE TABLE `direccion` (
   `calle` varchar(255) NOT NULL,
   `numero` smallint(6) NOT NULL,
   `numero_departamento` smallint(6) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `direccion`
+-- Volcado de datos para la tabla `direccion`
 --
 
 INSERT INTO `direccion` (`cod_direccion`, `cod_comuna`, `calle`, `numero`, `numero_departamento`) VALUES
@@ -153,28 +163,28 @@ INSERT INTO `direccion` (`cod_direccion`, `cod_comuna`, `calle`, `numero`, `nume
 -- --------------------------------------------------------
 
 --
--- Table structure for table `encargado_departamento`
+-- Estructura de tabla para la tabla `encargado_departamento`
 --
 
 CREATE TABLE `encargado_departamento` (
   `cod_departamento` bigint(20) NOT NULL,
   `rut_usuario` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `estado`
+-- Estructura de tabla para la tabla `estado`
 --
 
 CREATE TABLE `estado` (
   `cod_estado` bigint(20) NOT NULL,
   `nombre_estado` varchar(50) NOT NULL,
   `descripcion_estado` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `estado`
+-- Volcado de datos para la tabla `estado`
 --
 
 INSERT INTO `estado` (`cod_estado`, `nombre_estado`, `descripcion_estado`) VALUES
@@ -186,62 +196,76 @@ INSERT INTO `estado` (`cod_estado`, `nombre_estado`, `descripcion_estado`) VALUE
 -- --------------------------------------------------------
 
 --
--- Table structure for table `estado_ticket`
+-- Estructura de tabla para la tabla `estado_ticket`
 --
 
 CREATE TABLE `estado_ticket` (
   `cod_ticket` bigint(20) NOT NULL,
   `cod_estado` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `estado_ticket`
+-- Volcado de datos para la tabla `estado_ticket`
 --
 
 INSERT INTO `estado_ticket` (`cod_ticket`, `cod_estado`) VALUES
-(38, 0),
-(39, 12),
-(40, 13),
-(37, 12);
+(31, 12),
+(32, 12),
+(33, 0),
+(34, 10),
+(30, 10),
+(35, 0),
+(36, 10),
+(37, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `municipalidad`
+-- Estructura de tabla para la tabla `municipalidad`
 --
 
 CREATE TABLE `municipalidad` (
   `cod_municipalidad` bigint(20) NOT NULL,
   `nombre_municipalidad` varchar(50) NOT NULL,
   `cod_comuna` bigint(20) NOT NULL,
-  `direccion_municipalidad` varchar(255) NOT NULL,
+  `direccion_municipalidad` varchar(255) DEFAULT NULL,
+  `latitud` float DEFAULT NULL,
+  `longitud` float DEFAULT NULL,
   `correo_municipalidad` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `municipalidad`
+-- Volcado de datos para la tabla `municipalidad`
 --
 
-INSERT INTO `municipalidad` (`cod_municipalidad`, `nombre_municipalidad`, `cod_comuna`, `direccion_municipalidad`, `correo_municipalidad`) VALUES
-(56, 'Municipalidad de Concepción', 13, 'Bernardo O`Higgins 525', 'asistenciasocialconcepcion@gmail.com');
+INSERT INTO `municipalidad` (`cod_municipalidad`, `nombre_municipalidad`, `cod_comuna`, `direccion_municipalidad`, `latitud`, `longitud`, `correo_municipalidad`) VALUES
+(56, 'Municipalidad de Concepción', 13, 'Bernardo O`Higgins 525', NULL, NULL, 'asistenciasocialconcepcion@gmail.com'),
+(60, 'Hola que pasa', 13, 'Braulio Arenas Carvajal 8114', -36.8963, -73.1337, 'poroto@porots.com'),
+(61, 'callbackNuevo', 13, 'Braulio Arenas Carvajal 8114', -36.8963, -73.1337, 'ojala@funcione'),
+(62, 'Municipalidad de Santiago', 17, 'Amunategui 980', -33.4329, -70.6577, 'mun@stgo'),
+(63, 'comprobacion', 16, 'San Felipe 80, puerto montt, Chile', -41.472, -72.9371, 'mun@ptomont'),
+(64, 'holax', 13, '', -14.7431, -56.7434, 'brzil@xd'),
+(65, 'testcalle', 13, 'Calle Braulio Arenas Carvajal, San Pedro de la Paz, Chile', -36.8947, -73.1332, 'xxd@xd'),
+(66, 'poroto', 13, 'Calle Braulio Arenas Carvajal, San Pedro de la Paz, Chile', -36.8947, -73.1332, 'qweqw@asd'),
+(67, 'ElDemian', 13, 'Orompello, Concepción, Chile', -36.8191, -73.048, 'demian@one');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `palabra_ofensiva`
+-- Estructura de tabla para la tabla `palabra_ofensiva`
 --
 
 CREATE TABLE `palabra_ofensiva` (
   `cod_palabra` int(11) NOT NULL,
-  `palabra` varchar(255) COLLATE utf8mb4_spanish_ci NOT NULL
+  `palabra` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
--- Dumping data for table `palabra_ofensiva`
+-- Volcado de datos para la tabla `palabra_ofensiva`
 --
 
 INSERT INTO `palabra_ofensiva` (`cod_palabra`, `palabra`) VALUES
-(1, 'mierda'),
+(1, 'mierdaa'),
 (2, 'conchetumadre'),
 (4, 'hijo de puta'),
 (5, 'carajo');
@@ -249,17 +273,17 @@ INSERT INTO `palabra_ofensiva` (`cod_palabra`, `palabra`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `permiso`
+-- Estructura de tabla para la tabla `permiso`
 --
 
 CREATE TABLE `permiso` (
   `cod_permiso` bigint(20) NOT NULL,
   `nombre_permiso` varchar(30) NOT NULL,
   `descripcion_permiso` varchar(250) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `permiso`
+-- Volcado de datos para la tabla `permiso`
 --
 
 INSERT INTO `permiso` (`cod_permiso`, `nombre_permiso`, `descripcion_permiso`) VALUES
@@ -271,7 +295,7 @@ INSERT INTO `permiso` (`cod_permiso`, `nombre_permiso`, `descripcion_permiso`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `proyecto`
+-- Estructura de tabla para la tabla `proyecto`
 --
 
 CREATE TABLE `proyecto` (
@@ -281,10 +305,10 @@ CREATE TABLE `proyecto` (
   `descripcion_proyecto` varchar(500) NOT NULL,
   `fecha_inicio_proyecto` date DEFAULT NULL,
   `fecha_termino_estimada_proyecto` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `proyecto`
+-- Volcado de datos para la tabla `proyecto`
 --
 
 INSERT INTO `proyecto` (`cod_proyecto`, `cod_departamento`, `nombre_proyecto`, `descripcion_proyecto`, `fecha_inicio_proyecto`, `fecha_termino_estimada_proyecto`) VALUES
@@ -293,16 +317,16 @@ INSERT INTO `proyecto` (`cod_proyecto`, `cod_departamento`, `nombre_proyecto`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `region`
+-- Estructura de tabla para la tabla `region`
 --
 
 CREATE TABLE `region` (
   `cod_region` bigint(20) NOT NULL,
   `nombre_region` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `region`
+-- Volcado de datos para la tabla `region`
 --
 
 INSERT INTO `region` (`cod_region`, `nombre_region`) VALUES
@@ -314,7 +338,7 @@ INSERT INTO `region` (`cod_region`, `nombre_region`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `registro_ticket`
+-- Estructura de tabla para la tabla `registro_ticket`
 --
 
 CREATE TABLE `registro_ticket` (
@@ -331,29 +355,36 @@ CREATE TABLE `registro_ticket` (
   `calificacion` float DEFAULT NULL,
   `visibilidad_solicitud` tinyint(1) NOT NULL,
   `cod_respuesta` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `registro_ticket`
+-- Volcado de datos para la tabla `registro_ticket`
 --
 
 INSERT INTO `registro_ticket` (`cod_registro`, `fecha_hora_registro`, `cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `cod_estado`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`, `cod_respuesta`) VALUES
-(68, '2023-11-16 10:33:51', 37, 12, 19815448, 'reclamo', 0, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-16 10:33:51', 0, 0, NULL),
-(69, '2023-11-16 10:37:43', 38, 10, 20267690, 'sugerencia', 0, 'CESFAM', 'Faltan mas CESFAM en Talcahuano', '2023-11-16 10:37:43', 0, 0, NULL),
-(70, '2023-11-16 10:45:33', 37, 12, 19815448, 'reclamo', 10, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-16 10:33:51', 0, 0, 34),
-(71, '2023-11-16 10:46:49', 37, 12, 19815448, 'reclamo', 10, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-16 10:46:49', 0, 1, NULL),
-(72, '2023-11-16 10:49:10', 39, 10, 20267690, 'felicitacion', 0, 'Teatro Biobío', 'Buen trabajo con el teatro Biobío', '2023-11-16 10:49:10', 0, 0, NULL),
-(73, '2023-11-16 10:53:48', 39, 10, 20267690, 'felicitacion', 12, 'Teatro Biobío', 'Buen trabajo con el teatro Biobío', '2023-11-16 10:49:10', 0, 0, 35),
-(74, '2023-11-16 10:53:54', 39, 10, 20267690, 'felicitacion', 12, 'Teatro Biobío', 'Buen trabajo con el teatro Biobío', '2023-11-16 10:53:54', 0, 1, NULL),
-(75, '2023-11-16 10:58:24', 40, 10, 20267690, 'reclamo', 0, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-16 10:58:24', 0, 0, NULL),
-(76, '2023-11-16 11:01:53', 40, 12, 20267690, 'reclamo', 13, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-16 11:01:53', 0, 0, NULL),
-(77, '2023-11-16 11:02:45', 40, 12, 20267690, 'reclamo', 13, 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-16 11:01:53', 0, 0, 36),
-(78, '2023-11-16 11:19:33', 37, 12, 19815448, 'reclamo', 12, 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-16 10:46:49', 0, 1, 37);
+(52, '2023-11-16 03:07:20', 30, 12, 1111, 'reclamo', 0, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', 0, 0, NULL),
+(53, '2023-11-16 03:12:49', 30, 12, 1111, 'reclamo', 10, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', 0, 0, 26),
+(54, '2023-11-16 04:56:58', 31, 12, 1111, 'sugerencia', 0, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', 0, 0, NULL),
+(55, '2023-11-16 05:00:30', 31, 12, 1111, 'sugerencia', 10, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', 0, 0, 27),
+(56, '2023-11-16 05:01:32', 31, 12, 1111, 'sugerencia', 12, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', 0, 0, 28),
+(57, '2023-11-16 05:05:42', 31, 10, 1111, 'sugerencia', 12, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 05:05:42', 0, 1, NULL),
+(58, '2023-11-16 05:12:48', 32, 12, 20267690, 'reclamo', 0, 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', 0, 0, NULL),
+(59, '2023-11-16 05:15:12', 32, 12, 20267690, 'reclamo', 10, 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', 0, 0, 29),
+(60, '2023-11-16 05:15:37', 32, 12, 20267690, 'reclamo', 12, 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', 0, 0, 30),
+(61, '2023-11-16 05:17:28', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', 0, 0, NULL),
+(62, '2023-11-16 05:22:50', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', 0, 0, 31),
+(63, '2023-11-16 06:15:01', 34, 10, 20267690, 'felicitacion', 0, 'Hola', 'Que tal', '2023-11-16 06:15:01', 0, 0, NULL),
+(64, '2023-11-16 06:16:52', 34, 10, 20267690, 'felicitacion', 10, 'Hola', 'Que tal', '2023-11-16 06:15:01', 0, 0, 32),
+(65, '2023-11-16 10:06:19', 30, 12, 1111, 'reclamo', 10, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', 0, 0, 33),
+(66, '2023-11-16 10:19:37', 35, 10, 1111, 'felicitacion', 0, 'qaweawevwawavavavaavv', 'qewqwe123123', '2023-11-16 10:19:37', 0, 0, NULL),
+(67, '2023-11-16 10:33:27', 36, 10, 1111, 'felicitacion', 0, 'reclamo', 'reclamos', '2023-11-16 10:33:27', 0, 0, NULL),
+(68, '2023-11-16 10:34:19', 36, 10, 1111, 'felicitacion', 10, 'reclamo', 'reclamos', '2023-11-16 10:33:27', 0, 0, 34),
+(69, '2023-11-30 23:15:10', 37, 10, 666, 'felicitacion', 0, 'xd', 'asd', '2023-11-30 23:15:10', 0, 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `respuesta`
+-- Estructura de tabla para la tabla `respuesta`
 --
 
 CREATE TABLE `respuesta` (
@@ -362,31 +393,36 @@ CREATE TABLE `respuesta` (
   `rut_usuario` bigint(20) NOT NULL,
   `detalles_respuesta` text NOT NULL,
   `fecha_hora_envio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `respuesta`
+-- Volcado de datos para la tabla `respuesta`
 --
 
 INSERT INTO `respuesta` (`cod_respuesta`, `cod_ticket`, `rut_usuario`, `detalles_respuesta`, `fecha_hora_envio`) VALUES
-(34, 37, 1234, 'Estamos analizando su caso e informaremos a la Municipalidad', '2023-11-16 10:45:33'),
-(35, 39, 1234, 'Muchas gracias por su retroalimentación!', '2023-11-16 10:53:48'),
-(36, 40, 1234, 'Solicitud ha sido remitida al departamento de calles', '2023-11-16 11:02:45'),
-(37, 37, 1234, 'Se ha reparado el alcantarillado', '2023-11-16 11:19:33');
+(26, 30, 1234, 'pichula', '2023-11-16 03:12:49'),
+(27, 31, 1234, 'no weon', '2023-11-16 05:00:30'),
+(28, 31, 1234, 'chao', '2023-11-16 05:01:32'),
+(29, 32, 1234, 'wena ta en proceso', '2023-11-16 05:15:12'),
+(30, 32, 1234, 'chao', '2023-11-16 05:15:37'),
+(31, 33, 1234, 'gdsrgdrg', '2023-11-16 05:22:50'),
+(32, 34, 1234, 'Hola, Muy bien grasias', '2023-11-16 06:16:52'),
+(33, 30, 1234, 'hola', '2023-11-16 10:06:19'),
+(34, 36, 1234, 'Hola', '2023-11-16 10:34:19');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rol`
+-- Estructura de tabla para la tabla `rol`
 --
 
 CREATE TABLE `rol` (
   `cod_rol` bigint(20) NOT NULL,
   `nombre_rol` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `rol`
+-- Volcado de datos para la tabla `rol`
 --
 
 INSERT INTO `rol` (`cod_rol`, `nombre_rol`) VALUES
@@ -398,16 +434,16 @@ INSERT INTO `rol` (`cod_rol`, `nombre_rol`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rol_permiso`
+-- Estructura de tabla para la tabla `rol_permiso`
 --
 
 CREATE TABLE `rol_permiso` (
   `cod_permiso` bigint(20) NOT NULL,
   `cod_rol` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `rol_permiso`
+-- Volcado de datos para la tabla `rol_permiso`
 --
 
 INSERT INTO `rol_permiso` (`cod_permiso`, `cod_rol`) VALUES
@@ -423,18 +459,18 @@ INSERT INTO `rol_permiso` (`cod_permiso`, `cod_rol`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `suscripcion`
+-- Estructura de tabla para la tabla `suscripcion`
 --
 
 CREATE TABLE `suscripcion` (
   `cod_ticket` bigint(20) NOT NULL,
   `rut_usuario` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ticket`
+-- Estructura de tabla para la tabla `ticket`
 --
 
 CREATE TABLE `ticket` (
@@ -447,175 +483,191 @@ CREATE TABLE `ticket` (
   `fecha_hora_envio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `calificacion` float DEFAULT NULL,
   `visibilidad_solicitud` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `ticket`
+-- Volcado de datos para la tabla `ticket`
 --
 
 INSERT INTO `ticket` (`cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
-(37, 12, 19815448, 'reclamo', 'Inundación Tucapel Bajo', 'Las calles de Tucapel bajo se inundan cuando llueve', '2023-11-16 10:46:49', NULL, 1),
-(38, 10, 20267690, 'sugerencia', 'CESFAM', 'Faltan mas CESFAM en Talcahuano', '2023-11-16 10:37:43', NULL, 0),
-(39, 10, 20267690, 'felicitacion', 'Teatro Biobío', 'Buen trabajo con el teatro Biobío', '2023-11-16 10:53:54', NULL, 1),
-(40, 12, 20267690, 'reclamo', 'Calle en mal estado', 'En Carrera con Pelantaro hay un pasaje en muy mal estado', '2023-11-16 11:01:53', NULL, 0);
+(30, 12, 1111, 'reclamo', 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', NULL, 0),
+(31, 12, 1111, 'sugerencia', 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', NULL, 0),
+(32, 12, 20267690, 'reclamo', 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', NULL, 0),
+(33, 10, 1111, 'felicitacion', 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', NULL, 0),
+(34, 10, 20267690, 'felicitacion', 'Hola', 'Que tal', '2023-11-16 06:15:01', NULL, 0),
+(35, 10, 1111, 'felicitacion', 'qaweawevwawavavavaavv', 'qewqwe123123', '2023-11-16 10:19:37', NULL, 0),
+(36, 10, 1111, 'felicitacion', 'reclamo', 'reclamos', '2023-11-16 10:33:27', NULL, 0),
+(37, 10, 666, 'felicitacion', 'xd', 'asd', '2023-11-30 23:15:10', NULL, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario`
+-- Estructura de tabla para la tabla `usuario`
 --
 
 CREATE TABLE `usuario` (
   `rut_usuario` bigint(20) NOT NULL,
   `nombre_usuario` varchar(255) NOT NULL,
+  `password_usuario` varchar(255) DEFAULT NULL,
   `correo_electronico_usuario` varchar(255) NOT NULL,
   `correo_electronico_tercero` varchar(255) DEFAULT NULL,
   `telefono_usuario` bigint(20) DEFAULT NULL,
   `telefono_tercero` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `usuario`
+-- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`rut_usuario`, `nombre_usuario`, `correo_electronico_usuario`, `correo_electronico_tercero`, `telefono_usuario`, `telefono_tercero`) VALUES
-(1111, 'ciudadano', 'ciudadano@correo.com', '', 12345678, 0),
-(1234, 'admin', 'correo@gmail.com', '', 0, 0),
-(19815448, 'jose rivas', 'jrivas@ing.ucsc.cl', '', 966737620, 0),
-(20267690, 'juan baeza', 'juanBaeza@gmail.com', '', 0, 0);
+INSERT INTO `usuario` (`rut_usuario`, `nombre_usuario`, `password_usuario`, `correo_electronico_usuario`, `correo_electronico_tercero`, `telefono_usuario`, `telefono_tercero`) VALUES
+(1, 'prueba', '$2y$10$9eM2w16NZKdsfpYtTc.5MuJC8urjEr8vkQ6L7frdQ42mI0Zs678G2', 'q@we', '', 0, 0),
+(2, 'poto', '$2y$10$7MAEeotXwSP0D9w4xLBgruezOmZhkubFe4dAG67oET0nOw.Y5P/gO', 'admin@poto', '', 0, 0),
+(666, 'pollo', '$2y$10$ep1RCzXLyD2Jq5XpqR9QTODr3CCUbf99kH5ChkG89K6fk59L0rOWO', 'pollo@pollo', '', 123, 0),
+(1111, 'perkin', NULL, 'perkin@perkin.perkin', '', 123456789, 0),
+(1234, 'admin', NULL, 'correo@gmail.com', '', 0, 0),
+(999999, 'admin3', '$2y$10$L29sCC7oXCpPy2CBsMfmj.C0xN2M61PD3AQI085Kvs7etAO22HKqW', 'admin3@poto', '', 0, 0),
+(20267690, 'juan baeza', NULL, 'juanBaeza@gmail.com', '', 0, 0),
+(999999998, 'admin4', '$2y$10$fZ/FPAzJGgVgiV6hStqn..qIH1/SqLtPh2H2Df5Z4zHcnwQH8ywHa', 'admin4@poto', '', 0, 0),
+(999999999, 'admin2', '$2y$10$6Kb3aNNKG332a9.klNhj7OyveCuDIz9Kz0HPWiPjeEeBGJCu0G2/W', 'poto@admin2', '', 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario_direccion`
+-- Estructura de tabla para la tabla `usuario_direccion`
 --
 
 CREATE TABLE `usuario_direccion` (
   `rut_usuario` bigint(20) NOT NULL,
   `cod_direccion` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario_rol`
+-- Estructura de tabla para la tabla `usuario_rol`
 --
 
 CREATE TABLE `usuario_rol` (
   `cod_rol` bigint(20) NOT NULL,
   `rut_usuario` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Dumping data for table `usuario_rol`
+-- Volcado de datos para la tabla `usuario_rol`
 --
 
 INSERT INTO `usuario_rol` (`cod_rol`, `rut_usuario`) VALUES
 (1, 1234),
 (2, 20267690),
 (2, 1111),
-(2, 19815448);
+(2, 1),
+(1, 2),
+(1, 999999999),
+(1, 999999),
+(1, 999999998),
+(2, 666);
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `agenda`
+-- Indices de la tabla `agenda`
 --
 ALTER TABLE `agenda`
   ADD PRIMARY KEY (`cod_agenda`),
+  ADD KEY `agenda_ibfk_1` (`cod_departamento`),
   ADD KEY `rut_usuario` (`rut_usuario`);
 
 --
--- Indexes for table `calificacion_atencion`
+-- Indices de la tabla `calificacion_atencion`
 --
 ALTER TABLE `calificacion_atencion`
   ADD PRIMARY KEY (`cod_calificacion_atencion`),
   ADD KEY `cod_ticket` (`cod_ticket`);
 
 --
--- Indexes for table `calificacion_sistema`
+-- Indices de la tabla `calificacion_sistema`
 --
 ALTER TABLE `calificacion_sistema`
   ADD PRIMARY KEY (`cod_calificacion_sistema`),
   ADD KEY `cod_ticket` (`cod_ticket`);
 
 --
--- Indexes for table `comuna`
+-- Indices de la tabla `comuna`
 --
 ALTER TABLE `comuna`
   ADD PRIMARY KEY (`cod_comuna`),
   ADD KEY `cod_region` (`cod_region`);
 
 --
--- Indexes for table `departamento`
+-- Indices de la tabla `departamento`
 --
 ALTER TABLE `departamento`
   ADD PRIMARY KEY (`cod_departamento`),
   ADD KEY `cod_municipalidad` (`cod_municipalidad`);
 
 --
--- Indexes for table `direccion`
+-- Indices de la tabla `direccion`
 --
 ALTER TABLE `direccion`
   ADD PRIMARY KEY (`cod_direccion`),
   ADD KEY `cod_comuna` (`cod_comuna`);
 
 --
--- Indexes for table `encargado_departamento`
+-- Indices de la tabla `encargado_departamento`
 --
 ALTER TABLE `encargado_departamento`
   ADD KEY `cod_departamento` (`cod_departamento`),
   ADD KEY `rut_usuario` (`rut_usuario`);
 
 --
--- Indexes for table `estado`
+-- Indices de la tabla `estado`
 --
 ALTER TABLE `estado`
   ADD PRIMARY KEY (`cod_estado`);
 
 --
--- Indexes for table `estado_ticket`
+-- Indices de la tabla `estado_ticket`
 --
 ALTER TABLE `estado_ticket`
   ADD KEY `cod_estado` (`cod_estado`),
   ADD KEY `cod_ticket` (`cod_ticket`);
 
 --
--- Indexes for table `municipalidad`
+-- Indices de la tabla `municipalidad`
 --
 ALTER TABLE `municipalidad`
   ADD PRIMARY KEY (`cod_municipalidad`),
   ADD KEY `cod_comuna` (`cod_comuna`);
 
 --
--- Indexes for table `palabra_ofensiva`
+-- Indices de la tabla `palabra_ofensiva`
 --
 ALTER TABLE `palabra_ofensiva`
   ADD PRIMARY KEY (`cod_palabra`);
 
 --
--- Indexes for table `permiso`
+-- Indices de la tabla `permiso`
 --
 ALTER TABLE `permiso`
   ADD PRIMARY KEY (`cod_permiso`);
 
 --
--- Indexes for table `proyecto`
+-- Indices de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
   ADD PRIMARY KEY (`cod_proyecto`),
   ADD KEY `cod_departamento` (`cod_departamento`);
 
 --
--- Indexes for table `region`
+-- Indices de la tabla `region`
 --
 ALTER TABLE `region`
   ADD PRIMARY KEY (`cod_region`);
 
 --
--- Indexes for table `registro_ticket`
+-- Indices de la tabla `registro_ticket`
 --
 ALTER TABLE `registro_ticket`
   ADD PRIMARY KEY (`cod_registro`),
@@ -625,7 +677,7 @@ ALTER TABLE `registro_ticket`
   ADD KEY `cod_respuesta` (`cod_respuesta`);
 
 --
--- Indexes for table `respuesta`
+-- Indices de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
   ADD PRIMARY KEY (`cod_respuesta`),
@@ -633,27 +685,27 @@ ALTER TABLE `respuesta`
   ADD KEY `rut_usuario` (`rut_usuario`);
 
 --
--- Indexes for table `rol`
+-- Indices de la tabla `rol`
 --
 ALTER TABLE `rol`
   ADD PRIMARY KEY (`cod_rol`);
 
 --
--- Indexes for table `rol_permiso`
+-- Indices de la tabla `rol_permiso`
 --
 ALTER TABLE `rol_permiso`
   ADD KEY `cod_permiso` (`cod_permiso`),
   ADD KEY `cod_rol` (`cod_rol`);
 
 --
--- Indexes for table `suscripcion`
+-- Indices de la tabla `suscripcion`
 --
 ALTER TABLE `suscripcion`
   ADD KEY `cod_ticket` (`cod_ticket`),
   ADD KEY `rut_usuario` (`rut_usuario`);
 
 --
--- Indexes for table `ticket`
+-- Indices de la tabla `ticket`
 --
 ALTER TABLE `ticket`
   ADD PRIMARY KEY (`cod_ticket`),
@@ -661,193 +713,194 @@ ALTER TABLE `ticket`
   ADD KEY `rut_usuario` (`rut_usuario`);
 
 --
--- Indexes for table `usuario`
+-- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`rut_usuario`);
 
 --
--- Indexes for table `usuario_direccion`
+-- Indices de la tabla `usuario_direccion`
 --
 ALTER TABLE `usuario_direccion`
   ADD KEY `rut_usuario` (`rut_usuario`),
   ADD KEY `cod_direccion` (`cod_direccion`);
 
 --
--- Indexes for table `usuario_rol`
+-- Indices de la tabla `usuario_rol`
 --
 ALTER TABLE `usuario_rol`
   ADD KEY `cod_rol` (`cod_rol`),
   ADD KEY `rut_usuario` (`rut_usuario`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `agenda`
+-- AUTO_INCREMENT de la tabla `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `cod_agenda` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cod_agenda` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `calificacion_atencion`
+-- AUTO_INCREMENT de la tabla `calificacion_atencion`
 --
 ALTER TABLE `calificacion_atencion`
   MODIFY `cod_calificacion_atencion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `calificacion_sistema`
+-- AUTO_INCREMENT de la tabla `calificacion_sistema`
 --
 ALTER TABLE `calificacion_sistema`
   MODIFY `cod_calificacion_sistema` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `comuna`
+-- AUTO_INCREMENT de la tabla `comuna`
 --
 ALTER TABLE `comuna`
   MODIFY `cod_comuna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `departamento`
+-- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
   MODIFY `cod_departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `direccion`
+-- AUTO_INCREMENT de la tabla `direccion`
 --
 ALTER TABLE `direccion`
   MODIFY `cod_direccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `estado`
+-- AUTO_INCREMENT de la tabla `estado`
 --
 ALTER TABLE `estado`
   MODIFY `cod_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `municipalidad`
+-- AUTO_INCREMENT de la tabla `municipalidad`
 --
 ALTER TABLE `municipalidad`
-  MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
--- AUTO_INCREMENT for table `palabra_ofensiva`
+-- AUTO_INCREMENT de la tabla `palabra_ofensiva`
 --
 ALTER TABLE `palabra_ofensiva`
   MODIFY `cod_palabra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `permiso`
+-- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
   MODIFY `cod_permiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `proyecto`
+-- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
   MODIFY `cod_proyecto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `region`
+-- AUTO_INCREMENT de la tabla `region`
 --
 ALTER TABLE `region`
   MODIFY `cod_region` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `registro_ticket`
+-- AUTO_INCREMENT de la tabla `registro_ticket`
 --
 ALTER TABLE `registro_ticket`
-  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
--- AUTO_INCREMENT for table `respuesta`
+-- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
--- AUTO_INCREMENT for table `rol`
+-- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
   MODIFY `cod_rol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `ticket`
+-- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `agenda`
+-- Filtros para la tabla `agenda`
 --
 ALTER TABLE `agenda`
+  ADD CONSTRAINT `agenda_ibfk_1` FOREIGN KEY (`cod_departamento`) REFERENCES `departamento` (`cod_departamento`) ON UPDATE CASCADE,
   ADD CONSTRAINT `agenda_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `calificacion_atencion`
+-- Filtros para la tabla `calificacion_atencion`
 --
 ALTER TABLE `calificacion_atencion`
   ADD CONSTRAINT `calificacion_atencion_ibfk_1` FOREIGN KEY (`cod_ticket`) REFERENCES `ticket` (`cod_ticket`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `calificacion_sistema`
+-- Filtros para la tabla `calificacion_sistema`
 --
 ALTER TABLE `calificacion_sistema`
   ADD CONSTRAINT `calificacion_sistema_ibfk_1` FOREIGN KEY (`cod_ticket`) REFERENCES `ticket` (`cod_ticket`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `comuna`
+-- Filtros para la tabla `comuna`
 --
 ALTER TABLE `comuna`
   ADD CONSTRAINT `comuna_ibfk_1` FOREIGN KEY (`cod_region`) REFERENCES `region` (`cod_region`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `departamento`
+-- Filtros para la tabla `departamento`
 --
 ALTER TABLE `departamento`
   ADD CONSTRAINT `departamento_ibfk_1` FOREIGN KEY (`cod_municipalidad`) REFERENCES `municipalidad` (`cod_municipalidad`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `direccion`
+-- Filtros para la tabla `direccion`
 --
 ALTER TABLE `direccion`
   ADD CONSTRAINT `direccion_ibfk_1` FOREIGN KEY (`cod_comuna`) REFERENCES `comuna` (`cod_comuna`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `encargado_departamento`
+-- Filtros para la tabla `encargado_departamento`
 --
 ALTER TABLE `encargado_departamento`
   ADD CONSTRAINT `encargado_departamento_ibfk_1` FOREIGN KEY (`cod_departamento`) REFERENCES `departamento` (`cod_departamento`) ON UPDATE CASCADE,
   ADD CONSTRAINT `encargado_departamento_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `estado_ticket`
+-- Filtros para la tabla `estado_ticket`
 --
 ALTER TABLE `estado_ticket`
   ADD CONSTRAINT `estado_ticket_ibfk_1` FOREIGN KEY (`cod_estado`) REFERENCES `estado` (`cod_estado`) ON UPDATE CASCADE,
   ADD CONSTRAINT `estado_ticket_ibfk_2` FOREIGN KEY (`cod_ticket`) REFERENCES `ticket` (`cod_ticket`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `municipalidad`
+-- Filtros para la tabla `municipalidad`
 --
 ALTER TABLE `municipalidad`
   ADD CONSTRAINT `municipalidad_ibfk_1` FOREIGN KEY (`cod_comuna`) REFERENCES `comuna` (`cod_comuna`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `proyecto`
+-- Filtros para la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
   ADD CONSTRAINT `proyecto_ibfk_1` FOREIGN KEY (`cod_departamento`) REFERENCES `departamento` (`cod_departamento`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `registro_ticket`
+-- Filtros para la tabla `registro_ticket`
 --
 ALTER TABLE `registro_ticket`
   ADD CONSTRAINT `registro_ticket_ibfk_1` FOREIGN KEY (`cod_ticket`) REFERENCES `ticket` (`cod_ticket`) ON UPDATE CASCADE,
@@ -856,42 +909,42 @@ ALTER TABLE `registro_ticket`
   ADD CONSTRAINT `registro_ticket_ibfk_4` FOREIGN KEY (`cod_respuesta`) REFERENCES `respuesta` (`cod_respuesta`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `respuesta`
+-- Filtros para la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
   ADD CONSTRAINT `respuesta_ibfk_1` FOREIGN KEY (`cod_ticket`) REFERENCES `ticket` (`cod_ticket`) ON UPDATE CASCADE,
   ADD CONSTRAINT `respuesta_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `rol_permiso`
+-- Filtros para la tabla `rol_permiso`
 --
 ALTER TABLE `rol_permiso`
   ADD CONSTRAINT `rol_permiso_ibfk_1` FOREIGN KEY (`cod_permiso`) REFERENCES `permiso` (`cod_permiso`) ON UPDATE CASCADE,
   ADD CONSTRAINT `rol_permiso_ibfk_2` FOREIGN KEY (`cod_rol`) REFERENCES `rol` (`cod_rol`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `suscripcion`
+-- Filtros para la tabla `suscripcion`
 --
 ALTER TABLE `suscripcion`
   ADD CONSTRAINT `suscripcion_ibfk_1` FOREIGN KEY (`cod_ticket`) REFERENCES `ticket` (`cod_ticket`) ON UPDATE CASCADE,
   ADD CONSTRAINT `suscripcion_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `ticket`
+-- Filtros para la tabla `ticket`
 --
 ALTER TABLE `ticket`
   ADD CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`cod_departamento`) REFERENCES `departamento` (`cod_departamento`) ON UPDATE CASCADE,
   ADD CONSTRAINT `ticket_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `usuario_direccion`
+-- Filtros para la tabla `usuario_direccion`
 --
 ALTER TABLE `usuario_direccion`
   ADD CONSTRAINT `usuario_direccion_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`) ON UPDATE CASCADE,
   ADD CONSTRAINT `usuario_direccion_ibfk_3` FOREIGN KEY (`cod_direccion`) REFERENCES `direccion` (`cod_direccion`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `usuario_rol`
+-- Filtros para la tabla `usuario_rol`
 --
 ALTER TABLE `usuario_rol`
   ADD CONSTRAINT `usuario_rol_ibfk_1` FOREIGN KEY (`cod_rol`) REFERENCES `rol` (`cod_rol`) ON UPDATE CASCADE,

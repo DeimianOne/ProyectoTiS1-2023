@@ -1,23 +1,23 @@
 <?php
-    include("database/connection.php");
-    include("database/auth.php");
+include("database/connection.php");
+include("database/auth.php");
 
-    $cod_municipalidad = $_GET["id"];
+$cod_municipalidad = $_GET["id"];
 
-    $query = "SELECT * FROM municipalidad WHERE cod_municipalidad=" . $cod_municipalidad . ";";
-    $result =  mysqli_query($connection, $query);
+$query = "SELECT * FROM municipalidad WHERE cod_municipalidad=" . $cod_municipalidad . ";";
+$result = mysqli_query($connection, $query);
 
-    $queryComuna = "SELECT * FROM comuna";
-    $resultComuna = mysqli_query($connection, $queryComuna);
+$queryComuna = "SELECT * FROM comuna";
+$resultComuna = mysqli_query($connection, $queryComuna);
 
-    if ($row = mysqli_fetch_assoc($result)) {
-        $nombre_municipalidad = $row["nombre_municipalidad"];
-        $municipalidad_comuna = $row["cod_comuna"];
-        $direccion_municipalidad = $row["direccion_municipalidad"];
-        $correo_municipalidad = $row["correo_municipalidad"];
-    } else {
-        header("Location: index.php?p=municipalidades/index");
-    }
+if ($row = mysqli_fetch_assoc($result)) {
+    $nombre_municipalidad = $row["nombre_municipalidad"];
+    $municipalidad_comuna = $row["cod_comuna"];
+    $direccion_municipalidad = $row["direccion_municipalidad"];
+    $correo_municipalidad = $row["correo_municipalidad"];
+} else {
+    header("Location: index.php?p=municipalidades/index");
+}
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
@@ -35,32 +35,39 @@
 
                     <div class="col-md-12 mb-3">
                         <label for="nombre_municipalidad" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre_municipalidad" name="nombre_municipalidad" value="<?php echo $nombre_municipalidad ?>" required>
+                        <input type="text" class="form-control" id="nombre_municipalidad" name="nombre_municipalidad"
+                            pattern="[A-Za-z0-9\s'áéíóúÁÉÍÓÚüÜñÑ]{1,50}"
+                            title="Solo se permiten letras, letras con tilde, números y el signo ' (comilla simple), máximo 50 caracteres"
+                            value="<?php echo $nombre_municipalidad ?>" required>
                     </div>
 
                     <div class="col-md-12 mb-3">
                         <label for="origin" class="form-label">Comuna</label>
                         <select class="form-control" id="origin" name="cod_comuna">
-                        <?php
-                        // Iterar a través de los resultados y crear opciones para el select
-                        while ($fila = $resultComuna->fetch_assoc()) {
-                            $cod_comuna = $fila["cod_comuna"];
-                            $nombre_comuna = $fila["nombre_comuna"];
-                            $selected = ($cod_comuna == $municipalidad_comuna) ? 'selected' : '';
-                            echo "<option value=\"$cod_comuna\" $selected>$nombre_comuna</option>";
-                        }
-                        ?>
+                            <?php
+                            // Iterar a través de los resultados y crear opciones para el select
+                            while ($fila = $resultComuna->fetch_assoc()) {
+                                $cod_comuna = $fila["cod_comuna"];
+                                $nombre_comuna = $fila["nombre_comuna"];
+                                $selected = ($cod_comuna == $municipalidad_comuna) ? 'selected' : '';
+                                echo "<option value=\"$cod_comuna\" $selected>$nombre_comuna</option>";
+                            }
+                            ?>
                         </select>
                     </div>
 
                     <div class="col-md-12 mb-3">
                         <label for="direccion_municipalidad" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" id="direccion_municipalidad" name="direccion_municipalidad" value="<?php echo $direccion_municipalidad ?>">
+                        <input type="text" class="form-control" id="direccion_municipalidad"
+                            name="direccion_municipalidad" pattern="[A-Za-z0-9\s'áéíóúÁÉÍÓÚüÜñÑ]{1,255}"
+                            title="Solo se permiten letras, letras con tilde, números y el signo ' (comilla simple), máximo 255 caracteres"
+                            value="<?php echo $direccion_municipalidad ?>">
                     </div>
 
                     <div class="col-md-12 mb-3">
                         <label for="correo_municipalidad" class="form-label">Correo</label>
-                        <input type="email" class="form-control" id="correo_municipalidad" name="correo_municipalidad" value="<?php echo $correo_municipalidad ?>">
+                        <input type="email" class="form-control" id="correo_municipalidad" name="correo_municipalidad"
+                            value="<?php echo $correo_municipalidad ?>">
                     </div>
                 </div>
             </div>

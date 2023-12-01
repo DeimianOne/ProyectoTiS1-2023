@@ -1,15 +1,15 @@
 <?php
-    include("database/connection.php");  // Incluye la conexión
-    include("database/auth.php");  // Comprueba si el usuario está logueado, sino lo redirige al login
+include("database/connection.php");  // Incluye la conexión
+include("database/auth.php");  // Comprueba si el usuario está logueado, sino lo redirige al login
 
-    if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
-        
-        $query = "SELECT * FROM palabra_ofensiva";
-        $result = mysqli_query($connection, $query);
+if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
 
-    } else {
-        header("Location: index.php?p=auth/login");
-    }
+    $query = "SELECT * FROM palabra_ofensiva";
+    $result = mysqli_query($connection, $query);
+
+} else {
+    header("Location: index.php?p=auth/login");
+}
 ?>
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
@@ -48,10 +48,10 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="text-center">
-                        <span>Aquí se pueden agregar palabras que se consideren prohibidas</span>
+                    <span>Listado de palabras no permitidas en un ticket</span>
                 </div>
                 <div>
-                    <a class="btn btn-sm btn-primary" href="index.php?p=palabrasofensivas/create" role="button">Agregar</a>
+                    <a class="btn btn-sm btn-primary" href="index.php?p=palabrasofensivas/create" role="button">Agregar nuevo</a>
                 </div>
             </div>
         </div>
@@ -65,13 +65,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($fila = mysqli_fetch_array($result)) : ?>
+                    <?php while ($fila = mysqli_fetch_array($result)): ?>
                         <tr>
-                            <th scope="row"><?= $fila['cod_palabra'] ?></th>
-                            <td><?= $fila['palabra'] ?></td>
+                            <th scope="row">
+                                <?= $fila['cod_palabra'] ?>
+                            </th>
                             <td>
-                                <a href="index.php?p=palabrasofensivas/edit&cod_palabra=<?= $fila['cod_palabra'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
-                                <a href="pages/palabrasofensivas/actions/delete.php?cod_palabra=<?= $fila['cod_palabra'] ?>" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                <?= $fila['palabra'] ?>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Acciones">
+                                    <a href="index.php?p=palabrasofensivas/edit&cod_palabra=<?= $fila['cod_palabra'] ?>"
+                                        class="btn btn-sm btn-outline-warning">Editar</a>
+                                    <a href="pages/palabrasofensivas/actions/delete.php?cod_palabra=<?= $fila['cod_palabra'] ?>"
+                                        class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                </div>
                             </td>
                         </tr>
                     <?php endwhile; ?>
