@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
     <div class="container-fluid">
+        <button onclick="cambiarTema()" class="btn rounded-fill"><i id="d1-icon" class="bi bi-moon-fill"></i></button>
         <a class="navbar-brand" href="#"><span><strong>Retroalimentación Ciudadana</strong></span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -125,3 +126,25 @@
         </div>
     </div>
 </nav>
+<script>
+
+    
+    const temaOscuro = () => {
+
+        document.querySelector("body").setAttribute("data-bs-theme", "dark");
+        document.querySelector("#d1-icon").setAttribute("class", "bi bi-sun-fill");
+
+    }
+    const temaClaro = () => {
+
+        document.querySelector("body").setAttribute("data-bs-theme", "light");
+        document.querySelector("#d1-icon").setAttribute("class", "bi bi-moon-fill");
+
+    }
+
+    const cambiarTema = () => {
+        document.querySelector("body").getAttribute("data-bs-theme") == "light" ? temaOscuro() : temaClaro();
+    
+    }
+    
+</script>

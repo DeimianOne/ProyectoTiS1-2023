@@ -19,10 +19,13 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"/>
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link rel="stylesheet" href="css/timeline.css">
+
+	<!--iconos-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 	
 
 </head>
 
-<body>
+<body data-bs-theme="light">
 	<div class="d-flex flex-column min-vh-100">
 		<?php require_once 'includes/navbar.php'; ?>
