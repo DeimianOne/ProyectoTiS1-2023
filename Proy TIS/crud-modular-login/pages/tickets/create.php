@@ -84,8 +84,8 @@ $enum_values = explode("','", $matches[1]);
 
                     <div id="mapContainer" style="display: none;">
                         <div id="map" style="height: 450px; width: 100%;"></div>
-                        Latitude: <input type="text" name="latitud" id="lat" class="form-control" readonly>
-                        Longitude: <input type="text" name="longitud" id="lng" class="form-control" readonly>
+                        <input type="hidden" name="latitud" id="lat" class="form-control" readonly>
+                        <input type="hidden" name="longitud" id="lng" class="form-control" readonly>
                     </div>
 
                 </div>
@@ -108,15 +108,13 @@ $enum_values = explode("','", $matches[1]);
             center: { lat: -32.94630768405489, lng: -70.73575459886952 },
             zoom: 4,
             mapId: '5ea9ce137bbd703d'
-            gestureHandling: 'greedy', // Esto permite el scroll sin necesidad de presionar CTRL
-            fullscreenControl: false   // Esto desactiva el botón de pantalla completa
         });
 
         ticketMap.addListener('click', function (e) {
             placeMarkerAndPanTo(e.latLng, ticketMap);
         });
 
-        // Inicialización correcta del Autocompletado de Google Places
+        // Corrección aquí: Cambiar 'address' a 'ticketAddress'
         var input = document.getElementById('ticketAddress');
         var autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.bindTo('bounds', ticketMap);
@@ -174,11 +172,14 @@ $enum_values = explode("','", $matches[1]);
     function toggleMap(callback) {
         var mapContainer = document.getElementById('mapContainer');
         var isMapHidden = mapContainer.style.display === "none";
-        mapContainer.style.display = isMapHidden ? "block" : "none";
 
-        if (isMapHidden && typeof callback === 'function') {
-            callback(); // Llama a la función de callback (geocodificación) después de mostrar el mapa
+        if (isMapHidden) {
+            mapContainer.style.display = "block";
+            if (typeof callback === 'function') {
+                callback();
+            }
         }
+        // No cerrar el mapa si ya está abierto
     }
 
     function geocodeTicketAddress() {
@@ -195,7 +196,16 @@ $enum_values = explode("','", $matches[1]);
 
     // Modifica el evento onclick del botón de búsqueda de dirección
     document.getElementById('botonBuscar').onclick = function () {
-        toggleMap(geocodeTicketAddress); // Pasa geocodeTicketAddress como callback
+        // Llama a toggleMap solo si el mapa está oculto
+        if (document.getElementById('mapContainer').style.display === "none") {
+            toggleMap(geocodeTicketAddress);
+        } else {
+            geocodeTicketAddress();
+        }
     };
 
+
+
+    // Asegúrate de que esta función se llame en el callback de carga del mapa en el footer
+    // Por ejemplo: if (typeof initTicketMap === 'function') { initTicketMap(); }
 </script>
