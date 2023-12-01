@@ -4,7 +4,7 @@ include("database/auth.php");
 
 // Verifica el rol del usuario
 if (isset($_SESSION['rut_usuario'])) {
-    if ($_SESSION['rol_usuario'] == '1') {
+    if ($_SESSION['rol_usuario'] == '1' || in_array(11,$codPermisoArray)) {
         $query = "SELECT ticket.*, estado.cod_estado, estado.nombre_estado, departamento.nombre_departamento
             FROM ticket
             LEFT JOIN estado_ticket ON ticket.cod_ticket = estado_ticket.cod_ticket
@@ -61,7 +61,7 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
 
 <div class="container-fluid border-bottom border-top bg-body-tertiary">
     <div class=" p-5 rounded text-center">
-        <?php if ($_SESSION['rol_usuario'] == '1'): ?>
+        <?php if ($_SESSION['rol_usuario'] == '1' || in_array(11,$codPermisoArray)): ?>
             <h2 class="fw-normal">Tickets en el sistema</h2>
         <?php endif; ?>
         <?php if ($_SESSION['rol_usuario'] == '2'): ?>
@@ -120,7 +120,7 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
             table.column(3).visible(false);
         <?php endif; ?>
 
-        <?php if ($_SESSION['rol_usuario'] == '1'): ?>
+        <?php if ($_SESSION['rol_usuario'] == '1' || in_array(11,$codPermisoArray)): ?>
             table.column(1).visible(false);
         <?php endif; ?>
 
@@ -213,7 +213,7 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
                     </div>
                 <?php endif; ?>
 
-                <?php if($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, puede exportar los datos de los tickets -->
+                <?php if($_SESSION['rol_usuario'] == '1' || in_array(11,$codPermisoArray)): ?> <!-- Si es admin, puede exportar los datos de los tickets -->
                     <div>
                         <a class="btn btn-sm btn-primary" id="exportBtn" role="button" onclick="exportarCSV()">Exportar datos a archivo CSV</a>
                     </div>
@@ -273,7 +273,7 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
                         <th scope="col">Estado Solicitud</th>
                         <th scope="col">Estado Solicitud</th>
                         <th scope="col">Fecha y Hora de Envío</th>
-                        <?php if ($_SESSION['rol_usuario'] == '1'): ?> <!-- Si es admin, muestra la columna -->
+                        <?php if ($_SESSION['rol_usuario'] == '1' || in_array(11,$codPermisoArray)): ?> <!-- Si es admin, muestra la columna -->
                             <th scope="col">Visibilidad</th>
                         <?php endif; ?>
                         <th scope="col"></th>
@@ -313,12 +313,12 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
                             <td>
                                 <?= $fila['fecha_hora_envio'] ?>
                             </td>
-                            <?php if ($_SESSION['rol_usuario'] == '1'): ?>
+                            <?php if ($_SESSION['rol_usuario'] == '1' || in_array(11,$codPermisoArray)): ?>
                                 <td>
                                     <?= $fila['visibilidad_solicitud'] ? "Público" : "Privado" ?>
                                 </td>
                             <?php endif; ?>
-                            <?php if ($_SESSION['rol_usuario'] == '1'): ?>
+                            <?php if ($_SESSION['rol_usuario'] == '1' || in_array(11,$codPermisoArray)): ?>
                                 <td>
                                     <div class="btn-group-sm" role="group" aria-label="Basic example">
                                         <button

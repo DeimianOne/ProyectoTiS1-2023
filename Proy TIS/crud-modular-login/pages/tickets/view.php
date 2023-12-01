@@ -127,7 +127,7 @@ if ($row = mysqli_fetch_assoc($result)) {
             </p>
             
             <?php if (isset($_SESSION["rol_usuario"])): ?>
-            <?php if ($_SESSION['rol_usuario'] == '1'): ?>
+            <?php if ($_SESSION['rol_usuario'] == '1' || in_array(11,$codPermisoArray)): ?>
                 <p class="text-muted mb-0">Visibilidad:
                     <?= $visibilidad_solicitud ? "Público" : "Privado" ?>
                 </p>
@@ -155,21 +155,26 @@ if ($row = mysqli_fetch_assoc($result)) {
                 <?php echo $fecha_hora_envio; ?>
             </p>
             <?php if (isset($_SESSION["rol_usuario"]) && $cod_estado != 2): ?>
-            <?php if ($_SESSION['rol_usuario'] == '1'): ?>
+            <?php if ($_SESSION['rol_usuario'] == '1' || in_array(11,$codPermisoArray)): ?>
                 <hr>
+                <?php if ($_SESSION['rol_usuario'] == '1' || in_array(6,$codPermisoArray) || in_array(7,$codPermisoArray)): ?>
                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
                     data-cod-ticket="<?= $cod_ticket ?>">Modificar Detalles
                 </button>
+                <?php endif;?>
+                <?php if ($_SESSION['rol_usuario'] == '1' || in_array(8,$codPermisoArray)): ?>
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal2"
                     data-cod-ticket="<?= $cod_ticket ?>">Derivar a otro Departamento
                 </button>
+                <?php endif;?>
+                <?php if ($_SESSION['rol_usuario'] == '1' || in_array(12,$codPermisoArray)): ?>
                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#warningModal"
                     data-cod-ticket="<?= $cod_ticket ?>">Cerrar Ticket
                 </button>
-
+                <?php endif;?>
             <!-- SUSCRIBIRSE PARA RECIBIR NOTIFICACIONES -->
             <?php else: ?>
-                <?php if ($_SESSION['rut_usuario'] != $rut_usuario): ?>
+                <?php if ($_SESSION['rut_usuario'] != $rut_usuario && !in_array(11,$codPermisoArray)): ?>
                     <?php if (!$suscripcion): ?>
                     <hr>
 
@@ -206,7 +211,7 @@ if ($row = mysqli_fetch_assoc($result)) {
 
     <!-- Detalles de las respuestas -->
     <?php if (isset($_SESSION['rol_usuario'])): ?>
-    <?php if (!empty($respuestas) || $_SESSION['rol_usuario'] == '1'): ?>
+    <?php if (!empty($respuestas) || $_SESSION['rol_usuario'] == '1' || in_array(11,$codPermisoArray)): ?>
         <div class="card mt-3">
             <div class="card-header">
                 <h3>Respuestas</h3>
@@ -230,8 +235,10 @@ if ($row = mysqli_fetch_assoc($result)) {
                     echo '</div>';
                 }
                 ?>
+
+                <!-- ESCRIBIR RESPUESTAS -->
                 <?php if (isset($_SESSION["rol_usuario"]) && $cod_estado != 2): ?>
-                <?php if ($_SESSION['rol_usuario'] == '1'): ?>
+                <?php if ($_SESSION['rol_usuario'] == '1' || in_array(5,$codPermisoArray)): ?>
                     <?php if (!empty($respuestas)): ?>
                         <hr>
                     <?php endif; ?>
@@ -244,6 +251,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                                         required></textarea>
                                 </div>
 
+                                <?php if ($_SESSION['rol_usuario'] == '1' || in_array(6,$codPermisoArray)): ?>
                                 <div class="col-md-4 mb-3">
                                     <label for="cod_estado" class="form-label">Cambiar Estado:</label>
                                     <select class="form-select" id="cod_estado" name="cod_estado">
@@ -256,13 +264,17 @@ if ($row = mysqli_fetch_assoc($result)) {
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
+                                <?php endif; ?>
 
                                 <input type="hidden" name="cod_ticket" value="<?= $cod_ticket ?>">
-
+                                
+                                <?php if ($_SESSION['rol_usuario'] == '1' || (in_array(5,$codPermisoArray))): ?>
                                 <div>
                                     <div>
                                         <button type="submit" id="btnEnviarRespuesta" class="btn btn-sm btn-success" role="button" disabled>Enviar Respuesta</button>
                                     </div>
+
+                                    <?php if ($_SESSION['rol_usuario'] == '1' || in_array(12,$codPermisoArray)): ?>
                                     <br>
                                     <div>
                                         <button type="button" id="btnEnviarRespuestaCerrar" class="btn btn-sm btn-danger" role="button" disabled data-bs-toggle="modal" data-bs-target="#warningModalResponder">
@@ -270,13 +282,18 @@ if ($row = mysqli_fetch_assoc($result)) {
                                         </button>
                                         <div id="descripcion_modal_help" class="form-text">Se enviará la respuesta, pero el estado elegido se ignorará y se pondrá en estado cerrado.</div>
                                     </div>
+                                    <?php endif; ?>
                                 </div>
+                                <?php endif; ?>
+                                
 
                             </div>
                         </div>
                     </form>
                 <?php endif; ?>
                 <?php endif; ?>
+
+
             </div>
         </div>
     <?php endif; ?>
@@ -353,7 +370,7 @@ if ($row = mysqli_fetch_assoc($result)) {
         </div>
     </div>
 
-    <!-- Modal 1 -->
+    <!-- Modal Modificar Detalles -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -366,11 +383,21 @@ if ($row = mysqli_fetch_assoc($result)) {
                             <?php echo $id; ?>
                         </span></strong></p>
                     <div id="detalleTicket"></div>
+                    
+
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Público</label>
+                        <label class="form-check-label" for="flexCheckDefault"
+                        <?php if (!$_SESSION['rol_usuario'] == '1' && !in_array(7,$codPermisoArray)): ?>
+                            hidden
+                        <?php endif;?>
+                        >Público</label>
                     </div>
-                    <div class="mb-3">
+
+                    <div class="mb-3"
+                    <?php if (!$_SESSION['rol_usuario'] == '1' && !in_array(6,$codPermisoArray)): ?>
+                        hidden
+                    <?php endif;?>>
                         <label for="estadoDropdown" class="form-label">Estado</label>
                         <select class="form-select" id="estadoDropdown">
                             <?php
@@ -382,6 +409,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                             ?>
                         </select>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -392,7 +420,7 @@ if ($row = mysqli_fetch_assoc($result)) {
         </div>
     </div>
 
-        <!-- Modal 2 -->
+        <!-- Modal Derivar a Departamento -->
     <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

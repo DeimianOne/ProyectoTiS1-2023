@@ -107,12 +107,16 @@ if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
                                 <?= $fila['nombre_rol'] ?>
                             </td>
                             <td>
+                                <?php if ($fila['cod_rol'] != 1 && $fila['cod_rol'] != 2 || $_SESSION['rol_usuario'] == 1): ?>
                                 <div class="btn-group" role="group" aria-label="Acciones">
                                     <a href="index.php?p=roles/edit&cod_rol=<?= $fila['cod_rol'] ?>"
                                         class="btn btn-sm btn-outline-warning">Editar</a>
                                     <a href="javascript:void(0);" onclick="confirmDelete(<?= $fila['cod_rol'] ?>)"
                                         class="btn btn-sm btn-outline-danger">Eliminar</a>
                                 </div>
+                                <?php else: ?>
+                                    <span class="text-muted mb-0 small">Acciones no disponibles</span>
+                                <?php endif; ?>
                             </td>
                         </tr>
 

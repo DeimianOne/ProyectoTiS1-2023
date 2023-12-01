@@ -1,3 +1,21 @@
+<?php
+include("database/connection.php");
+
+if (isset($_SESSION['rol_usuario'])) {
+    $queryRoles = "SELECT permiso.*, rol_permiso.cod_rol AS cod_rol FROM permiso JOIN rol_permiso ON permiso.cod_permiso = rol_permiso.cod_permiso WHERE rol_permiso.cod_rol =".$_SESSION['rol_usuario'];
+    $resultRoles = mysqli_query($connection, $queryRoles);
+
+    // Inicializar un array para almacenar los cod_permiso
+    $codPermisoArray = array();
+
+    // Recorrer los resultados y almacenar los cod_permiso en el array
+    while ($row = mysqli_fetch_assoc($resultRoles)) {
+        $codPermisoArray[] = $row['cod_permiso'];
+    }
+}
+?>
+
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><span><strong>Retroalimentación Ciudadana</strong></span></a>
@@ -114,11 +132,26 @@
                     <li class="nav-item">
                         <a class="nav-link <?php echo (strpos($pagina, 'tickets_publicos') !== false) ? 'active' : null ?>" href="index.php?p=tickets_publicos/index">Tickets Públicos</a>
                     </li>
+                    <?php if (isset($_SESSION["rol_usuario"])): ?>
+                    <?php if (in_array(11,$codPermisoArray)): ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?php echo (strpos($pagina, 'tickets') !== false) ? 'active' : null ?>" href="index.php?p=tickets/index">Archivo de Tickets</a>
+                        </li>
+                    <?php endif; ?>
+                    <?php endif; ?>
                 </ul>
+                <?php if (!isset($_SESSION["rut_usuario"])): ?>
                 <div class="d-flex">
                     <a href="index.php?p=auth/login" class="btn btn-sm btn-outline-primary me-2">Iniciar Sesión</a>
                     <a href="index.php?p=auth/register" class="btn btn-sm btn-outline-success">Registrarse</a>
                 </div>
+                <?php endif; ?>
+                <?php if (isset($_SESSION["rut_usuario"])): ?>
+                <div class="d-flex">
+                    <a href="index.php?p=auth/profile" class="btn btn-sm btn-outline-primary me-2">Perfil</a>
+                    <a href="pages/auth/actions/logout.php" class="btn btn-sm btn-outline-danger">Cerrar Sesión</a>
+                </div>
+                <?php endif; ?>
             <?php
             }
             ?>
