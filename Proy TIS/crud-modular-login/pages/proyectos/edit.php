@@ -43,8 +43,10 @@ if ($row = mysqli_fetch_assoc($result)) {
                     <div class="col-md-12 mb-3">
                         <label for="descripcion_proyecto" class="form-label">Descripción</label>
                         <textarea class="form-control" id="descripcion_proyecto" name="descripcion_proyecto" rows="4"
-                            maxlength="500" required><?php echo $descripcion_proyecto ?></textarea>
-                        <div id="descripcion_proyecto_help" class="form-text">Máximo 500 caracteres.</div>
+                            maxlength="500" required
+                            pattern="[a-zA-Z0-9\s]*"><?php echo $descripcion_proyecto ?></textarea>
+                        <div id="descripcion_proyecto_help" class="form-text">Máximo 500 caracteres. Solo letras y
+                            números permitidos.</div>
                     </div>
 
                     <div class="col-md-12 mb-3">

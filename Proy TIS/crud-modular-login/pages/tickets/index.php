@@ -206,7 +206,7 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
                     <span>Tickets</span>
                 </div>
 
-                <?php if ($_SESSION['rol_usuario'] == '2'): ?> <!-- Si es usuario, puede meter tickets -->
+                <?php if ($_SESSION['rol_usuario'] == '2' || (in_array(9,$codPermisoArray))): ?> <!-- Si es usuario, puede meter tickets -->
                     <div>
                         <a class="btn btn-sm btn-primary" href="index.php?p=tickets/create" role="button">Crear nuevo
                             Ticket</a>

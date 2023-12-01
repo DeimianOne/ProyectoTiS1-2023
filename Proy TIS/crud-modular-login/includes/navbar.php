@@ -85,9 +85,6 @@ if (isset($_SESSION['rol_usuario'])) {
                             </li>
                             <div class="dropdown-divider"></div>
                             <li>
-                                <a class="dropdown-item <?php echo (strpos($pagina, 'direccion') !== false) ? 'active' : null ?>" href="index.php?p=direccion/index">Dirección</a>
-                            </li>
-                            <li>
                                 <a class="dropdown-item <?php echo (strpos($pagina, 'comuna') !== false) ? 'active' : null ?>" href="index.php?p=comuna/index">Comuna</a>
                             </li>
                             <li>
@@ -96,9 +93,6 @@ if (isset($_SESSION['rol_usuario'])) {
                             <div class="dropdown-divider"></div>
                             <li>
                                 <a class="dropdown-item <?php echo (strpos($pagina, 'roles') !== false) ? 'active' : null ?>" href="index.php?p=roles/index">Roles</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item <?php echo (strpos($pagina, 'permiso') !== false) ? 'active' : null ?>" href="index.php?p=permiso/index">Permisos</a>
                             </li>
                             <div class="dropdown-divider"></div>
                             <li>
