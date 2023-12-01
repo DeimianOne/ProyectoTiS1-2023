@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-12-2023 a las 03:57:24
+-- Tiempo de generación: 01-12-2023 a las 07:25:19
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -101,6 +101,13 @@ CREATE TABLE `departamento` (
   `horario_atencion_termino` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `departamento`
+--
+
+INSERT INTO `departamento` (`cod_departamento`, `cod_municipalidad`, `nombre_departamento`, `telefono_departamento`, `atencion_presencial`, `horario_atencion_inicio`, `horario_atencion_termino`) VALUES
+(13, 68, 'Departamento de Obras Públicas', 123456789, 0, '00:00:00', '00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -120,7 +127,8 @@ CREATE TABLE `direccion` (
 
 INSERT INTO `direccion` (`cod_direccion`, `direccion`, `latitud`, `longitud`) VALUES
 (1, '', -36.8282, -73.0513),
-(2, 'Anibal Pinto, Concepción, Chile', -36.8172, -73.0557);
+(2, 'Anibal Pinto, Concepción, Chile', -36.8172, -73.0557),
+(3, 'Anibal Pinto, Concepción, Chile', -36.8172, -73.0557);
 
 -- --------------------------------------------------------
 
@@ -142,7 +150,8 @@ INSERT INTO `estado` (`cod_estado`, `nombre_estado`, `descripcion_estado`) VALUE
 (0, 'Pendiente de Revisión', 'La solicitud ha sido recibida y almacenada en el sistema, pero aún no ha sido revisada.'),
 (1, 'En Proceso', 'Se ha comenzado a abordar la solicitud, ya sea investigando un reclamo, implementando una sugerencia o preparando una respuesta a una felicitación.'),
 (2, 'Cerrado', 'La solicitud se considera finalizada y cerrada. Esto puede ser aplicable a felicitaciones donde no se requieren acciones adicionales.'),
-(3, 'Remitido', 'La solicitud ha sido enviada o redireccionada a otro departamento para su atención y revisión');
+(3, 'Remitido', 'La solicitud ha sido enviada o redireccionada a otro departamento para su atención y revisión'),
+(14, 'Calle en Reparación', 'Usado por el departamento de calles. La calle está en reparación');
 
 -- --------------------------------------------------------
 
@@ -154,6 +163,13 @@ CREATE TABLE `estado_ticket` (
   `cod_ticket` bigint(20) NOT NULL,
   `cod_estado` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `estado_ticket`
+--
+
+INSERT INTO `estado_ticket` (`cod_ticket`, `cod_estado`) VALUES
+(40, 0);
 
 -- --------------------------------------------------------
 
@@ -218,7 +234,15 @@ INSERT INTO `permiso` (`cod_permiso`, `nombre_permiso`, `descripcion_permiso`) V
 (1, 'Ver tablas de datos', 'Permite al usuario poder visualizar en la pagina las tablas de la base de datos'),
 (2, 'Agregar entrada', 'Permite al usuario agregar entradas a las tablas de datos'),
 (3, 'Editar entrada', 'Permite al usuario editar una entrada de las tablas de datos'),
-(4, 'Borrar entrada', 'Permite al usuario borrar una entrada en una tabla de datos');
+(4, 'Borrar entrada', 'Permite al usuario borrar una entrada en una tabla de datos'),
+(5, 'Responder Tickets', 'Permite al usuario responder un ticket'),
+(6, 'Modificar Estado Ticket', 'Permite al usuario cambiar el estado de un ticket'),
+(7, 'Modificar Visibilidad Ticket', 'Permite al usuario modificar la visibilidad de un ticket'),
+(8, 'Remitir Ticket', 'Permite al usuario cambiar un ticket de departamento'),
+(9, 'Enviar Ticket', 'Permite al usuario enviar un ticket'),
+(10, 'Exportar Datos', 'Permite al usuario exportar los datos de la tabla tickets a un archivo CSV'),
+(11, 'Ver Todos los Tickets', 'Permite al usuario ver todos los tickets en el sistema'),
+(12, 'Cerrar Ticket', 'Permite al usuario cerrar un ticket. Un ticket cerrado no se podrá responder ni modificar');
 
 -- --------------------------------------------------------
 
@@ -290,6 +314,14 @@ CREATE TABLE `registro_ticket` (
   `cod_respuesta` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `registro_ticket`
+--
+
+INSERT INTO `registro_ticket` (`cod_registro`, `fecha_hora_registro`, `cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `cod_estado`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`, `cod_respuesta`) VALUES
+(71, '2023-12-01 03:28:09', 40, 13, 19815448, 'reclamo', 0, 'reclamoo', 'esto es un reclamo', '2023-12-01 03:28:09', 0, 0, NULL),
+(72, '2023-12-01 04:19:00', 40, 13, 19815448, 'reclamo', 0, 'reclamoo', 'esto es un reclamo', '2023-12-01 03:28:09', 0, 0, 35);
+
 -- --------------------------------------------------------
 
 --
@@ -303,6 +335,13 @@ CREATE TABLE `respuesta` (
   `detalles_respuesta` text NOT NULL,
   `fecha_hora_envio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `respuesta`
+--
+
+INSERT INTO `respuesta` (`cod_respuesta`, `cod_ticket`, `rut_usuario`, `detalles_respuesta`, `fecha_hora_envio`) VALUES
+(35, 40, 123, 'esto es una respuesta de alguien que no solo puede responder tickets', '2023-12-01 04:19:00');
 
 -- --------------------------------------------------------
 
@@ -341,14 +380,23 @@ CREATE TABLE `rol_permiso` (
 --
 
 INSERT INTO `rol_permiso` (`cod_permiso`, `cod_rol`) VALUES
-(1, 3),
-(2, 3),
-(3, 3),
 (1, 4),
 (1, 1),
 (2, 1),
 (3, 1),
-(4, 1);
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1),
+(11, 1),
+(5, 3),
+(11, 3),
+(7, 3),
+(8, 3),
+(12, 3);
 
 -- --------------------------------------------------------
 
@@ -380,6 +428,13 @@ CREATE TABLE `ticket` (
   `visibilidad_solicitud` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `ticket`
+--
+
+INSERT INTO `ticket` (`cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `cod_direccion`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
+(40, 13, 19815448, 'reclamo', 'reclamoo', 'esto es un reclamo', NULL, '2023-12-01 03:28:09', NULL, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -403,6 +458,7 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`rut_usuario`, `nombre_usuario`, `password_usuario`, `correo_electronico_usuario`, `correo_electronico_tercero`, `telefono_usuario`, `telefono_tercero`) VALUES
 (1, 'prueba', '$2y$10$9eM2w16NZKdsfpYtTc.5MuJC8urjEr8vkQ6L7frdQ42mI0Zs678G2', 'q@we', '', 0, 0),
 (2, 'poto', '$2y$10$7MAEeotXwSP0D9w4xLBgruezOmZhkubFe4dAG67oET0nOw.Y5P/gO', 'admin@poto', '', 0, 0),
+(123, '123', '$2y$10$Q.JubWL6rQwzO0mSgN8Wj.7.AIl03nDZ7qvlbNB1pG7OGNTv9maDy', '123@123', '', 123, 0),
 (666, 'pollo', '$2y$10$ep1RCzXLyD2Jq5XpqR9QTODr3CCUbf99kH5ChkG89K6fk59L0rOWO', 'pollo@pollo', '', 123, 0),
 (1111, 'perkin', NULL, 'perkin@perkin.perkin', '', 123456789, 0),
 (1234, 'admin', NULL, 'correo@gmail.com', '', 0, 0),
@@ -437,7 +493,8 @@ INSERT INTO `usuario_rol` (`cod_rol`, `rut_usuario`) VALUES
 (1, 999999),
 (1, 999999998),
 (2, 666),
-(2, 19815448);
+(2, 19815448),
+(3, 123);
 
 --
 -- Índices para tablas volcadas
@@ -617,79 +674,79 @@ ALTER TABLE `calificacion_sistema`
 -- AUTO_INCREMENT de la tabla `comuna`
 --
 ALTER TABLE `comuna`
-  MODIFY `cod_comuna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `cod_comuna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `cod_departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `cod_departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `direccion`
 --
 ALTER TABLE `direccion`
-  MODIFY `cod_direccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cod_direccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `cod_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `cod_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `municipalidad`
 --
 ALTER TABLE `municipalidad`
-  MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `cod_municipalidad` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT de la tabla `palabra_ofensiva`
 --
 ALTER TABLE `palabra_ofensiva`
-  MODIFY `cod_palabra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cod_palabra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
-  MODIFY `cod_permiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `cod_permiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `cod_proyecto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `cod_proyecto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `region`
 --
 ALTER TABLE `region`
-  MODIFY `cod_region` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `cod_region` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_ticket`
 --
 ALTER TABLE `registro_ticket`
-  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `cod_respuesta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `cod_rol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `cod_rol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- Restricciones para tablas volcadas
