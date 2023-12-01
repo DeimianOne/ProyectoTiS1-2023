@@ -20,11 +20,6 @@
 			integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
 			crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-		<!-- jQuery -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-			integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-			crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 		<!-- DataTables CSS -->
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
 		<link rel="stylesheet" href="assets/css/style.css">
