@@ -20,15 +20,17 @@ $queryMap = "
     SELECT 
         m.cod_municipalidad, 
         m.nombre_municipalidad, 
-        m.direccion_municipalidad, 
+        m.cod_direccion, 
         m.correo_municipalidad, 
-        m.latitud, 
-        m.longitud, 
         c.nombre_comuna, 
+        di.direccion AS direccion_municipalidad, 
+        di.latitud AS latitud, 
+        di.longitud AS longitud, 
         COUNT(d.cod_departamento) AS num_departamentos
     FROM municipalidad m
     LEFT JOIN comuna c ON m.cod_comuna = c.cod_comuna
     LEFT JOIN departamento d ON m.cod_municipalidad = d.cod_municipalidad
+    LEFT JOIN direccion di ON m.cod_direccion = di.cod_direccion
     GROUP BY m.cod_municipalidad
 ";
 $resultMap = mysqli_query($connection, $queryMap);

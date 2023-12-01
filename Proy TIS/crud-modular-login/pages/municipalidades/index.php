@@ -4,7 +4,7 @@ include("database/auth.php");  // Comprueba si el usuario está logueado, sino l
 
 if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
 
-    $query = "SELECT municipalidad.*, comuna.nombre_comuna AS nombre_comuna, region.nombre_region AS nombre_region FROM municipalidad JOIN comuna ON municipalidad.cod_comuna = comuna.cod_comuna JOIN region ON comuna.cod_region = region.cod_region";
+    $query = "SELECT municipalidad.*, comuna.nombre_comuna AS nombre_comuna, region.nombre_region AS nombre_region, direccion.direccion AS direccion_municipalidad FROM municipalidad JOIN comuna ON municipalidad.cod_comuna = comuna.cod_comuna JOIN region ON comuna.cod_region = region.cod_region JOIN direccion ON direccion.cod_direccion = municipalidad.cod_direccion";
     $result = mysqli_query($connection, $query);
 
 } else {
