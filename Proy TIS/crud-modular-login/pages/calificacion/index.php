@@ -110,12 +110,12 @@ $resultModalA = mysqli_query($connection, $query);
                         $calificacionAtencion = mysqli_fetch_array($resultCalificacionAtencion);
 
                         // Verificar si el ticket ha sido respondido
-                        $queryRespuesta = "SELECT COUNT(*) as count FROM respuesta WHERE cod_ticket = " . $fila['cod_ticket'];
-                        $resultRespuesta = mysqli_query($connection, $queryRespuesta);
-                        $respuesta = mysqli_fetch_array($resultRespuesta);
+                        $queryFinalizado = "SELECT COUNT(*) as count FROM estado_ticket WHERE cod_ticket = " . $fila['cod_ticket'] . " AND cod_estado = 12";
+                        $resultFinalizado = mysqli_query($connection, $queryFinalizado);
+                        $finalizado = mysqli_fetch_array($resultFinalizado);
 
                         $botonCalificarSistemaDeshabilitado = $calificacionSistema['count'] > 0 ? 'disabled' : '';
-                        $botonCalificarAtencionDeshabilitado = ($calificacionAtencion['count'] > 0 || $respuesta['count'] == 0) ? 'disabled' : '';
+                        $botonCalificarAtencionDeshabilitado = ($calificacionAtencion['count'] > 0 || $finalizado['count'] == 0) ? 'disabled' : '';
                         ?>
                         <tr>
                             <td>
@@ -151,10 +151,5 @@ $resultModalA = mysqli_query($connection, $query);
                 </tbody>
             </table>
         </div>
-
-
-
-
-
     </div>
 </main>

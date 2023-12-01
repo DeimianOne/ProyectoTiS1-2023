@@ -1,3 +1,6 @@
+
+<?php if (!$_SESSION['is_ajax_request']): ?>
+
 <?php
 include("database/connection.php");
 
@@ -14,16 +17,13 @@ if (isset($_SESSION['rol_usuario'])) {
     }
 }
 ?>
-
-
-<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"><span><strong>Retroalimentación Ciudadana</strong></span></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><span><strong>Retroalimentación Ciudadana</strong></span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
             <?php
             if (isset($_SESSION["rut_usuario"]) && $_SESSION["rol_usuario"] == 2) {
@@ -156,5 +156,7 @@ if (isset($_SESSION['rol_usuario'])) {
             }
             ?>
         </div>
-    </div>
-</nav>
+    </nav>
+
+
+<?php endif; ?>
