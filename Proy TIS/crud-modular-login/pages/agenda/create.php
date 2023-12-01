@@ -11,6 +11,16 @@ while($fila = $result_usuario->fetch_assoc())
     $nombre = $fila['nombre_usuario'];
     $rut = $fila['rut_usuario'];
 }
+
+$resultado_horas = array();
+$i=0;
+while($fila = $result_agenda->fetch_assoc())
+{
+    $hora = $fila['hora'];
+    $hora = date('H:i', strtotime($hora));
+    $resultado_horas[$i] = $hora;
+    $i++;
+}
 ?>
 
 <!--calendario-->
@@ -48,6 +58,9 @@ while($fila = $result_usuario->fetch_assoc())
                     <div class="form-floating mb-3">
                         <select class=form-control id='hora' name="intervalo">
                             <?php
+                            if(isset($fechaSeleccionada)){
+                                echo "<option value='$fechaSeleccionada'>$fechaSeleccionada</option>";
+                            }
                             // Definir la hora inicial y final
                             $hora_inicio = strtotime('09:00');
                             $hora_fin = strtotime('14:00');
@@ -55,7 +68,18 @@ while($fila = $result_usuario->fetch_assoc())
                             // Generar opciones cada 30 minutos
                             for ($hora_actual = $hora_inicio; $hora_actual <= $hora_fin; $hora_actual += 1800) { // 1800 segundos = 30 minutos
                                 $hora_formateada = date('H:i', $hora_actual);
-                                echo "<option value=\"$hora_formateada\">$hora_formateada</option>";
+                                $contador=0;
+                                foreach($resultado_horas as $horas_bd)
+                                {
+                                    if($hora_formateada == $horas_bd)
+                                    {
+                                        $contador++;
+                                    }
+                                }
+                                if($contador==0)
+                                {
+                                    echo "<option value='$hora_formateada'>$hora_formateada</option>";
+                                }
                             }
                             ?>
                         </select>
