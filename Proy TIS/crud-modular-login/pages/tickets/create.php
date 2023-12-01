@@ -79,6 +79,19 @@ $enum_values = explode("','", $matches[1]);
                     <hr>
 
                     <div class="col-md-12 mb-3">
+                        <label for="municipalidad" class="form-label">Municipalidad</label>
+                        <select class="form-control" id="municipalidad" name="cod_municipalidad">
+                            <?php
+                            while ($fila = $resultMuni->fetch_assoc()) {
+                                $cod_municipalidad = $fila["cod_municipalidad"];
+                                $nombre_municipalidad = $fila["nombre_municipalidad"];
+                                echo "<option value=\"$cod_municipalidad\">$nombre_municipalidad</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
                         <label for="departamento" class="form-label">Departamento</label>
                         <select class="form-control" id="departamento" name="cod_departamento">
                             <?php
