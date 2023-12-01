@@ -213,7 +213,7 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
                     </div>
                 <?php endif; ?>
 
-                <?php if($_SESSION['rol_usuario'] == '1' || in_array(11,$codPermisoArray)): ?> <!-- Si es admin, puede exportar los datos de los tickets -->
+                <?php if($_SESSION['rol_usuario'] == '1' || (in_array(11,$codPermisoArray)) && (in_array(10,$codPermisoArray))): ?> <!-- Si es admin, puede exportar los datos de los tickets -->
                     <div>
                         <a class="btn btn-sm btn-primary" id="exportBtn" role="button" onclick="exportarCSV()">Exportar datos a archivo CSV</a>
                     </div>

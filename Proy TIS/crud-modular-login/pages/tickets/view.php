@@ -385,19 +385,20 @@ if ($row = mysqli_fetch_assoc($result)) {
                     <div id="detalleTicket"></div>
                     
 
-                    <div class="form-check">
+                    <div class="form-check"
+                    <?php if (!($_SESSION['rol_usuario'] == '1') && !(in_array(7,$codPermisoArray))): ?>
+                        style="display: none;"
+                    <?php endif; ?>
+                    >
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault"
-                        <?php if (!$_SESSION['rol_usuario'] == '1' && !in_array(7,$codPermisoArray)): ?>
-                            hidden
-                        <?php endif;?>
-                        >Público</label>
+                        <label class="form-check-label" for="flexCheckDefault">Público</label>
                     </div>
 
                     <div class="mb-3"
-                    <?php if (!$_SESSION['rol_usuario'] == '1' && !in_array(6,$codPermisoArray)): ?>
-                        hidden
-                    <?php endif;?>>
+                    <?php if (!($_SESSION['rol_usuario'] == '1') && !(in_array(6,$codPermisoArray))): ?>
+                        style="display: none;"
+                    <?php endif; ?>
+                    >
                         <label for="estadoDropdown" class="form-label">Estado</label>
                         <select class="form-select" id="estadoDropdown">
                             <?php
