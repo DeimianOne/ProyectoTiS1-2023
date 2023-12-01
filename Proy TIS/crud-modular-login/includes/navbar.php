@@ -106,6 +106,9 @@ if (isset($_SESSION['rol_usuario'])) {
                         </ul>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($pagina, 'estadisticas') !== false) ? 'active' : null ?>" href="index.php?p=estadisticas/index">Estadisticas</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="" hidden>Mapa de estadísticas</a>
                     </li>
                     <li class="nav-item">
