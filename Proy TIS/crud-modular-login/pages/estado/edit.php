@@ -43,7 +43,6 @@ if ($row = mysqli_fetch_assoc($result)) {
                             placeholder="Descripción" value="<?php echo $desc ?>" required>
                         <div id="descripcion_proyecto_help" class="form-text">Máximo 250 caracteres.</div>
                     </div>
-
                 </div>
             </div>
 

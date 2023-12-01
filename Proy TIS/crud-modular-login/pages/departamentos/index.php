@@ -73,7 +73,6 @@ if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
                 checks: [
                     { table: 'proyecto', field: 'cod_departamento' },
                     { table: 'registro_ticket', field: 'cod_departamento' },
-                    { table: 'agenda', field: 'cod_departamento' },
                     { table: 'ticket', field: 'cod_departamento' }
                 ]
             }),
