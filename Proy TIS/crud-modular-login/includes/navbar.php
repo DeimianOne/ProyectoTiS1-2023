@@ -17,8 +17,6 @@ if (isset($_SESSION['rol_usuario'])) {
     }
 }
 
-$darkmode = "light";
-
 ?>
     <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
         <div class="container-fluid">
@@ -164,8 +162,6 @@ $darkmode = "light";
 
 
 <?php endif; ?>
-
-
 
 <script>
 

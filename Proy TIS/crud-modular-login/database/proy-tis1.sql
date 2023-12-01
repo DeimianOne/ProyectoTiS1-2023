@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-12-2023 a las 07:25:19
+-- Tiempo de generación: 01-12-2023 a las 08:00:27
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -29,7 +29,6 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `agenda` (
   `cod_agenda` bigint(20) NOT NULL,
-  `cod_departamento` bigint(20) NOT NULL,
   `rut_usuario` bigint(20) NOT NULL,
   `fecha` date NOT NULL,
   `hora` time NOT NULL
@@ -505,7 +504,6 @@ INSERT INTO `usuario_rol` (`cod_rol`, `rut_usuario`) VALUES
 --
 ALTER TABLE `agenda`
   ADD PRIMARY KEY (`cod_agenda`),
-  ADD KEY `agenda_ibfk_1` (`cod_departamento`),
   ADD KEY `rut_usuario` (`rut_usuario`);
 
 --
@@ -756,7 +754,6 @@ ALTER TABLE `ticket`
 -- Filtros para la tabla `agenda`
 --
 ALTER TABLE `agenda`
-  ADD CONSTRAINT `agenda_ibfk_1` FOREIGN KEY (`cod_departamento`) REFERENCES `departamento` (`cod_departamento`) ON UPDATE CASCADE,
   ADD CONSTRAINT `agenda_ibfk_2` FOREIGN KEY (`rut_usuario`) REFERENCES `usuario` (`rut_usuario`) ON UPDATE CASCADE;
 
 --
