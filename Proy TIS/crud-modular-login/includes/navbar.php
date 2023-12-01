@@ -16,6 +16,9 @@ if (isset($_SESSION['rol_usuario'])) {
         $codPermisoArray[] = $row['cod_permiso'];
     }
 }
+
+$darkmode = "light";
+
 ?>
     <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
         <div class="container-fluid">
@@ -161,6 +164,9 @@ if (isset($_SESSION['rol_usuario'])) {
 
 
 <?php endif; ?>
+
+
+
 <script>
 
     
@@ -179,7 +185,7 @@ if (isset($_SESSION['rol_usuario'])) {
 
     const cambiarTema = () => {
         document.querySelector("body").getAttribute("data-bs-theme") == "light" ? temaOscuro() : temaClaro();
-    
+        
     }
     
 </script>
