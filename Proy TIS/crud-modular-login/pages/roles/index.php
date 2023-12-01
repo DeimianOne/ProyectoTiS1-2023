@@ -7,6 +7,9 @@ if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
     $query = "SELECT * FROM rol";
     $result = mysqli_query($connection, $query);
 
+    $queryUR = "SELECT usuario_rol.*, rol.nombre_rol AS nombre_rol FROM usuario_rol JOIN rol ON usuario_rol.cod_rol = rol.cod_rol";
+    $resultUR = mysqli_query($connection, $queryUR);
+
 } else {
     header("Location: index.php?p=auth/login");
 }
@@ -22,6 +25,25 @@ if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
 <script>
     $(document).ready(function () {
         $('#example').DataTable({
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sSearch": "Buscar:",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "slast": "Ultimo",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior",
+                },
+                "sProcessing": "Procesando...",
+
+
+            }
+        });
+        $('#example2').DataTable({
             "language": {
                 "lengthMenu": "Mostrar _MENU_ registros",
                 "zeroRecords": "No se encontraron resultados",
@@ -144,7 +166,49 @@ if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
         </div>
     </div>
 
-    <!-- Double Confirmation Modal -->
+    <hr>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="text-center">
+                    <span>Asignar Roles</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body table-responsive ">
+            <table id="example2" class="display table-hover justify-content-center" style="width:100%">
+                <thead class="">
+                    <tr>
+                        <th scope="col">RUT</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($fila = mysqli_fetch_array($resultUR)): ?>
+                        <tr>
+                            <th scope="row">
+                                <?= $fila['rut_usuario'] ?>
+                            </th>
+                            <td>
+                                <?= $fila['nombre_rol'] ?>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Acciones">
+                                    <a href="index.php?p=roles/edit_user_rol&rut_usuario=<?= $fila['rut_usuario'] ?>&cod_rol=<?= $fila['cod_rol'] ?>"
+                                        class="btn btn-sm btn-outline-warning">Cambiar Rol</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Confirmacion -->
     <div class="modal fade" id="doubleConfirmModal" tabindex="-1" aria-labelledby="doubleConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
