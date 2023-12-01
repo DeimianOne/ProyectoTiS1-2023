@@ -56,6 +56,28 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
     $departamento[$filaDepartamento['cod_departamento']] = $filaDepartamento['nombre_departamento'];
 }
 
+// Consulta para contar la cantidad de cada tipo de solicitud
+$queryContarTipoSolicitud = "SELECT tipo_solicitud, COUNT(*) as cantidad FROM ticket GROUP BY tipo_solicitud";
+$resultContarTipoSolicitud = mysqli_query($connection, $queryContarTipoSolicitud);
+
+// Inicializar arrays para los datos del gráfico
+$labels = [];
+$data = [];
+
+// Recorrer los resultados y llenar los arrays
+while ($row = $resultContarTipoSolicitud->fetch_assoc()) {
+    $labels[] = $row['tipo_solicitud'];
+    $data[] = $row['cantidad'];
+}
+
+// Realiza tu consulta para obtener el total de tickets
+$queryTotalTickets = "SELECT COUNT(*) as total FROM ticket";
+$resultTotalTickets = mysqli_query($connection, $queryTotalTickets);
+
+// Obtiene el total de tickets
+$rowTotalTickets = $resultTotalTickets->fetch_assoc();
+$totalTickets = $rowTotalTickets['total'];
+
 ?>
 
 
@@ -172,17 +194,10 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
         
         var contenidoCSV = 'data:text/csv;charset=utf-8,'; //crear contenido del archivo CSV
 
-        // contenidoCSV += 'Codigo Ticket;RUT Usuario;Codigo Departamento;Tipo Solicitud;Asunto Ticket;Detalles Solicitud;Fecha y Hora Envio;Visibilidad\n'; //encabezados
-
-        // //agregar filas de datos
-        // datos.forEach(function(row) {
-        //     contenidoCSV += row[0] + ';' + row[1] + ';' + row[2] + ';' + row[3] + ';' + row[4] + ';' + row[5] + ';' + row[6] + ';' + row[7] + '\n';
-        // });
-
         contenidoCSV += 'Codigo Ticket;Departamento;Tipo Solicitud;Estado Solicitud;Fecha y Hora Envio;Visibilidad\n'; //encabezados
 
         //agregar filas de datos
-        datos.forEach(function(row) {
+        datos.forEach(function(row){
             contenidoCSV += row[0] + ';' + row[3] + ';' + row[4] + ';' + row[6] + ';' + row[7] + ';' + row[8] + '\n';
         });
 
@@ -197,6 +212,59 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
     }
 </script>
 
+<script>
+    var pieChartModal;
+
+    function mostrarGrafico(){
+        //obtener el canvas existente con su contexto
+        var canvas = document.getElementById('pieChartModal');
+        var ctxModal = canvas.getContext('2d');
+
+        //verificar si hay al menos un ticket antes de mostrar el gráfico
+        if(<?php echo json_encode($totalTickets); ?> > 0){
+
+            //si existe un gráfico actualiza sus datos en lugar de destruirlo volver a crearlo
+            if (pieChartModal){
+                //cargar datos nuevos
+                var newData = {
+                    labels: <?php echo json_encode($labels); ?>,
+                    datasets: [{
+                        data: <?php echo json_encode($data); ?>,
+                        backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+                    }]
+                };
+
+                // Actualizar datos del gráfico existente
+                pieChartModal.data = newData;
+                pieChartModal.update();
+
+            }else{
+                //si no existe el gráfico crea uno nuevo
+                var data = {
+                    labels: <?php echo json_encode($labels); ?>,
+                    datasets: [{
+                        data: <?php echo json_encode($data); ?>,
+                        backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+                    }]
+                };
+
+                pieChartModal = new Chart(ctxModal, {
+                    type: 'pie',
+                    data: data,
+                });
+            }
+
+        //activar modal
+        var chartModal = new bootstrap.Modal(document.getElementById('chartModal'));
+        chartModal.show();
+
+        }else{
+            // Muestra un mensaje o realiza alguna acción si no hay tickets
+            alert("No hay tickets disponibles");
+        }
+    }
+</script>
+
 <main class="container mt-5">
 
     <div class="card">
@@ -206,19 +274,44 @@ while ($filaDepartamento = mysqli_fetch_array($resultDepartamentos)) {
                     <span>Tickets</span>
                 </div>
 
-                <?php if ($_SESSION['rol_usuario'] == '2'): ?> <!-- Si es usuario, puede meter tickets -->
-                    <div>
-                        <a class="btn btn-sm btn-primary" href="index.php?p=tickets/create" role="button">Crear nuevo
-                            Ticket</a>
-                    </div>
-                <?php endif; ?>
+                <div class="d-flex">
+                    <?php if ($_SESSION['rol_usuario'] == '2'): ?> <!-- Si es usuario, puede meter tickets -->
+                        <div>
+                            <a class="btn btn-sm btn-primary" href="index.php?p=tickets/create" role="button">Crear nuevo
+                                Ticket</a>
+                        </div>
+                    <?php endif; ?>
 
-                <?php if($_SESSION['rol_usuario'] == '1' || (in_array(11,$codPermisoArray)) && (in_array(10,$codPermisoArray))): ?> <!-- Si es admin, puede exportar los datos de los tickets -->
-                    <div>
-                        <a class="btn btn-sm btn-primary" id="exportBtn" role="button" onclick="exportarCSV()">Exportar datos a archivo CSV</a>
+                    <?php if($_SESSION['rol_usuario'] == '1' || (in_array(11,$codPermisoArray)) && (in_array(10,$codPermisoArray))): ?> <!-- Si es admin, puede exportar los datos de los tickets -->
+                        <div style="margin-right: 10px;">
+                            <a class="btn btn-sm btn-primary " id="graphBtn" role="button" onclick="mostrarGrafico()">Ver grafico comparativo de tickets</a>
+                        </div>
+                        <div>
+                            <a class="btn btn-sm btn-primary" id="exportBtn" role="button" onclick="exportarCSV()">Exportar datos a archivo CSV</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="chartModalLabel">Gráfico Comparativo de Tickets</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- aqui se muestra el gráfico -->
+                                <canvas id="pieChartModal" width="400" height="400"></canvas>
+                            </div>
+                        </div>
                     </div>
-                <?php endif; ?>
-                
+                </div>
+
+
+                <!-- Grafico -->
+                <!-- <canvas id="pieChart" width="400" height="400"></canvas> -->
+
             </div>
         </div>
 

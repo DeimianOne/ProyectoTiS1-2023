@@ -25,6 +25,12 @@
 		<link rel="stylesheet" href="assets/css/style.css">
 		<link rel="stylesheet" href="css/timeline.css">
 
+		<!-- Chart.js -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+
+
 		<!--iconos-->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
