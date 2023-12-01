@@ -64,10 +64,10 @@ $result = mysqli_query($connection, $query);
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    Latitude: <input type="text" name="latitud" id="lat" class="form-control" readonly>
+                                    <input type="hidden" name="latitud" id="lat" class="form-control" readonly>
                                 </div>
                                 <div class="col-md-6">
-                                    Longitude: <input type="text" name="longitud" id="lng" class="form-control"
+                                    <input type="hidden" name="longitud" id="lng" class="form-control"
                                         readonly>
                                 </div>
                             </div>
