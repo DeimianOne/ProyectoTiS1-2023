@@ -308,10 +308,6 @@ $totalTickets = $rowTotalTickets['total'];
                     </div>
                 </div>
 
-
-                <!-- Grafico -->
-                <!-- <canvas id="pieChart" width="400" height="400"></canvas> -->
-
             </div>
         </div>
 
