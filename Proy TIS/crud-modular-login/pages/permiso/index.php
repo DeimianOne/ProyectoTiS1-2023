@@ -107,8 +107,8 @@ $result = mysqli_query($connection, $query);
                                 <div class="btn-group" role="group" aria-label="Acciones">
                                     <a href="index.php?p=permiso/edit&cod_permiso=<?= $fila['cod_permiso'] ?>"
                                         class="btn btn-sm btn-outline-warning">Editar</a>
-                                        <a href="javascript:void(0);" onclick="confirmDelete(<?= $fila['cod_permiso'] ?>)"
-                                        class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                        <!-- <a href="javascript:void(0);" onclick="confirmDelete(<?= $fila['cod_permiso'] ?>)"
+                                        class="btn btn-sm btn-outline-danger">Eliminar</a> -->
                                 </div>
                             </td>
                         </tr>

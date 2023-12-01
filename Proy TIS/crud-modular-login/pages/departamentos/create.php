@@ -94,28 +94,6 @@
             </form>
         </div>
     </main>
-
-    <script>
-        function validarFormulario() {
-            var nombreDepartamento = document.getElementById('nombre_departamento').value;
-            var telefonoDepartamento = document.getElementById('telefono_departamento').value;
-
-            // Validar el campo "Nombre Departamento"
-            if (!/^[A-Za-z0-9\s]{1,50}$/.test(nombreDepartamento)) {
-                alert("El campo 'Nombre Departamento' solo puede contener letras y números, y debe tener un tamaño máximo de 50 caracteres.");
-                return false;
-            }
-
-            // Validar el campo "Teléfono Departamento"
-            if (!/^\d{1,20}$/.test(telefonoDepartamento)) {
-                alert("El campo 'Teléfono Departamento' solo debe contener números y debe tener un tamaño máximo de 20 caracteres.");
-                return false;
-            }
-
-            return true; // Envía el formulario si las validaciones son exitosas
-        }
-    </script>
-
 </body>
 
 </html>

@@ -4,7 +4,7 @@ include("database/auth.php");  // Comprueba si el usuario está logueado, sino l
 
 if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
 
-    $query = "SELECT municipalidad.*, comuna.nombre_comuna AS nombre_comuna, region.nombre_region AS nombre_region FROM municipalidad JOIN comuna ON municipalidad.cod_comuna = comuna.cod_comuna JOIN region ON comuna.cod_region = region.cod_region";
+    $query = "SELECT municipalidad.*, comuna.nombre_comuna AS nombre_comuna, region.nombre_region AS nombre_region, direccion.direccion AS direccion_municipalidad FROM municipalidad JOIN comuna ON municipalidad.cod_comuna = comuna.cod_comuna JOIN region ON comuna.cod_region = region.cod_region JOIN direccion ON direccion.cod_direccion = municipalidad.cod_direccion";
     $result = mysqli_query($connection, $query);
 
 } else {
@@ -42,6 +42,25 @@ if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
             }
         });
     });
+
+
+    function showDoubleConfirmModal(codDepartamento) {
+        $('#doubleConfirmModal').modal('show');
+
+        // Guarda el ID del departamento que se eliminará para usarlo en la función executeDelete
+        $('#doubleConfirmModal').data('codDepartamento', codDepartamento);
+    }
+
+    function executeDelete() {
+        // Obtiene el ID del departamento guardado
+        var codDepartamento = $('#doubleConfirmModal').data('codDepartamento');
+
+        // Cierra el modal de doble confirmación
+        $('#doubleConfirmModal').modal('hide');
+
+        // Ejecuta la función confirmDelete con el ID del departamento
+        confirmDelete(codDepartamento);
+    }
 
     function confirmDelete(cod_municipalidad) {
         // Verificar si valor es clave foránea en varias tablas
@@ -132,7 +151,7 @@ if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
                                 <div class="btn-group" role="group" aria-label="Acciones">
                                     <a href="index.php?p=municipalidades/edit&id=<?= $fila['cod_municipalidad'] ?>"
                                         class="btn btn-sm btn-outline-warning">Editar</a>
-                                    <a href="javascript:void(0);" onclick="confirmDelete(<?= $fila['cod_municipalidad'] ?>)"
+                                    <a href="javascript:void(0);" onclick="showDoubleConfirmModal(<?= $fila['cod_municipalidad'] ?>)"
                                         class="btn btn-sm btn-outline-danger">Eliminar</a>
                                 </div>
                             </td>
@@ -142,5 +161,26 @@ if (isset($_SESSION['rol_usuario']) && $_SESSION['rol_usuario'] == '1') {
             </table>
         </div>
 
+    </div>
+
+    <!-- Double Confirmation Modal -->
+    <div class="modal fade" id="doubleConfirmModal" tabindex="-1" aria-labelledby="doubleConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white text-center">
+                    <h1 class="modal-title fs-5" id="doubleConfirmModalLabel">
+                        Confirmación
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p><strong>¿Seguro que deseas eliminar esta fila?</strong> <br> Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="executeDelete()">Eliminar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </main>

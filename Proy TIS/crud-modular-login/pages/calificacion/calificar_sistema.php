@@ -5,13 +5,9 @@ include("database/connection.php");  // Incluye la conexión
 $cod_ticket = $_GET["cod_ticketx"];
 $query = "  SELECT * 
                 FROM ticket 
-                left join respuesta on (ticket.cod_ticket = respuesta.cod_ticket)
                 WHERE ticket.cod_ticket=" . $cod_ticket . "
                 LIMIT 1;";
 $result = mysqli_query($connection, $query);
-if ($result) {
-    $_SESSION['mensaje'] = "Respuesta enviada correctamente.";
-}
 ?>
 
 
@@ -60,25 +56,25 @@ if ($result) {
                                 <input type="hidden" name="cod_ticket" value="<?= $cod_ticket ?>" />
 
                                 <div class="rating my-3 col-md-7">
-                                    <input type="radio" id="star5" name="calificacion_sistema" value="5" /> <label
+                                    <input type="radio" id="star5" name="calificacion_sistema" value=5 /> <label
                                         class="full" for="star5" title="Excelente - 5 stars"></label>
-                                    <input type="radio" id="star4half" name="calificacion_sistema" value="4 y medio" />
+                                    <input type="radio" id="star4half" name="calificacion_sistema" value=4.5 />
                                     <label class="half" for="star4half" title="Muy Buena - 4.5 stars"></label>
-                                    <input type="radio" id="star4" name="calificacion_sistema" value="4" /> <label
+                                    <input type="radio" id="star4" name="calificacion_sistema" value=4 /> <label
                                         class="full" for="star4" title="Buena - 4 stars"></label>
-                                    <input type="radio" id="star3half" name="calificacion_sistema" value="3 y medio" />
+                                    <input type="radio" id="star3half" name="calificacion_sistema" value=3.5 />
                                     <label class="half" for="star3half" title="Sobresaliente - 3.5 stars"></label>
-                                    <input type="radio" id="star3" name="calificacion_sistema" value="3" /> <label
+                                    <input type="radio" id="star3" name="calificacion_sistema" value=3 /> <label
                                         class="full" for="star3" title="Aceptable - 3 stars"></label>
-                                    <input type="radio" id="star2half" name="calificacion_sistema" value="2 y medio" />
+                                    <input type="radio" id="star2half" name="calificacion_sistema" value=2.5 />
                                     <label class="half" for="star2half" title="Regular - 2.5 stars"></label>
-                                    <input type="radio" id="star2" name="calificacion_sistema" value="2" /> <label
+                                    <input type="radio" id="star2" name="calificacion_sistema" value=2 /> <label
                                         class="full" for="star2" title="Deficiente - 2 stars"></label>
-                                    <input type="radio" id="star1half" name="calificacion_sistema" value="1 y medio" />
+                                    <input type="radio" id="star1half" name="calificacion_sistema" value=1.5 />
                                     <label class="half" for="star1half" title="Mala - 1.5 stars"></label>
-                                    <input type="radio" id="star1" name="calificacion_sistema" value="1" /> <label
+                                    <input type="radio" id="star1" name="calificacion_sistema" value=1 /> <label
                                         class="full" for="star1" title="Muy mala - 1 star"></label>
-                                    <input type="radio" id="starhalf" name="calificacion_sistema" value="medio" />
+                                    <input type="radio" id="starhalf" name="calificacion_sistema" value=0.5 />
                                     <label class="half" for="starhalf" title="Pésima - 0.5 stars"></label>
                                 </div>
                                 <br><br><br>

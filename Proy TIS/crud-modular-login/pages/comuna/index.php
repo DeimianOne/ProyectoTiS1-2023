@@ -35,6 +35,24 @@ $result = mysqli_query($connection, $query);
         });
     });
 
+    function showDoubleConfirmModal(codDepartamento) {
+        $('#doubleConfirmModal').modal('show');
+
+        // Guarda el ID del departamento que se eliminará para usarlo en la función executeDelete
+        $('#doubleConfirmModal').data('codDepartamento', codDepartamento);
+    }
+
+    function executeDelete() {
+        // Obtiene el ID del departamento guardado
+        var codDepartamento = $('#doubleConfirmModal').data('codDepartamento');
+
+        // Cierra el modal de doble confirmación
+        $('#doubleConfirmModal').modal('hide');
+
+        // Ejecuta la función confirmDelete con el ID del departamento
+        confirmDelete(codDepartamento);
+    }
+
     function confirmDelete(cod_tabla) {
         // Verificar si valor es clave foránea en varias tablas
         $.ajax({
@@ -44,8 +62,7 @@ $result = mysqli_query($connection, $query);
             data: JSON.stringify({
                 value: cod_tabla,
                 checks: [
-                    { table: 'municipalidad', field: 'cod_comuna' },
-                    { table: 'direccion', field: 'cod_comuna' }
+                    { table: 'municipalidad', field: 'cod_comuna' }
                 ]
             }),
             success: function (response) {
@@ -103,17 +120,11 @@ $result = mysqli_query($connection, $query);
                             <td>
                                 <?= $fila['nombre_region'] ?>
                             </td>
-                            <!-- <td>
-                                <a href="index.php?p=comuna/edit&cod_comuna=<?= $fila['cod_comuna'] ?>"
-                                    class="btn btn-sm btn-outline-warning">Editar</a>
-                                <a href="pages/comuna/actions/delete.php?cod_comuna=<?= $fila['cod_comuna'] ?>"
-                                    class="btn btn-sm btn-outline-danger">Eliminar</a>
-                            </td> -->
                             <td>
                                 <div class="btn-group" role="group" aria-label="Acciones">
                                     <a href="index.php?p=comuna/edit&cod_comuna=<?= $fila['cod_comuna'] ?>"
                                         class="btn btn-sm btn-outline-warning">Editar</a>
-                                    <a href="javascript:void(0);" onclick="confirmDelete(<?= $fila['cod_comuna'] ?>)"
+                                    <a href="javascript:void(0);" onclick="showDoubleConfirmModal(<?= $fila['cod_comuna'] ?>)"
                                         class="btn btn-sm btn-outline-danger">Eliminar</a>
                                 </div>
                             </td>
@@ -122,6 +133,27 @@ $result = mysqli_query($connection, $query);
                     <?php endwhile; ?>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Double Confirmation Modal -->
+    <div class="modal fade" id="doubleConfirmModal" tabindex="-1" aria-labelledby="doubleConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white text-center">
+                    <h1 class="modal-title fs-5" id="doubleConfirmModalLabel">
+                        Confirmación
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p><strong>¿Seguro que deseas eliminar esta fila?</strong> <br> Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="executeDelete()">Eliminar</button>
+                </div>
+            </div>
         </div>
     </div>
 </main>
