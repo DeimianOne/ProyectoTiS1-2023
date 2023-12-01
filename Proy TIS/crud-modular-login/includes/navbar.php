@@ -164,24 +164,35 @@ if (isset($_SESSION['rol_usuario'])) {
 <?php endif; ?>
 
 <script>
-
-    
     const temaOscuro = () => {
-
         document.querySelector("body").setAttribute("data-bs-theme", "dark");
         document.querySelector("#d1-icon").setAttribute("class", "bi bi-sun-fill");
-
+        // Save theme preference to localStorage
+        localStorage.setItem("theme", "dark");
     }
-    const temaClaro = () => {
 
+    const temaClaro = () => {
         document.querySelector("body").setAttribute("data-bs-theme", "light");
         document.querySelector("#d1-icon").setAttribute("class", "bi bi-moon-fill");
+        // Save theme preference to localStorage
+        localStorage.setItem("theme", "light");
+    }
 
+    const cargarTemaActual = () => {
+        // Retrieve theme preference from localStorage
+        const temaGuardado = localStorage.getItem("theme");
+        if (temaGuardado === "dark") {
+            temaOscuro();
+        } else {
+            temaClaro();
+        }
     }
 
     const cambiarTema = () => {
-        document.querySelector("body").getAttribute("data-bs-theme") == "light" ? temaOscuro() : temaClaro();
-        
+        document.querySelector("body").getAttribute("data-bs-theme") === "light" ? temaOscuro() : temaClaro();
     }
-    
+
+    // Load the theme when the page is ready
+    document.addEventListener("DOMContentLoaded", cargarTemaActual);
 </script>
+

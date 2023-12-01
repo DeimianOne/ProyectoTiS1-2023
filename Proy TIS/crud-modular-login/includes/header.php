@@ -36,7 +36,7 @@
 
 	</head>
 
-	<body data-bs-theme="light">
+	<body>
 		<div class="d-flex flex-column min-vh-100">
 			<?php require_once 'includes/navbar.php'; ?>
 
