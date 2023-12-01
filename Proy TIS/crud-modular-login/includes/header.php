@@ -20,8 +20,6 @@
 			integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
 			crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
-
 		<!-- DataTables CSS -->
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
 		<link rel="stylesheet" href="assets/css/style.css">
