@@ -16,7 +16,6 @@ if (isset($_SESSION['rol_usuario'])) {
         $codPermisoArray[] = $row['cod_permiso'];
     }
 }
-
 ?>
     <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom">
         <div class="container-fluid">
@@ -135,6 +134,44 @@ if (isset($_SESSION['rol_usuario'])) {
                         </li>
                     <?php endif; ?>
                     <?php endif; ?>
+
+                    <?php if (isset($_SESSION["rol_usuario"])): ?>
+                    <?php if (in_array(1,$codPermisoArray)): ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mantenedores</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item <?php echo (strpos($pagina, 'departamento') !== false) ? 'active' : null ?>" href="index.php?p=departamentos/index">Departamentos</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <?php echo (strpos($pagina, 'municipalidad') !== false) ? 'active' : null ?>" href="index.php?p=municipalidades/index">Municipalidad</a>
+                            </li>
+                            <div class="dropdown-divider"></div>
+                            <li>
+                                <a class="dropdown-item <?php echo (strpos($pagina, 'comuna') !== false) ? 'active' : null ?>" href="index.php?p=comuna/index">Comuna</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <?php echo (strpos($pagina, 'region') !== false) ? 'active' : null ?>" href="index.php?p=region/index">Región</a>
+                            </li>
+                            <div class="dropdown-divider"></div>
+                            <li>
+                                <a class="dropdown-item <?php echo (strpos($pagina, 'roles') !== false) ? 'active' : null ?>" href="index.php?p=roles/index">Roles</a>
+                            </li>
+                            <div class="dropdown-divider"></div>
+                            <li>
+                                <a class="dropdown-item <?php echo (strpos($pagina, 'proyectos') !== false) ? 'active' : null ?>" href="index.php?p=proyectos/index">Proyectos</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <?php echo (strpos($pagina, 'estado') !== false) ? 'active' : null ?>" href="index.php?p=estado/index">Estados Ticket</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <?php echo (strpos($pagina, 'palabrasofensivas') !== false) ? 'active' : null ?>" href="index.php?p=palabrasofensivas/index">Palabras Ofensivas</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <?php endif; ?>
+                    <?php endif; ?>
+
                 </ul>
                 <?php if (!isset($_SESSION["rut_usuario"])): ?>
                 <div class="d-flex">
@@ -156,37 +193,3 @@ if (isset($_SESSION['rol_usuario'])) {
 
 
 <?php endif; ?>
-
-<script>
-    const temaOscuro = () => {
-        document.querySelector("body").setAttribute("data-bs-theme", "dark");
-        document.querySelector("#d1-icon").setAttribute("class", "bi bi-sun-fill");
-        // Save theme preference to localStorage
-        localStorage.setItem("theme", "dark");
-    }
-
-    const temaClaro = () => {
-        document.querySelector("body").setAttribute("data-bs-theme", "light");
-        document.querySelector("#d1-icon").setAttribute("class", "bi bi-moon-fill");
-        // Save theme preference to localStorage
-        localStorage.setItem("theme", "light");
-    }
-
-    const cargarTemaActual = () => {
-        // Retrieve theme preference from localStorage
-        const temaGuardado = localStorage.getItem("theme");
-        if (temaGuardado === "dark") {
-            temaOscuro();
-        } else {
-            temaClaro();
-        }
-    }
-
-    const cambiarTema = () => {
-        document.querySelector("body").getAttribute("data-bs-theme") === "light" ? temaOscuro() : temaClaro();
-    }
-
-    // Load the theme when the page is ready
-    document.addEventListener("DOMContentLoaded", cargarTemaActual);
-</script>
-
