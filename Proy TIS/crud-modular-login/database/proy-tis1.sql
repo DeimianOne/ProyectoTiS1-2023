@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-11-2023 a las 23:57:54
+-- Tiempo de generación: 01-12-2023 a las 02:12:41
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -109,7 +109,9 @@ CREATE TABLE `comuna` (
 
 INSERT INTO `comuna` (`cod_comuna`, `cod_region`, `nombre_comuna`) VALUES
 (13, 11, 'Concepción'),
+(14, 11, 'Talcahuano'),
 (15, 12, 'Valdivia'),
+(16, 13, 'Puerto Montt'),
 (17, 13, 'Osorno'),
 (18, 14, 'Temuco');
 
@@ -187,10 +189,9 @@ CREATE TABLE `estado` (
 
 INSERT INTO `estado` (`cod_estado`, `nombre_estado`, `descripcion_estado`) VALUES
 (0, 'Pendiente de Revisión', 'La solicitud ha sido recibida y almacenada en el sistema, pero aún no ha sido revisada.'),
-(1, 'En Proceso', 'Se ha comenzado a abordar la solicitud, ya sea investigando un reclamo, implementando una sugerencia o preparando una respuesta a una felicitación.'),
-(2, 'Cerrado', 'La solicitud se considera finalizada y cerrada. Esto puede ser aplicable a felicitaciones donde no se requieren acciones adicionales.'),
-(3, 'Remitido', 'La solicitud ha sido enviada o redireccionada a otro departamento para su atención y revisión'),
-(16, 'Calle en Reparación', 'Estado para indicar que una calle esta en reparación');
+(10, 'En Proceso', 'Se ha comenzado a abordar la solicitud, ya sea investigando un reclamo, implementando una sugerencia o preparando una respuesta a una felicitación.'),
+(12, 'Cerrado', 'La solicitud se considera finalizada y cerrada. Esto puede ser aplicable a felicitaciones donde no se requieren acciones adicionales.'),
+(13, 'Remitido', 'La solicitud ha sido enviada o redireccionada a otro departamento para su atención y revisión');
 
 -- --------------------------------------------------------
 
@@ -202,6 +203,20 @@ CREATE TABLE `estado_ticket` (
   `cod_ticket` bigint(20) NOT NULL,
   `cod_estado` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `estado_ticket`
+--
+
+INSERT INTO `estado_ticket` (`cod_ticket`, `cod_estado`) VALUES
+(31, 12),
+(32, 12),
+(33, 0),
+(34, 10),
+(30, 10),
+(35, 0),
+(36, 10),
+(37, 0);
 
 -- --------------------------------------------------------
 
@@ -275,8 +290,7 @@ INSERT INTO `permiso` (`cod_permiso`, `nombre_permiso`, `descripcion_permiso`) V
 (1, 'Ver tablas de datos', 'Permite al usuario poder visualizar en la pagina las tablas de la base de datos'),
 (2, 'Agregar entrada', 'Permite al usuario agregar entradas a las tablas de datos'),
 (3, 'Editar entrada', 'Permite al usuario editar una entrada de las tablas de datos'),
-(4, 'Borrar entrada', 'Permite al usuario borrar una entrada en una tabla de datos'),
-(8, 'Responder Tickets', 'Permite al usuario responder tickets y cambiar su estado');
+(4, 'Borrar entrada', 'Permite al usuario borrar una entrada en una tabla de datos');
 
 -- --------------------------------------------------------
 
@@ -343,6 +357,30 @@ CREATE TABLE `registro_ticket` (
   `cod_respuesta` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `registro_ticket`
+--
+
+INSERT INTO `registro_ticket` (`cod_registro`, `fecha_hora_registro`, `cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `cod_estado`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`, `cod_respuesta`) VALUES
+(52, '2023-11-16 03:07:20', 30, 12, 1111, 'reclamo', 0, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', 0, 0, NULL),
+(53, '2023-11-16 03:12:49', 30, 12, 1111, 'reclamo', 10, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', 0, 0, 26),
+(54, '2023-11-16 04:56:58', 31, 12, 1111, 'sugerencia', 0, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', 0, 0, NULL),
+(55, '2023-11-16 05:00:30', 31, 12, 1111, 'sugerencia', 10, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', 0, 0, 27),
+(56, '2023-11-16 05:01:32', 31, 12, 1111, 'sugerencia', 12, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', 0, 0, 28),
+(57, '2023-11-16 05:05:42', 31, 10, 1111, 'sugerencia', 12, 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 05:05:42', 0, 1, NULL),
+(58, '2023-11-16 05:12:48', 32, 12, 20267690, 'reclamo', 0, 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', 0, 0, NULL),
+(59, '2023-11-16 05:15:12', 32, 12, 20267690, 'reclamo', 10, 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', 0, 0, 29),
+(60, '2023-11-16 05:15:37', 32, 12, 20267690, 'reclamo', 12, 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', 0, 0, 30),
+(61, '2023-11-16 05:17:28', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', 0, 0, NULL),
+(62, '2023-11-16 05:22:50', 33, 10, 1111, 'felicitacion', 0, 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', 0, 0, 31),
+(63, '2023-11-16 06:15:01', 34, 10, 20267690, 'felicitacion', 0, 'Hola', 'Que tal', '2023-11-16 06:15:01', 0, 0, NULL),
+(64, '2023-11-16 06:16:52', 34, 10, 20267690, 'felicitacion', 10, 'Hola', 'Que tal', '2023-11-16 06:15:01', 0, 0, 32),
+(65, '2023-11-16 10:06:19', 30, 12, 1111, 'reclamo', 10, 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', 0, 0, 33),
+(66, '2023-11-16 10:19:37', 35, 10, 1111, 'felicitacion', 0, 'qaweawevwawavavavaavv', 'qewqwe123123', '2023-11-16 10:19:37', 0, 0, NULL),
+(67, '2023-11-16 10:33:27', 36, 10, 1111, 'felicitacion', 0, 'reclamo', 'reclamos', '2023-11-16 10:33:27', 0, 0, NULL),
+(68, '2023-11-16 10:34:19', 36, 10, 1111, 'felicitacion', 10, 'reclamo', 'reclamos', '2023-11-16 10:33:27', 0, 0, 34),
+(69, '2023-11-30 23:15:10', 37, 10, 666, 'felicitacion', 0, 'xd', 'asd', '2023-11-30 23:15:10', 0, 0, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -356,6 +394,21 @@ CREATE TABLE `respuesta` (
   `detalles_respuesta` text NOT NULL,
   `fecha_hora_envio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `respuesta`
+--
+
+INSERT INTO `respuesta` (`cod_respuesta`, `cod_ticket`, `rut_usuario`, `detalles_respuesta`, `fecha_hora_envio`) VALUES
+(26, 30, 1234, 'pichula', '2023-11-16 03:12:49'),
+(27, 31, 1234, 'no weon', '2023-11-16 05:00:30'),
+(28, 31, 1234, 'chao', '2023-11-16 05:01:32'),
+(29, 32, 1234, 'wena ta en proceso', '2023-11-16 05:15:12'),
+(30, 32, 1234, 'chao', '2023-11-16 05:15:37'),
+(31, 33, 1234, 'gdsrgdrg', '2023-11-16 05:22:50'),
+(32, 34, 1234, 'Hola, Muy bien grasias', '2023-11-16 06:16:52'),
+(33, 30, 1234, 'hola', '2023-11-16 10:06:19'),
+(34, 36, 1234, 'Hola', '2023-11-16 10:34:19');
 
 -- --------------------------------------------------------
 
@@ -375,8 +428,8 @@ CREATE TABLE `rol` (
 INSERT INTO `rol` (`cod_rol`, `nombre_rol`) VALUES
 (1, 'admin'),
 (2, 'usuario'),
-(4, 'inspector municipal'),
-(16, 'trabajador de departamento');
+(3, 'jefe de departamento'),
+(4, 'inspector municipal');
 
 -- --------------------------------------------------------
 
@@ -394,13 +447,14 @@ CREATE TABLE `rol_permiso` (
 --
 
 INSERT INTO `rol_permiso` (`cod_permiso`, `cod_rol`) VALUES
+(1, 3),
+(2, 3),
+(3, 3),
+(1, 4),
 (1, 1),
 (2, 1),
 (3, 1),
-(4, 1),
-(8, 1),
-(1, 4),
-(1, 16);
+(4, 1);
 
 -- --------------------------------------------------------
 
@@ -430,6 +484,20 @@ CREATE TABLE `ticket` (
   `calificacion` float DEFAULT NULL,
   `visibilidad_solicitud` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `ticket`
+--
+
+INSERT INTO `ticket` (`cod_ticket`, `cod_departamento`, `rut_usuario`, `tipo_solicitud`, `asunto_ticket`, `detalles_solicitud`, `fecha_hora_envio`, `calificacion`, `visibilidad_solicitud`) VALUES
+(30, 12, 1111, 'reclamo', 'Pasaje en mal estado', 'Hay un pasaje en mal estado donde tu vieja', '2023-11-16 03:07:20', NULL, 0),
+(31, 12, 1111, 'sugerencia', 'borren la rotonda de paicavi', 'borren esa wea', '2023-11-16 04:56:58', NULL, 0),
+(32, 12, 20267690, 'reclamo', 'un bache en pasaje', 'hay un hoyo en la calle', '2023-11-16 05:12:48', NULL, 0),
+(33, 10, 1111, 'felicitacion', 'uhfsiuehfuih', 'usheuifhseiuf', '2023-11-16 05:17:28', NULL, 0),
+(34, 10, 20267690, 'felicitacion', 'Hola', 'Que tal', '2023-11-16 06:15:01', NULL, 0),
+(35, 10, 1111, 'felicitacion', 'qaweawevwawavavavaavv', 'qewqwe123123', '2023-11-16 10:19:37', NULL, 0),
+(36, 10, 1111, 'felicitacion', 'reclamo', 'reclamos', '2023-11-16 10:33:27', NULL, 0),
+(37, 10, 666, 'felicitacion', 'xd', 'asd', '2023-11-30 23:15:10', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -690,25 +758,25 @@ ALTER TABLE `calificacion_sistema`
 -- AUTO_INCREMENT de la tabla `comuna`
 --
 ALTER TABLE `comuna`
-  MODIFY `cod_comuna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `cod_comuna` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `cod_departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `cod_departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `direccion`
 --
 ALTER TABLE `direccion`
-  MODIFY `cod_direccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `cod_direccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `cod_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `cod_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `municipalidad`
@@ -726,25 +794,25 @@ ALTER TABLE `palabra_ofensiva`
 -- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
-  MODIFY `cod_permiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `cod_permiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `cod_proyecto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `cod_proyecto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `region`
 --
 ALTER TABLE `region`
-  MODIFY `cod_region` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `cod_region` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_ticket`
 --
 ALTER TABLE `registro_ticket`
-  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `cod_registro` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta`
@@ -756,13 +824,13 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `cod_rol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `cod_rol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `cod_ticket` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- Restricciones para tablas volcadas

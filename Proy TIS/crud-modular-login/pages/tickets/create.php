@@ -6,6 +6,9 @@ include("database/connection.php");  // Incluye la conexión
 $query = "SELECT * FROM departamento";
 $result = mysqli_query($connection, $query);
 
+$queryMuni = "SELECT * FROM municipalidad";
+$resultMuni = mysqli_query($connection, $queryMuni);
+
 // Fetching the ENUM values for 'tipo_solicitud'
 $enumQuery = "SHOW COLUMNS FROM ticket WHERE Field='tipo_solicitud'";
 $enumResult = mysqli_query($connection, $enumQuery);
@@ -27,21 +30,6 @@ $enum_values = explode("','", $matches[1]);
         <form action="pages/tickets/actions/store.php" method="POST">
             <div class="card-body">
                 <div class="row">
-
-
-
-                    <div class="col-md-12 mb-3">
-                        <label for="departamento" class="form-label">Departamento</label>
-                        <select class="form-control" id="departamento" name="cod_departamento">
-                            <?php
-                            while ($fila = $result->fetch_assoc()) {
-                                $cod_departamento = $fila["cod_departamento"];
-                                $nombre_departamento = $fila["nombre_departamento"];
-                                echo "<option value=\"$cod_departamento\">$nombre_departamento</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
 
                     <div class="col-md-12 mb-3">
                         <label for="tipo_solicitud" class="form-label">Tipo de Solicitud</label>
@@ -86,6 +74,34 @@ $enum_values = explode("','", $matches[1]);
                         <div id="map" style="height: 450px; width: 100%;"></div>
                         Latitude: <input type="text" name="latitud" id="lat" class="form-control" readonly>
                         Longitude: <input type="text" name="longitud" id="lng" class="form-control" readonly>
+                    </div>
+
+                    <hr>
+
+                    <div class="col-md-12 mb-3">
+                        <label for="municipalidad" class="form-label">Municipalidad</label>
+                        <select class="form-control" id="municipalidad" name="cod_municipalidad">
+                            <?php
+                            while ($fila = $resultMuni->fetch_assoc()) {
+                                $cod_municipalidad = $fila["cod_municipalidad"];
+                                $nombre_municipalidad = $fila["nombre_municipalidad"];
+                                echo "<option value=\"$cod_municipalidad\">$nombre_municipalidad</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label for="departamento" class="form-label">Departamento</label>
+                        <select class="form-control" id="departamento" name="cod_departamento">
+                            <?php
+                            while ($fila = $result->fetch_assoc()) {
+                                $cod_departamento = $fila["cod_departamento"];
+                                $nombre_departamento = $fila["nombre_departamento"];
+                                echo "<option value=\"$cod_departamento\">$nombre_departamento</option>";
+                            }
+                            ?>
+                        </select>
                     </div>
 
                 </div>

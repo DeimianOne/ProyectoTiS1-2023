@@ -7,6 +7,16 @@ if (isset($_REQUEST['rut_usuario'])) {
     $rut_usuario = str_replace('.', '', $rut_usuario);
     $rut_usuario = mysqli_real_escape_string($connection, $rut_usuario);
 
+    // Check if the RUT already exists
+    $check_query = "SELECT * FROM usuario WHERE rut_usuario = '$rut_usuario'";
+    $check_result = mysqli_query($connection, $check_query);
+
+    if (mysqli_num_rows($check_result) > 0) {
+        // RUT already registered, display a message and exit
+        echo "<div class='alert alert-danger' role='alert'><strong>Error:</strong> El RUT ya está registrado.</div>";
+        exit();
+    }
+
     $nombre_usuario = stripslashes($_REQUEST['nombre_usuario']);
     $nombre_usuario = mysqli_real_escape_string($connection, $nombre_usuario);
 
@@ -35,7 +45,7 @@ if (isset($_REQUEST['rut_usuario'])) {
     $result2 = mysqli_query($connection, $query2);
 
     if ($result && $result2) {
-        echo "<div class='form'><h3>Te has registrado correctamente!</h3><br/>Haz click aquí para <a href='index.php?p=auth/login'>Logearte</a></div>";
+        echo "<div class='alert alert-success' role='alert'><strong>Éxito:</strong> Te has registrado correctamente! Haz click aquí para <a href='index.php?p=auth/login'>Logearte</a></div>";
     }
 } else {
     ?>
@@ -71,15 +81,21 @@ if (isset($_REQUEST['rut_usuario'])) {
                                     Tercero</label>
                                 <input type="email" name="correo_electronico_tercero" class="form-control"
                                     id="correo_electronico_tercero">
+                                <small id="campoOpcional" class="form-text text-muted">Opcional</small>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="telefono_usuario" class="form-label">Teléfono</label>
-                                <input type="text" name="telefono_usuario" class="form-control" id="telefono_usuario">
+                                <input type="number" name="telefono_usuario" class="form-control" id="telefono_usuario"
+                                    pattern="\d*" title="Ingrese solo números">
                             </div>
+
                             <div class="form-group mb-3">
                                 <label for="telefono_tercero" class="form-label">Teléfono Tercero</label>
-                                <input type="text" name="telefono_tercero" class="form-control" id="telefono_tercero">
+                                <input type="number" name="telefono_tercero" class="form-control" id="telefono_tercero"
+                                    pattern="\d*" title="Ingrese solo números">
+                                <small id="campoOpcional" class="form-text text-muted">Opcional</small>
                             </div>
+
                             <div class="d-grid gap-2">
                                 <button type="submit" name="submit" class="btn btn-primary">Registrarse</button>
                             </div>
